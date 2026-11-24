@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from "node:fs/promises";
+import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -6,11 +6,41 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist");
 const publishFiles = [
   "index.html", "styles.css", "app.js", "admin-products.html",
-  "admin-products.js", "robots.txt", "sitemap.xml", "_headers", "_routes.json"
+  "admin-products.js", "_headers", "_routes.json"
 ];
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 for (const file of publishFiles) await cp(path.join(root, file), path.join(output, file));
 await cp(path.join(root, "public"), path.join(output, "public"), { recursive: true });
-console.log("VELORA Cloudflare Pages build complete.");
+
+const siteOrigin = String(
+  process.env.SITE_ORIGIN || "https://trivedishaan930-sketch.github.io/VELORA"
+).trim().replace(/\/+$/, "");
+
+const robots = [
+  "User-agent: *",
+  "Allow: /",
+  "Disallow: /admin-products.html",
+  "Disallow: /api/",
+  "",
+  "Sitemap: " + siteOrigin + "/sitemap.xml",
+  ""
+].join("\n");
+
+const sitemap = [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  "  <url>",
+  "    <loc>" + siteOrigin + "/</loc>",
+  "    <changefreq>weekly</changefreq>",
+  "    <priority>1.0</priority>",
+  "  </url>",
+  "</urlset>",
+  ""
+].join("\n");
+
+await writeFile(path.join(output, "robots.txt"), robots, "utf8");
+await writeFile(path.join(output, "sitemap.xml"), sitemap, "utf8");
+
+console.log("VELORA site build complete for " + siteOrigin);

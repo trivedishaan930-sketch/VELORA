@@ -34,6 +34,7 @@ I cannot create/authorize a Cloudflare account or approve its GitHub access from
 3. Authorize Cloudflare to access the GitHub repository trivedishaan930-sketch/VELORA.
 4. Choose branch main, project name velora (if available), root directory /, build command npm run build, and output directory dist.
 5. Create the Pages project. The first Pages URL will be https://velora.pages.dev if the project name is available.
+6. In Settings → Builds & deployments → Build configuration → Environment variables, set `SITE_ORIGIN` to the actual Pages URL, for example `https://velora.pages.dev`. If you later attach a custom domain, change this variable to that canonical URL and redeploy.
 
 The repository includes wrangler.toml and the build script. Do not create a second app or change GitHub repository ownership.
 
