@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#101a2c">
+  <title>VELORA Product Desk</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-page">
+  <main class="admin-shell">
+    <a href="./" class="admin-back">← Back to VELORA</a>
+    <div class="eyebrow"><span></span> PRIVATE CATALOGUE TOOL</div>
+    <h1>VELORA <em>Product Desk.</em></h1>
+    <p class="admin-intro">Search Amazon India through the approved Creators API and select products for the VELORA Shop Edit. Your access token stays in this browser tab only.</p>
+    <section class="admin-auth surface-card">
+      <label class="field"><span>Private admin token</span><input id="adminToken" type="password" autocomplete="off" spellcheck="false" placeholder="Paste the Cloudflare admin token"></label>
+      <div class="admin-auth-actions"><button id="connectAdmin" class="button button-dark" type="button">Connect securely ↗</button><button id="disconnectAdmin" class="text-link" type="button">Clear token</button></div>
+      <p id="adminStatus" class="admin-status" role="status">Connect with the token stored in Cloudflare Pages Secrets.</p>
+    </section>
+    <section class="admin-search surface-card">
+      <div class="admin-section-head"><span>01 / FIND PRODUCTS</span><span>AMAZON INDIA</span></div>
+      <form id="amazonSearchForm" class="admin-search-form">
+        <label class="field"><span>What are you looking for?</span><input id="amazonKeywords" type="search" minlength="2" maxlength="100" placeholder="e.g. lightweight cabin luggage" required></label>
+        <button class="button button-dark" type="submit">Search Amazon ↗</button>
+      </form>
+      <div id="searchResults" class="admin-results" aria-live="polite"><p class="admin-empty">Search results will appear here after the private connection is ready.</p></div>
+    </section>
+    <section class="admin-catalogue surface-card">
+      <div class="admin-section-head"><span>02 / YOUR VELORA EDIT</span><span>CURATED ASIN LIST</span></div>
+      <div id="savedProducts" class="admin-saved-list"><p class="admin-empty">Connect to view the active catalogue.</p></div>
+    </section>
+    <p class="admin-footnote">Security note: never place Amazon client credentials in this page, in app.js or in GitHub. Only the server-side Cloudflare Function receives them.</p>
+  </main>
+  <script defer src="admin-products.js"></script>
+</body>
+</html>

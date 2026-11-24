@@ -1,2 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin-products.html
+Disallow: /api/
+
+Sitemap: https://velora.pages.dev/sitemap.xml

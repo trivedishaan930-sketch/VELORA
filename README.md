@@ -114,3 +114,8 @@ VELORA is an adult-oriented, non-explicit romance, travel and lifestyle concept.
 ## Security
 
 No API key is required. Keep `.env` files out of Git. Future AI, booking, payment and account integrations must use secure server-side handling; never put private keys in browser JavaScript or a public repository.
+
+
+## Production deployment
+
+See docs/CLOUDFLARE-DEPLOYMENT.md for Cloudflare Pages + Functions + D1, free-tier limits, Amazon Creators API setup and hosting cutover.
