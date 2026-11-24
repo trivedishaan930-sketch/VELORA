@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "python3 -m http.server 4173",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs"
   }
 }
