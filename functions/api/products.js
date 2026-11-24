@@ -6,13 +6,14 @@ const CACHE_TTL_MS = 23 * 60 * 60 * 1000;
 export async function onRequestGet({ env }) {
   if (!env.DB) return jsonResponse({ error: "Product database is not connected yet.", setupRequired: true }, 503);
 
+  const now = Date.now();
+  await env.DB.prepare("DELETE FROM amazon_product_cache WHERE expires_at <= ?1").bind(now).run();
+
   const result = await env.DB.prepare(
     "SELECT asin, category FROM featured_products WHERE is_active = 1 ORDER BY display_order ASC, created_at DESC LIMIT 30"
   ).all();
   const featured = result.results || [];
   if (!featured.length) return jsonResponse({ products: [] }, 200, { "Cache-Control": "public, max-age=60" });
-
-  const now = Date.now();
   const byAsin = new Map();
   const refresh = [];
 

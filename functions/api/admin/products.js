@@ -40,6 +40,8 @@ export async function onRequest({ request, env }) {
     if (!/^[A-Z0-9]{8,14}$/.test(asin)) return jsonResponse({ error: "Invalid ASIN." }, 400);
     await env.DB.prepare("UPDATE featured_products SET is_active = 0, updated_at = ?1 WHERE asin = ?2")
       .bind(Date.now(), asin).run();
+    // Remove cached Amazon catalogue content as soon as the curator hides the item.
+    await env.DB.prepare("DELETE FROM amazon_product_cache WHERE asin = ?1").bind(asin).run();
     return jsonResponse({ ok: true, asin });
   }
 
