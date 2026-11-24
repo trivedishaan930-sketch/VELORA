@@ -1,0 +1,6 @@
+name = "velora"
+compatibility_date = "2026-11-24"
+pages_build_output_dir = "./dist"
+
+# Attach D1 in the Cloudflare Pages dashboard after database creation.
+# The Pages Functions binding must be named DB.
