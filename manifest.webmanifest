@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "VELORA — Romance, Travel & Lifestyle",
+  "short_name": "VELORA",
+  "description": "A thoughtful space for travel inspiration, personal style, romance and meaningful experiences.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f3e9",
+  "theme_color": "#101a2c",
+  "icons": [
+    { "src": "public/icons/velora-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "public/icons/velora-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "public/icons/velora-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
