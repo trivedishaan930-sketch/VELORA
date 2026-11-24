@@ -336,4 +336,21 @@
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => showToast('Offline support could not be enabled in this browser.')));
   }
+
+  // Hero search routes visitors into the existing full getaway planner.
+  const heroSearchForm = $('#heroSearchForm');
+  if (heroSearchForm) {
+    heroSearchForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const destination = $('#heroDestination').value.trim() || 'Surprise me';
+      $('#planDestination').value = destination;
+      const date = $('#heroDate').value;
+      if (date) $('#planDate').value = date;
+      $('#planTravellers').value = $('#heroTravellers').value;
+      $('#planner').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.setTimeout(() => $('#planDestination').focus({ preventScroll: true }), 450);
+      showToast('Your getaway starts with a few thoughtful details.');
+    });
+  }
+
 })();

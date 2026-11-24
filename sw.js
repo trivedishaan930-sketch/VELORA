@@ -1,5 +1,5 @@
 /* Small offline shell cache. Bump CACHE_NAME when shipping a new release. */
-const CACHE_NAME = 'velora-shell-v2';
+const CACHE_NAME = 'velora-shell-v3';
 const CORE_ASSETS = [
   './', './index.html', './styles.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
