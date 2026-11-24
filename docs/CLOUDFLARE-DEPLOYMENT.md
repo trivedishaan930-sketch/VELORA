@@ -56,7 +56,7 @@ In the Pages project go to Settings, Variables and Secrets, Add. Create these as
 - AMAZON_PARTNER_TAG
 - VELORA_ADMIN_TOKEN
 
-Add AMAZON_CREDENTIAL_VERSION as a plain variable with value 3.2 for India's EU-region Creators API credentials; AMAZON_MARKETPLACE may be set to www.amazon.in (the code defaults to it).
+Add AMAZON_CREDENTIAL_VERSION as a plain variable using the exact Credential Version shown when the Amazon application credentials are created. Amazon's current locale table lists IN under the EU token endpoint group (version 3.2); still use the version assigned to the actual credentials. AMAZON_MARKETPLACE may be set to www.amazon.in (the code defaults to it).
 
 Generate a strong random VELORA_ADMIN_TOKEN (at least 32 random characters) in a password manager. Do not paste it into chat, GitHub files, screenshots, email or WhatsApp. Use it only in the password field on the private product-admin page. The page keeps it in memory for the current tab and does not save it in local storage.
 

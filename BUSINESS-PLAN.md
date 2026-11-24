@@ -137,9 +137,11 @@ References:
 
 ## 8. Technology and cost policy
 
-Keep GitHub Pages and the existing static site while validating demand. Do not add a database, accounts, payments, paid hosting, paid ads or a custom domain until the need and expected return justify it. Keep the planner client-side for now and avoid collecting personal data unnecessarily. Add a backend only when users need persistent accounts, shared plans, payments or operational workflows that cannot be safely handled client-side.
+**Chosen production stack:** Cloudflare Pages for the frontend, Pages Functions for same-origin APIs, and D1 for the small curated product catalogue. This is the zero-cost-first production direction. GitHub Pages remains a temporary fallback only until Cloudflare is deployed and tested; then the GitHub Pages deployment should be disabled.
 
-Any paid spend, paid subscription, domain purchase, ad campaign, contractor, refund exposure or legally binding partner agreement requires the founder's explicit approval.
+The current browser-only planner stays client-side. Do not add customer accounts, payment processing, stored trip profiles or a general user database until a demonstrated product need and privacy/legal design justify them. The D1 database is initially limited to curated Amazon ASINs and short-lived Amazon catalog cache. Keep secrets in Cloudflare Pages encrypted secrets, never in GitHub or browser JavaScript.
+
+No paid ads, paid software subscriptions, custom domain, contractors, paid Cloudflare upgrade or other spend without the founder's explicit approval. The chosen free tiers have usage limits; monitor usage and only upgrade when actual demand/reliability justifies the cost. See [Cloudflare deployment and architecture](docs/CLOUDFLARE-DEPLOYMENT.md).
 
 ## 9. First 90-day execution sequence
 
