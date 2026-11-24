@@ -22,3 +22,176 @@
 @media print{.site-header,.announcement,.floating-concierge,.site-footer,.checklist-foot button,.reset-link,.button,.destination-save,.destination-more{display:none!important}.essentials-section{background:white;color:black;padding:0}.essentials-copy{display:none}.essentials-layout{display:block;margin:0}.checklist-card{box-shadow:none;border:0}.check-item{break-inside:avoid}}
 .essentials-discovery{margin-top:54px;padding-top:32px;border-top:1px solid rgba(255,255,255,.16)}.essentials-discovery-head{display:flex;justify-content:space-between;align-items:end;gap:35px}.essentials-discovery-head h3{font:500 30px var(--serif);color:#f6f1e7;margin:5px 0}.essentials-discovery-head>p{font-size:10px;line-height:1.7;color:#aeb8b5;max-width:330px;margin:0 0 7px}.essential-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 14px}.essential-tab{padding:9px 13px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#d2d5cd;font-size:8px;letter-spacing:.08em}.essential-tab.active,.essential-tab:hover{background:var(--gold);border-color:var(--gold);color:var(--navy)}.essential-guide{background:#1b2d40;border-left:2px solid var(--gold);padding:20px 22px;max-width:690px}.essential-guide>span{font-size:7px;letter-spacing:.17em;color:var(--gold)}.essential-guide h4{font:500 24px var(--serif);color:#f6f1e7;margin:5px 0}.essential-guide p{font-size:10px;line-height:1.8;color:#c2c9c3;margin:0 0 10px}.essential-guide small{font-size:8px;color:#8e9a94}
 @media(max-width:760px){.essentials-discovery{margin-top:35px;padding-top:24px}.essentials-discovery-head{display:block}.essentials-discovery-head h3{font-size:26px}.essentials-discovery-head>p{margin-top:8px}.essential-tabs{gap:6px}.essential-tab{font-size:7px;padding:8px 9px}.essential-guide{padding:17px}}
+
+
+/* ── VELORA PREMIUM EDITION · editorial depth & refined interactions ── */
+:root{
+  --ivory:#f5f1e7;
+  --ink:#16292c;
+  --gold:#c6a16a;
+  --muted:#727b77;
+  --shadow-soft:0 26px 80px rgba(13,27,39,.12);
+  --shadow-card:0 18px 48px rgba(13,27,39,.15);
+}
+::selection{background:#d4b77e;color:#152331}
+body{background:var(--ivory)}
+.announcement{height:32px;font-size:8px;letter-spacing:.21em}
+.site-header{box-shadow:0 7px 30px rgba(14,25,35,.025)}
+.brand-word{letter-spacing:.105em}
+.desktop-nav a{position:relative;padding:9px 0}
+.desktop-nav a:after{content:"";position:absolute;bottom:2px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+.desktop-nav a:hover:after{width:100%}
+.button{position:relative;overflow:hidden}
+.button:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(255,255,255,.13),transparent);transform:translateX(-130%);transition:transform .65s}
+.button:hover:before{transform:translateX(130%)}
+.hero{height:clamp(670px,calc(100vh - 112px),880px);min-height:670px}
+.hero-photo{object-position:center 48%;transform:scale(1.005);animation:veloraHeroReveal 1.15s ease-out both}
+.hero-wash{background:linear-gradient(90deg,rgba(247,243,233,.9) 0%,rgba(247,243,233,.73) 27%,rgba(247,243,233,.22) 52%,rgba(16,26,44,.04) 100%),linear-gradient(0deg,rgba(16,26,44,.33),transparent 30%)}
+.hero h1{font-size:clamp(68px,8vw,118px);text-wrap:balance}
+.hero-copy{max-width:370px}
+.hero-note{padding-top:14px;border-top:1px solid rgba(22,41,44,.18);max-width:380px}
+.hero-side-note{letter-spacing:.22em}
+.scroll-cue b{animation:veloraNudge 2.2s ease-in-out infinite}
+@keyframes veloraHeroReveal{from{opacity:.5;transform:scale(1.045)}to{opacity:1;transform:scale(1.005)}}
+@keyframes veloraNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.section-shell{width:min(1280px,calc(100% - 12vw))}
+.welcome{padding-top:136px;padding-bottom:136px}
+.welcome-grid{gap:11%;margin-top:48px}
+.welcome h2{font-size:clamp(58px,6.2vw,86px)}
+.welcome-text .lead{font-size:24px;line-height:1.42}
+.welcome-text>p:not(.lead){max-width:440px}
+.audience-grid{gap:18px;margin-top:84px}
+.audience-card{min-height:355px;padding:35px;transition:transform .35s var(--ease),box-shadow .35s}
+.audience-card:after{content:"";position:absolute;z-index:-1;inset:0;background-size:cover;background-position:center;opacity:.19;mix-blend-mode:multiply;transition:opacity .4s,transform .6s}
+.audience-solo:after{background-image:url('public/assets/destinations/kyoto-garden.webp')}
+.audience-couples:after{background-image:url('public/assets/destinations/maldives.webp')}
+.audience-lifestyle:after{background-image:url('public/assets/destinations/amalfi-coast.webp')}
+.audience-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-card)}
+.audience-card:hover:after{opacity:.28;transform:scale(1.035)}
+.audience-number{color:rgba(18,38,46,.62)}
+.audience-card h3{font-size:clamp(32px,3vw,42px)}
+.audience-card>p:not(.card-kicker){font-size:12px;line-height:1.8}
+.audience-card .round-arrow{width:42px;height:42px;bottom:28px}
+.world-section{padding:128px 0 132px}
+.world-section .section-heading h2{font-size:clamp(62px,7vw,90px)}
+.heading-aside{max-width:360px}
+.destination-tools{margin-top:58px}
+.destination-grid{gap:24px}
+.destination-card{transition:transform .4s var(--ease)}
+.destination-card:hover{transform:translateY(-5px)}
+.destination-visual{height:clamp(280px,31vw,390px);overflow:hidden}
+.destination-visual img{transition:transform .85s var(--ease),filter .5s}
+.destination-card:hover .destination-visual img{transform:scale(1.055);filter:saturate(1.08)}
+.destination-visual:after{background:linear-gradient(180deg,rgba(10,25,34,.06),transparent 43%,rgba(10,25,34,.44))}
+.visual-label{background:rgba(12,28,39,.3);backdrop-filter:blur(7px);padding:8px 10px}
+.destination-meta{font-size:9px}
+.destination-card h3{font-size:34px;margin-top:8px}
+.destination-card>p{font-size:12px;min-height:40px}
+.destination-save{bottom:64px;transition:background .25s,transform .25s}
+.destination-save:hover{transform:scale(1.08)}
+.destination-more{font-size:9px;padding:10px 0;display:inline-flex;align-items:center}
+.destination-more span{transition:transform .25s}
+.destination-more:hover span{transform:translate(4px,-2px)}
+.data-note{border-top:1px solid rgba(255,255,255,.1);padding-top:22px}
+.planner-section{padding-top:138px;padding-bottom:140px;gap:9%}
+.planner-intro h2{font-size:clamp(58px,6vw,80px)}
+.planner-form{padding:44px;box-shadow:0 28px 90px rgba(23,38,47,.12)}
+.field input,.field select{transition:border-color .25s,background .25s}
+.field input:focus,.field select:focus{border-color:#b89459;background:#fff}
+.form-bottom{margin-top:36px}
+.experience-band{min-height:690px}
+.experience-image{min-height:680px}
+.experience-image>img{transition:transform 1.2s var(--ease)}
+.experience-band:hover .experience-image>img{transform:scale(1.025)}
+.experience-copy{padding-left:clamp(50px,8vw,125px);padding-right:clamp(40px,7vw,110px)}
+.experience-copy h2{font-size:clamp(55px,6.2vw,83px)}
+.style-section{padding-top:136px;padding-bottom:136px}
+.style-layout{gap:22px;margin-top:58px}
+.style-feature-art{height:500px;background-image:linear-gradient(180deg,rgba(13,28,38,.06),rgba(13,28,38,.22)),url('public/assets/experiences/couple-sunset-walk.webp');background-size:cover;background-position:center}
+.style-feature-art:before{opacity:.25}
+.style-feature-art .style-sun{opacity:.72;mix-blend-mode:screen}
+.style-silhouette{display:none}
+.style-feature-text{padding:28px 34px}
+.style-feature-text h3{font-size:29px}
+.style-side{gap:15px}
+.style-tile{min-height:235px;padding:25px;transition:transform .35s var(--ease),box-shadow .35s}
+.style-tile:hover{transform:translateY(-5px);box-shadow:var(--shadow-card)}
+.tile-him{background-image:linear-gradient(135deg,rgba(190,201,196,.92),rgba(160,177,170,.78)),url('public/assets/destinations/kyoto-garden.webp');background-size:cover;background-position:center}
+.tile-her{background-image:linear-gradient(135deg,rgba(229,201,194,.92),rgba(202,166,154,.8)),url('public/assets/destinations/amalfi-coast.webp');background-size:cover;background-position:center}
+.tile-together{background-image:linear-gradient(135deg,rgba(199,193,210,.92),rgba(163,158,184,.78)),url('public/assets/destinations/maldives.webp');background-size:cover;background-position:center}
+.style-tile h3{font-size:29px}
+.style-studio{margin-top:32px;padding:42px;box-shadow:var(--shadow-soft)}
+.style-studio-heading h3{font-size:31px}
+.style-result{border-left:2px solid var(--gold)}
+.essentials-section{padding:128px 0 138px}
+.essentials-layout{margin-top:75px}
+.checklist-card{box-shadow:0 20px 70px rgba(0,0,0,.17)}
+.check-item{transition:background .2s,padding .2s}
+.check-item:hover{background:rgba(255,255,255,.035)}
+.stories-section{padding-top:130px;padding-bottom:130px}
+.story-card{transition:transform .4s var(--ease),box-shadow .4s}
+.story-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-card)}
+.story-art{overflow:hidden}
+.story-art img{transition:transform .85s var(--ease)}
+.story-card:hover .story-art img{transform:scale(1.05)}
+.concierge-section{padding-top:130px;padding-bottom:130px}
+.chat-window{box-shadow:0 25px 75px rgba(16,26,44,.14)}
+.chat-input input:focus{outline:none}
+.safety-section{padding:120px 0 125px}
+.safety-grid article{transition:border-color .25s,transform .3s}
+.safety-grid article:hover{border-color:var(--gold);transform:translateY(-3px)}
+.newsletter-section{padding-top:82px;padding-bottom:82px}
+.site-footer{padding-top:80px}
+.footer-column>a,.footer-link{transition:color .2s}
+.floating-concierge{box-shadow:0 12px 36px rgba(16,26,44,.28);transition:transform .25s,box-shadow .25s}
+.floating-concierge:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(16,26,44,.33)}
+@media(max-width:1050px){
+  .audience-card{min-height:325px;padding:28px}
+  .style-feature-art{height:400px}
+  .style-tile{min-height:205px}
+}
+@media(max-width:760px){
+  .section-shell{width:calc(100% - 38px)}
+  .hero{min-height:730px;height:calc(100svh - 94px)}
+  .hero-photo{object-position:68% 46%}
+  .hero-wash{background:linear-gradient(180deg,rgba(16,26,44,.03) 0%,rgba(16,26,44,.02) 28%,rgba(247,243,233,.22) 46%,rgba(247,243,233,.93) 70%,rgba(247,243,233,.98) 100%)}
+  .hero h1{font-size:clamp(60px,15vw,82px)}
+  .hero-note{max-width:340px}
+  .welcome{padding-top:88px;padding-bottom:95px}
+  .welcome-grid{margin-top:36px}
+  .welcome h2{font-size:clamp(53px,13.5vw,70px)}
+  .welcome-text .lead{font-size:21px}
+  .audience-grid{margin-top:48px;gap:13px}
+  .audience-card{min-height:300px;padding:25px}
+  .audience-card:after{opacity:.22}
+  .audience-card h3{font-size:34px}
+  .world-section{padding:88px 0 92px}
+  .world-section .section-heading h2{font-size:clamp(54px,13vw,72px)}
+  .destination-visual{height:290px}
+  .destination-grid{gap:34px}
+  .destination-card h3{font-size:31px}
+  .planner-section{padding-top:91px;padding-bottom:94px}
+  .planner-intro h2{font-size:clamp(54px,13vw,69px)}
+  .planner-form{padding:25px 20px}
+  .experience-image{min-height:440px}
+  .experience-copy h2{font-size:55px}
+  .style-section{padding-top:90px;padding-bottom:95px}
+  .style-layout{margin-top:39px}
+  .style-feature-art{height:335px}
+  .style-feature-text{padding:23px 22px}
+  .style-feature-text h3{font-size:24px}
+  .style-side{min-height:0}
+  .style-tile{min-height:180px;padding:17px}
+  .style-tile h3{font-size:23px}
+  .style-studio{padding:24px 20px;margin-top:20px}
+  .essentials-section{padding:90px 0 95px}
+  .essentials-layout{margin-top:45px}
+  .stories-section{padding-top:90px;padding-bottom:95px}
+  .concierge-section{padding-top:90px;padding-bottom:95px}
+  .safety-section{padding:90px 0 95px}
+  .newsletter-section{padding-top:55px;padding-bottom:55px}
+  .site-footer{padding-top:55px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-photo,.scroll-cue b{animation:none!important}
+}
