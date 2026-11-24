@@ -619,3 +619,68 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .manifesto-seal{width:62px;height:62px}
  .audience-heading-visual{min-height:145px}
 }
+
+/* MOBILE REFINEMENT — larger readable typography, premium stacked cards */
+@media(max-width:760px){
+ .welcome>.section-meta .section-index{font-size:7px;letter-spacing:.12em}
+ .welcome>.section-meta .eyebrow{font-size:8px;letter-spacing:.15em}
+ .manifesto-layout{gap:22px}
+ .manifesto-copy .small-overline{font-size:9px;letter-spacing:.16em}
+ .manifesto-copy h2{font-size:clamp(46px,12vw,60px);line-height:.98}
+ .manifesto-lead{font-size:20px;line-height:1.4}
+ .manifesto-copy>p:not(.small-overline):not(.manifesto-lead){font-size:14px;line-height:1.8;max-width:100%}
+ .manifesto-copy .text-link{font-size:11px}
+ .manifesto-signature{gap:12px;align-items:center}
+ .signature-mark{flex:0 0 42px;width:42px;height:42px;line-height:1;display:grid;place-items:center}
+ .manifesto-signature b{font-size:9px;letter-spacing:.13em;line-height:1.5}
+ .manifesto-signature small{font-size:8px;letter-spacing:.1em;line-height:1.6}
+ .manifesto-visual{min-height:clamp(320px,95vw,430px)}
+ .manifesto-edition{font-size:9px;letter-spacing:.15em}
+ .manifesto-visual-caption>span{font-size:9px;letter-spacing:.15em}
+ .manifesto-visual-caption h3{font-size:clamp(34px,10vw,43px)}
+ .manifesto-seal small{font-size:7px}
+ .manifesto-pillars{display:grid;grid-template-columns:1fr;gap:10px;border:0;margin-top:10px}
+ .manifesto-pillars article,.manifesto-pillars article:first-child,.manifesto-pillars article:last-child{min-height:94px;padding:17px 16px;border:1px solid rgba(16,26,44,.1);border-radius:12px;background:#fffdf8;box-shadow:0 8px 24px rgba(16,26,44,.045);gap:13px}
+ .pillar-icon{flex:0 0 40px;width:40px;height:40px;font-size:21px}
+ .manifesto-pillars small{font-size:8px;letter-spacing:.15em}
+ .manifesto-pillars b{font-size:18px;line-height:1.25}
+ .manifesto-pillars p{font-size:11px;line-height:1.55;margin-top:5px}
+ .pillar-arrow{font-size:20px}
+ .audience-section{padding:64px 0 76px}
+ .audience-heading-copy .eyebrow{font-size:8px;letter-spacing:.15em}
+ .audience-heading-copy h2{font-size:clamp(45px,11.5vw,60px);line-height:1}
+ .audience-heading-visual{min-height:210px}
+ .audience-heading-visual>span{font-size:8px;letter-spacing:.12em}
+ .audience-heading-visual>b{font-size:27px}
+ .audience-subline p{font-size:12px;line-height:1.65;max-width:100%}
+ .audience-subline>span{font-size:7px;letter-spacing:.13em}
+ .audience-grid{grid-template-columns:1fr;gap:13px}
+ .audience-card{min-height:390px}
+ .audience-number{font-size:8px;letter-spacing:.13em}
+ .audience-content{left:22px;bottom:23px}
+ .audience-content h3{font-size:38px;line-height:1}
+ .audience-content p{font-size:12px;line-height:1.65;max-width:290px}
+ .audience-symbol{font-size:24px}
+ .round-link{width:40px;height:40px}
+ .hero-kicker{font-size:9px;letter-spacing:.18em}
+ .hero h1{font-size:clamp(48px,13vw,65px);line-height:.96}
+ .hero-copy{font-size:14px;line-height:1.65}
+ .hero-actions .button{font-size:9px;min-height:43px;padding:12px 14px}
+ .hero-field small{font-size:8px}
+ .hero-field input,.hero-field select{font-size:12px}
+ .hero-categories a{font-size:8px}
+ .hero-categories a span{font-size:15px}
+ .section-index{font-size:7px;letter-spacing:.13em}
+ .eyebrow{font-size:8px;letter-spacing:.15em}
+ .text-link{font-size:10px}
+ .button{font-size:9px}
+ .audience-card .audience-content p{font-size:12px}
+}
+@media(max-width:390px){
+ .welcome{padding-left:16px;padding-right:16px}
+ .manifesto-copy h2{font-size:clamp(43px,12vw,52px)}
+ .manifesto-pillars article,.manifesto-pillars article:first-child,.manifesto-pillars article:last-child{padding:15px 13px}
+ .audience-card{min-height:350px}
+ .audience-content h3{font-size:34px}
+ .hero-actions .button{font-size:8px;padding:11px 10px}
+}
