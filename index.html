@@ -138,6 +138,16 @@
   <div class="form-topline"><span>01 — THE BASICS</span><span class="form-required">* REQUIRED</span></div>
   <div class="form-grid">
    <label class="field field-wide"><span>Where would you love to go? *</span><input id="planDestination" name="destination" placeholder="A place, country or 'surprise me'" required></label>
+   <label class="field"><span>What are you planning?</span><select id="planOccasion" name="occasion">
+    <option value="romantic-escape" selected>Romantic escape / couple getaway</option>
+    <option value="honeymoon">Honeymoon / newlywed journey</option>
+    <option value="anniversary">Anniversary / milestone</option>
+    <option value="proposal">Proposal / special celebration</option>
+    <option value="first-trip">First trip together</option>
+    <option value="solo-reset">Solo reset</option>
+    <option value="friends">Friends' escape</option>
+    <option value="family">Family holiday</option>
+   </select></label>
    <label class="field"><span>Departure date</span><input id="planDate" name="date" type="date"></label>
    <label class="field"><span>Trip length</span><select id="planDuration" name="duration"><option value="3">Long weekend · 3 days</option><option selected value="5">5 days</option><option value="7">One week · 7 days</option><option value="10">10 days</option><option value="14">Two weeks · 14 days</option></select></label>
    <label class="field"><span>Who is travelling?</span><select id="planTravellers" name="travellers"><option value="solo">Just me</option><option selected value="couple">Two of us</option><option value="friends">Friends / small group</option><option value="family">Family</option></select></label>
