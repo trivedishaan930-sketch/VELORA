@@ -1,16 +1,30 @@
 name: Deploy to Cloudflare Pages
+
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: velora-cloudflare-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
         with:
           node-version: 22
+
       - name: Verify source and build public output
         env:
           SITE_ORIGIN: https://velora-75y.pages.dev
@@ -18,9 +32,11 @@ jobs:
           npm run check
           npm run build
           ls dist
-      - name: Deploy to the verified VELORA Pages project
-        uses: cloudflare/wrangler-action@v3
+
+      - name: Deploy to the existing VELORA Pages project
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=velora-75y --branch=main
+          wranglerVersion: "4"
+          command: pages deploy dist --project-name=velora --branch=main
