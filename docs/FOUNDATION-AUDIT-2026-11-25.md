@@ -129,3 +129,15 @@ The strategy preserves all eight departments and defines the Moment-to-Memory pr
 OpenSEO project context has also been updated with the full ecosystem positioning and a directional 25 Nov 2026 keyword/competitor research snapshot. The OpenSEO AI visibility tracker is not configured; its saved brand domain still points to the old GitHub Pages hostname. Correct the project-domain setting before enabling any paid AI visibility checks.
 
 **The next engineering blocker is unchanged:** verify the Cloudflare Pages account/project mapping before attempting production deployment. The strategic document does not override that deployment safety requirement.
+
+
+## Deployment diagnosis correction — 25 November 2026
+
+A follow-up inspection of the actual GitHub Actions logs corrected the earlier project/account diagnosis:
+
+- Successful run `45614874702` used `pages deploy dist --project-name=velora --branch=main` and completed successfully. Cloudflare returned a deployment URL under `8c2320c3.velora-75y.pages.dev`.
+- Later run `45619408206` used `--project-name=velora-75y` and failed with Cloudflare API error `Project not found` (code `8000007`). Its source check and build both passed; the failure occurred only at the Pages deployment step.
+- Therefore the GitHub Actions Cloudflare credentials had successfully deployed to the existing project named `velora`. The public hostname/subdomain is `velora-75y.pages.dev`; it must not be mistaken for the Pages project name. TinyFish's negative balance prevented visual Cloudflare dashboard inspection, but it did not cause GitHub Actions/API deployment failure.
+- Corrective source configuration: Wrangler project name `velora`, Cloudflare workflow target `--project-name=velora`, and `SITE_ORIGIN=https://velora-75y.pages.dev`. The workflow is restored to deploy automatically on pushes to `main` and remains manually triggerable. It does not create a new Pages project.
+- Production is considered restored only after the corrected workflow succeeds and the live root, `robots.txt`, `sitemap.xml`, `/api/health` and `/api/products` are checked. D1 and Amazon API secrets/bindings remain separate setup items unless independently verified.
+
