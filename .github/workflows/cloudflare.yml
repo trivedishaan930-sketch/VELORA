@@ -49,6 +49,7 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/" -o "$RUNNER_TEMP/velora-home.html"
           grep -Fq '<title>VELORA — Make Room for Romance</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'id="planOccasion"' "$RUNNER_TEMP/velora-home.html"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/" -o "$RUNNER_TEMP/velora-travel.html"
           grep -Fq '<title>Travel Planning, With Confidence — VELORA Travel Guides</title>' "$RUNNER_TEMP/velora-travel.html"
