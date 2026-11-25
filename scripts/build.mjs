@@ -15,7 +15,7 @@ for (const file of publishFiles) await cp(path.join(root, file), path.join(outpu
 await cp(path.join(root, "public"), path.join(output, "public"), { recursive: true });
 
 const siteOrigin = String(
-  process.env.SITE_ORIGIN || "https://trivedishaan930-sketch.github.io/VELORA"
+  process.env.SITE_ORIGIN || "https://velora-75y.pages.dev"
 ).trim().replace(/\/+$/, "");
 
 const robots = [
