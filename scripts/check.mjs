@@ -41,6 +41,12 @@ for (const file of jsFiles) {
 }
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+const requiredOccasions = ['romantic-escape', 'honeymoon', 'anniversary', 'proposal', 'first-trip', 'solo-reset', 'friends', 'family'];
+if (!html.includes('id="planOccasion"') || requiredOccasions.some(key => !appSource.includes('"'+key+'"'))) {
+  console.error('Occasion-aware getaway planner is incomplete.');
+  process.exit(1);
+}
 
 let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
 while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
