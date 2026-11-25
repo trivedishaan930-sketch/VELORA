@@ -86,7 +86,7 @@ npm run check
 
 **Production host:** Cloudflare Pages at [https://velora-75y.pages.dev/](https://velora-75y.pages.dev/).
 
-The `.github/workflows/cloudflare.yml` workflow automatically builds and deploys each push to `main` to the already-verified Cloudflare Pages project name `velora`. The public `pages.dev` hostname is `velora-75y.pages.dev`. After deployment, the workflow smoke-tests the homepage, canonical URL, `robots.txt`, sitemap and API health endpoint. It can also be run manually from GitHub Actions.
+The `.github/workflows/cloudflare.yml` workflow automatically builds and deploys each push to `main` to the already-verified Cloudflare Pages project name `velora`. The public `pages.dev` hostname is `velora-75y.pages.dev`. After deployment, the workflow smoke-tests the homepage, all three published travel-guide routes, their titles/canonicals, `robots.txt`, all sitemap routes and API health. It can also be run manually from GitHub Actions.
 
 GitHub Pages is no longer the production deployment. Its older workflow (`.github/workflows/deploy.yml`) is retained as a **manual-only legacy fallback** and does not run on every push. Do not use its `github.io` URL as VELORA's canonical production host.
 

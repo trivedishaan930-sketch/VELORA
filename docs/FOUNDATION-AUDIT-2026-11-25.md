@@ -100,20 +100,20 @@ Build remaining departments as coherent experiences, not empty cards:
 
 ## Next action
 
-**Cloudflare production deployment is now working and verified by automated smoke tests.** The next product foundation priorities are: identify/configure the D1 database binding and approved commerce dependencies; then build the first useful crawlable inbound/outbound travel pages and a stronger destination-aware planner.
+**Cloudflare production deployment is working and verified by automated smoke tests.** The first crawlable travel release is now live (Travel Hub, India Arrival Ready, and First International Trip). The next product priorities are: inspect whether an appropriate D1 database already exists, configure the backend only after safe verification, then improve the destination-aware planning experience and expand the highest-value guide clusters.
 
 ## Continuity update
-- **Current project stage:** Cloudflare deployment automation restored; live smoke tests pass; production site is publishing from GitHub main.
-- **Work completed:** Verified live host, homepage crawl, API health/catalogue endpoint, GitHub structure and build/quality workflow; corrected canonical/sitemap build origin and social metadata in source; corrected Wrangler project name; switched Cloudflare workflow to manual until verified; corrected Cloudflare documentation; updated OpenSEO to approved eight-department vision.
+- **Current project stage:** Cloudflare auto-deployment restored; first three crawlable travel-guide pages are live; repository quality checks and live production smoke tests pass.
+- **Work completed:** Corrected Cloudflare project-name/hostname mapping; restored push-to-main deployment using Wrangler 4; added live smoke tests for homepage, three guide routes, canonical URLs, robots, sitemap and API health; switched legacy GitHub Pages workflow to manual-only; created Travel Hub, India Arrival Ready and First International Trip pages with local checklists and official-source register; extended build, sitemap, quality tests and offline cache; updated OpenSEO to approved eight-department vision.
 - **GitHub changes:** Multiple commits on main. Verify latest commit and Actions before continuing.
-- **Cloudflare deployment:** Corrected deployment to project `velora` succeeds; automated live smoke tests verify the configured production host.
+- **Cloudflare deployment:** Project `velora` auto-deploys from `main`; run `45629441223` completed successfully and verified all three travel routes, page titles/canonicals, robots, sitemap and `/api/health`.
 - **Live website:** Current site is served from `https://velora-75y.pages.dev/`; generated canonical/robots/sitemap point to that host.
 - **OpenSEO:** One page crawled; 0 outgoing links warning; indexable homepage; title/description present; 1 H1; 1,563 words; 10 images; 0 missing alt; Search Console not connected.
-- **Problems discovered:** D1 and Amazon Creators API are not configured in production; site still has a one-page/hash-navigation SEO architecture; Search Console is not connected.
+- **Problems discovered:** D1 and Amazon Creators API are not configured in production; the homepage remains a section-based landing page while the first travel subpages are now crawlable; Search Console is not connected.
 - **Source fixes:** Corrected Wrangler project name to `velora`; restored Cloudflare push-to-main workflow using Wrangler Action v4; added live smoke tests; changed GitHub Pages workflow to manual-only; updated deployment docs.
-- **Pending:** D1 inventory/binding and Amazon API eligibility/credentials; Search Console setup; multi-page content architecture; planner improvement.
+- **Pending:** Read-only D1 inventory/binding inspection; Amazon Creators API eligibility/credentials; Search Console property authorisation; further high-intent guide pages; a stronger user-controlled trip budget/planning tool.
 - **Founder decisions:** Preserve full ecosystem vision and VELORA name; no travel-only pivot; international audience; inbound/outbound travel equally considered; premium English website.
-- **Next exact action:** Inspect whether a suitable D1 database already exists using read-only Cloudflare account access, then bind it safely or document the precise user-side action; in parallel begin the first crawlable travel-guide architecture.
+- **Next exact action:** Inspect D1 availability and current bindings without exposing secrets or changing data. If no suitable database exists, document the exact founder-side creation/binding step. Then improve the trip-planning tool with user-entered budgets and transparent calculations before adding live commercial integrations.
 
 
 ## Strategic update — 25 November 2026
@@ -138,7 +138,7 @@ A follow-up inspection of the actual GitHub Actions logs corrected the earlier p
 - Later run `45619408206` used `--project-name=velora-75y` and failed with Cloudflare API error `Project not found` (code `8000007`). Its source check and build both passed; the failure occurred only at the Pages deployment step.
 - Therefore the GitHub Actions Cloudflare credentials had successfully deployed to the existing project named `velora`. The public hostname/subdomain is `velora-75y.pages.dev`; it must not be mistaken for the Pages project name. TinyFish's negative balance prevented visual Cloudflare dashboard inspection, but it did not cause GitHub Actions/API deployment failure.
 - Corrective source configuration: Wrangler project name `velora`, Cloudflare workflow target `--project-name=velora`, and `SITE_ORIGIN=https://velora-75y.pages.dev`. The workflow is restored to deploy automatically on pushes to `main` and remains manually triggerable. It does not create a new Pages project.
-- Production is considered restored only after the corrected workflow succeeds and the live root, `robots.txt`, `sitemap.xml`, `/api/health` and `/api/products` are checked. D1 and Amazon API secrets/bindings remain separate setup items unless independently verified.
+- Production restoration was subsequently verified by successful GitHub Actions runs `45626274386`, `45626553816` and the latest guide release run `45629441223`; the latter checks all three travel routes and their metadata as well as homepage, robots, sitemap and API health. D1 and Amazon API secrets/bindings remain separate setup items.
 
 
 
@@ -149,4 +149,18 @@ A follow-up inspection of the actual GitHub Actions logs corrected the earlier p
 - Run `45626553816` repeated the deployment after adding live verification; homepage title and canonical, `robots.txt`, `sitemap.xml`, and `/api/health` all passed.
 - API returned `ok=true`; it also reported `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. Do not claim the Amazon catalogue or affiliate commerce backend is live.
 - Cloudflare workflow now automatically deploys pushes to `main`. The legacy GitHub Pages workflow is manual-only.
-- Next engineering step: inspect D1 availability/binding and make the first crawlable high-value travel journey; Search Console still needs founder-side property authorisation.
+- Next engineering step: inspect D1 availability/binding; the first three crawlable travel journeys have since shipped. Search Console still needs founder-side property authorisation.
+
+
+## First travel-guide product release — 25 November 2026
+
+- **Release commit:** `1e3e0f67d97a250df35860a2be9d58d3d9e43835`.
+- **Live routes:** `/travel/`, `/travel/india-arrival-ready/`, and `/travel/first-international-trip/`.
+- **Public content:** Travel Hub links both inbound-to-India and outbound-from-India journeys. Each guide has a unique title, description, canonical URL and one H1, plus official-source links and clear limitations.
+- **Interactive utility:** The two detailed guides include checklists that store only checked item IDs in the visitor's browser local storage. They do not send passport details, names, nationality or itineraries to VELORA. The checklist supports print/save as PDF and accessible progress feedback.
+- **SEO / build:** Build script copies the guide routes; sitemap lists all four canonical routes (homepage plus three travel pages); quality checks validate page metadata, route files and sitemap entries; service-worker cache was bumped to v6.
+- **Navigation:** Homepage desktop/mobile navigation now links to Travel Guides.
+- **Verification:** Quality run `45629441107` passed. Cloudflare deployment run `45629441223` passed. Its production smoke test returned HTTP-success responses and checked exact titles/canonicals for all three guide pages, homepage canonical, robots, sitemap entries and API health.
+- **Official-source basis:** India e-Visa / e-Arrival portal, MHA ERSS 112, National Portal helpline directory, MEA foreign-travel guidance, MEA consular guide and Passport Seva. Detailed register: [TRAVEL-GUIDE-RESEARCH.md](TRAVEL-GUIDE-RESEARCH.md).
+- **Still not live:** real-time visa eligibility, weather, route/transport data, prices, availability, booking, payment, D1-backed accounts or Amazon catalogue. API health reports `ok=true`, `databaseConfigured=false`, and `amazonCreatorsApiConfigured=false`.
+- **Next priority:** safely inspect D1 account state and current bindings; then improve the trip-planning experience and continue building high-intent crawlable pages based on evidence.

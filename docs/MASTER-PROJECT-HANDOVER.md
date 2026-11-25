@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Last updated:** 25 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -550,3 +550,19 @@ https://github.com/trivedishaan930-sketch/VELORA/blob/main/docs/MASTER-PROJECT-H
 ### Audit follow-up correction (25 Nov 2026)
 
 Correction verified from GitHub Actions history (25 Nov 2026): the existing Cloudflare Pages project name is `velora`; its configured production hostname is `velora-75y.pages.dev`. Run `45614874702` successfully executed `pages deploy dist --project-name=velora --branch=main` and returned a preview URL under `velora-75y.pages.dev`. Later run `45619408206` failed with Cloudflare error 8000007 only after the workflow incorrectly targeted `--project-name=velora-75y`. The issue was a project-name/hostname mix-up, not TinyFish or invalid API credentials. TinyFish was only relevant to visual dashboard inspection. The workflow and `wrangler.toml` were restored to project name `velora`; `SITE_ORIGIN` remains `https://velora-75y.pages.dev`. Corrected run `45626274386` successfully deployed using Wrangler 4.168.0. The subsequent run `45626553816` also succeeded and its live smoke tests passed for homepage/title/canonical, robots, sitemap and `/api/health`. API health returned `ok=true`, but `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`; the catalogue backend is therefore not yet operational. GitHub Pages automatic deployment has been switched to manual-only.
+
+
+### Product continuity update — first travel-guide release (25 Nov 2026)
+
+The first crawlable travel product release is live on Cloudflare Pages:
+- `https://velora-75y.pages.dev/travel/` — Travel Hub.
+- `https://velora-75y.pages.dev/travel/india-arrival-ready/` — international visitors arriving in India.
+- `https://velora-75y.pages.dev/travel/first-international-trip/` — Indian travellers preparing for their first trip abroad.
+
+Release commit: `1e3e0f67d97a250df35860a2be9d58d3d9e43835`. Quality run `45629441107` and production deploy/smoke run `45629441223` passed. GitHub now tests all three live paths, their page titles/canonicals, sitemap entries, homepage, robots and API health after every deployment. The two detailed guides have browser-local checklists that store checkbox IDs only; no passport or itinerary data is sent to VELORA.
+
+Build now copies the `travel/` route tree, guide styles and checklist script; sitemap lists the homepage and all three guide routes; PWA cache is `velora-shell-v6`. Travel sources and volatile-fact review policy are in `docs/TRAVEL-GUIDE-RESEARCH.md`.
+
+**Current backend limitation remains:** `/api/health` returns `ok=true`, `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. The product catalogue / Amazon affiliate backend is not operational. Search Console also still needs founder-side property authorisation.
+
+**Next exact work:** inspect D1 availability and existing Pages bindings read-only, without printing credentials or customer data. If a suitable database is absent, document the precise founder action rather than silently creating a new resource. Then improve the trip-planning tool with transparent user-entered budget calculations, followed by the next validated guide cluster.
