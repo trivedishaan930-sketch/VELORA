@@ -1,0 +1,391 @@
+# VELORA — Autonomous Product & World-Class Redesign Operating Plan
+
+**Created:** 25 November 2026  
+**Status:** Founder-authorised execution plan  
+**Owner:** VELORA Product / Design / Engineering operating lead  
+**Primary source of truth:** Product North Star + this execution plan + latest verified repository state
+
+> This is the durable operating plan for future VELORA work. It is not proof that the work is complete. Every future session must verify the current branch, source, deployment and user-provided audit material before acting.
+
+---
+
+## 0. Founder decision and operating mandate
+
+The founder has approved the comprehensive improvement direction discussed on 25 November 2026 and has authorised the assistant to make appropriate product, brand, UX, UI, information-architecture, design-system, content-structure and technical improvements without repeatedly asking for approval.
+
+The founder's desired outcome is the finished, high-quality VELORA platform—not repeated design discussions, partial prototypes or a stream of minor feature additions.
+
+The founder expects to use **"VELORA PUSH"** as the ongoing instruction. Treat it as a request to continue the next highest-priority authorised development task autonomously, inspect the latest state, implement, test, deploy when safe, update this plan and report the actual result.
+
+The next conversation is expected to begin with the founder supplying three independent audits from Manus, Grok and Claude. Read all three, compare them against this plan and the actual repository, resolve contradictions with evidence, then proceed. Do not ask the founder to repeat requirements already recorded here.
+
+### Autonomy granted
+
+Proceed without further confirmation for safe, reversible work within the existing project:
+- Inspect the repository, current website and available deployment evidence.
+- Improve brand art direction, fully clothed editorial imagery, UX, UI, information architecture, components, CSS, accessibility, mobile usability and content.
+- Rewrite, restructure or remove weak website sections where the product objective supports it.
+- Build useful product workflows and supporting crawlable pages in the approved product direction.
+- Refactor maintainable code, improve tests, build checks, SEO, performance, security hygiene and documentation.
+- Create and update GitHub source files, commits and project continuity documents.
+- Use existing authorised deployment automation after tests pass.
+- Make reasonable product and design decisions, documenting important choices and acceptance criteria.
+
+### Explicit stop / approval boundaries
+
+Do not silently:
+- Spend money, start paid subscriptions, top up third-party wallets or buy services.
+- Create or change accounts, domain registrations, paid plans, contracts or commercial partner commitments.
+- Read, expose, paste, rotate or change secrets and credentials.
+- Create, delete, migrate or destructively modify databases or customer data.
+- Enable payments, bookings, user accounts, messaging, public matching or user-generated content without the necessary privacy, safety, moderation and legal design.
+- Claim a live integration, AI capability, availability, booking, price, review or verification that has not been tested.
+- Change the brand name, approved brand line or foundational product thesis.
+- Deploy a potentially destructive or unverified change merely to appear active.
+
+When an approval boundary is reached, continue all safe preparatory work and explain only the precise founder-side action that is genuinely required.
+
+---
+
+## 1. Permanent VELORA identity — non-negotiable
+
+**Brand:** VELORA  
+**Public line:** Make Room for Romance.  
+**North Star:** Make meaningful experiences easier to imagine, plan and enjoy.
+
+VELORA is a premium international, adult (18+) **Romance, Connection & Lifestyle ecosystem**. Travel is the initial commercial wedge, not the full identity.
+
+The eight connected departments remain:
+1. Romance & Experiences
+2. Connection & Companionship
+3. Fashion & Style
+4. Travel & Destinations
+5. Lifestyle & Wellness
+6. Romance Library
+7. AI Creative Studio
+8. VELORA AI Concierge
+
+The product should connect these departments through the Moment-to-Memory journey:
+
+**Discover → Personalise → Design → Prepare → Act → Remember / Return**
+
+VELORA owns the experience-design layer between inspiration and action. It is not an inventory-first OTA, travel agency, generic dating app, conventional store, pornography/escort service or generic chatbot.
+
+### Visual identity
+
+The target is **premium international editorial / quiet luxury**: elegant, sophisticated, contemporary, warm, confident, respectful, distinctive and useful.
+
+Existing palette is a starting point, not an unchangeable constraint:
+- Midnight Navy #101A2C
+- Deep Ocean #17364A
+- Champagne Gold #D7B36A
+- Warm Ivory #F7F3E9
+- Soft Rose #C98E99
+
+Existing typography includes Playfair Display, DM Sans and Manrope fallback. Evaluate actual hierarchy and legibility before deciding whether to retain or replace any family.
+
+### Founder-approved image restrictions — mandatory
+
+The founder rejected the shirtless / bikini-style swimwear hero visual. An earlier instruction to retain the exact supplied image has been superseded. It is not an approved future hero asset.
+
+Never use:
+- Bikini or swimwear styling.
+- Lingerie or underwear-coded styling.
+- Shirtless male models.
+- Cleavage or exposed midriff as a visual focus.
+- Suggestive poses or sexualised imagery.
+- Cheap, stereotypical honeymoon / resort advertising art direction.
+
+Use tasteful, fully clothed editorial fashion and lifestyle imagery. Romance is conveyed through connection, atmosphere, architecture, thoughtful experiences, personal style and meaningful moments—not exposed bodies. Do not repeat the same couple photo across multiple sections. Balance couples, solo individuals, destinations, architecture, culture, detail shots and lifestyle scenes.
+
+The existing rejected photo can remain in source history for traceability but must not be used in the next public visual release.
+
+---
+
+## 2. Baseline audit — what is known, and what is not
+
+The 25 November 2026 review of the supplied mobile screenshot and repository source found:
+
+### Observed current experience
+- The homepage has a premium-themed visual foundation but reads too strongly as a travel / honeymoon landing page rather than the complete eight-department ecosystem.
+- The current homepage has approximately 14 main sections, including hero, brand welcome, audience cards, destinations, experience, planner, style, essentials, shop, stories, concierge, wellness and safety.
+- The visual presentation relies heavily on large lifestyle/travel imagery and long vertical scrolling.
+- The earlier hero photograph appears multiple times in the homepage source. The couple-walk asset is also reused in different contexts. This image repetition reduces editorial distinctiveness.
+- Navigation is largely section-anchor based, with a Travel Guides link. The complete department architecture is not yet made clear through the information hierarchy.
+- Existing design tokens are present. The problem is not simply the choice of navy, gold or serif typography; it is the overall art direction, hierarchy, consistency and product architecture.
+- The stylesheet contains multiple overlapping mobile media-query blocks. Consolidation and systematic component rules are needed.
+- Some micro-labels and secondary labels are very small on mobile. Establish legibility rules rather than relying on tiny uppercase text.
+- Existing homepage functionality includes browser-local saved items, checklist interactions, destination filters, an illustrative trip planner, a rules-based style helper, original non-explicit story/idea interactions and a clearly labelled Concierge demo.
+- The Trip Budget Planner is browser-local and uses entered figures; it does not fetch live prices or exchange rates.
+- Travel has a hub, India Arrival Ready, First International Trip and Budget Planner routes.
+- The homepage product catalogue calls the product API, but the documented production state showed D1 and Amazon Creators API not configured. Verify current health before any new claim.
+- The Concierge is a demo, not an external AI service. Do not market it as live AI.
+- The repository has Cloudflare Pages configuration and automated quality / production smoke-test workflows. Confirm current workflow runs after any push; do not assume deployment succeeded.
+- The latest known production hostname is https://velora-75y.pages.dev/ and the Cloudflare Pages project name is `velora`. Keep project name and public hostname distinct.
+- The root robots and sitemap source copies were corrected to the production hostname and five public routes in a recent commit. Check the latest main branch before relying on this statement.
+
+### Not yet independently established
+- A full real-browser desktop and mobile interaction audit across every route.
+- Current production visual state after the latest commits.
+- Current live API health / D1 bindings / Amazon credentials.
+- Current Lighthouse / Core Web Vitals / WCAG audit scores.
+- Real-user usability, retention, conversion or affiliate revenue.
+- Search Console ownership, search performance and indexation outcomes.
+- Availability or accuracy of any live external travel data.
+
+Do not fabricate these results. Establish measurement before using scores or growth claims.
+
+---
+
+## 3. Audit ingestion protocol — three independent AI audits
+
+When the founder supplies Manus, Grok and Claude reports:
+
+1. Read each complete report, including screenshots, tables, appendices and limitations. Do not only read its executive summary.
+2. Separate facts observed on the live site, facts observed in source code, interpretations, design opinions and proposed solutions.
+3. Create a finding register with unique IDs (e.g. BRAND-01, UX-03, IA-02, TECH-04, SEO-02).
+4. Map each finding to a route, screenshot or exact source file/component when possible.
+5. Cross-check factual claims against the current GitHub branch and live browser/test evidence. A model's confident statement is not evidence.
+6. Note inaccessible pages, viewport limitations, stale screenshots and tools the auditors could not use.
+7. Identify consensus findings, unique useful findings, contradictions, unsupported claims and recommendations that violate the founder's vision.
+8. Weight evidence over majority opinion. Three models repeating one incorrect assumption do not make it correct.
+9. Keep the full ecosystem identity and the founder's image restrictions as hard constraints.
+10. Convert accepted findings into a prioritised implementation backlog and update the phase order.
+
+### Audit synthesis scorecard (100 points)
+
+Use this as a diagnostic scorecard, not as a claimed benchmark:
+- Brand identity and visual art direction — 20
+- Information architecture and product coherence — 20
+- Core user journeys and product utility — 15
+- Mobile UX, accessibility and responsive quality — 15
+- Engineering quality, safety and privacy — 10
+- SEO, content architecture and trust — 10
+- Performance, reliability and operational readiness — 10
+
+For each score, show the evidence, confidence level and what would raise it. Do not inflate scores to make progress appear better.
+
+### Required audit synthesis output
+- Executive verdict and top five blockers.
+- Finding matrix: ID, priority, evidence, impact, accepted decision, resolution and acceptance test.
+- Rejected recommendations and why.
+- Final proposed architecture.
+- Revised implementation sequence.
+- Risks / approvals that cannot be autonomously crossed.
+- What should be implemented first in the next push.
+
+The founder does not need to approve each normal implementation decision. Only genuine approval-boundary issues need to be surfaced.
+
+---
+
+## 4. Execution roadmap
+
+### Phase 0 — Audit convergence and release baseline
+
+**Goal:** establish one accurate source of truth before major visual changes.
+
+Work:
+- Ingest all three independent audits.
+- Re-check main branch, current production hostname, current deployment workflow and latest release.
+- Capture current homepage and key-route evidence at 1440×900, 1024×768, 390×844 and 360×800 where browser tools permit.
+- Test navigation, forms, planner, budget tool, saved items, checklist, stories, modals, shop empty state and concierge demo.
+- Inventory page routes, image assets, font loading, CSS tokens, repeated assets, headings, localStorage use, API calls and mobile breakpoints.
+- Record limitations when a browser or live service cannot be accessed.
+- Create a baseline checklist and prioritised backlog.
+
+**Exit criteria:** no unlabelled assumptions about what is live; all high-priority findings have evidence and a resolution plan.
+
+### Phase 1 — Brand reset and premium art direction
+
+**Goal:** make VELORA visually distinctive and aligned with the founder's approved image direction.
+
+Work:
+- Retire the rejected hero image from the public visual system.
+- Produce a high-quality, fully clothed editorial hero direction that communicates romance, connection and lifestyle without sexualised styling.
+- Curate a coherent visual asset library: hero, fashion, experiences, destinations, architecture, editorial details and diverse adult audiences.
+- Remove repeated imagery and mismatched crops.
+- Define the brand's visual composition, photography, overlays, image focal points, editorial tone and art-direction rules.
+- Revisit the logo/mark only if a concrete design issue is demonstrated; do not rebrand by impulse.
+- Keep all imagery licensed, generated for the project or otherwise properly authorised. Do not imply synthetic scenes are customer testimonials or first-hand travel photography.
+
+**Exit criteria:** no rejected imagery; no obvious duplicate-image repetition on the homepage; a consistent image language across desktop and mobile; brand meaning clear without relying on swimwear or suggestive imagery.
+
+### Phase 2 — Design system rebuild
+
+**Goal:** one maintainable, responsive, accessible system rather than layered CSS patches.
+
+Work:
+- Define design tokens for colour, typography, spacing, grids, borders, radii, shadows, motion, focus and states.
+- Set a readable type scale for display, section headings, card headings, body, labels, captions and controls.
+- Establish desktop/tablet/mobile layout rules and a consistent content-width system.
+- Standardise buttons, links, forms, selects, cards, image containers, badges, dialogs, navigation and empty/error/loading states.
+- Consolidate duplicate/overlapping media queries and remove dead/conflicting CSS.
+- Define interaction and motion rules, including prefers-reduced-motion behaviour.
+- Ensure adequate contrast, focus visibility, semantic structure and touch targets.
+- Use WCAG 2.2 AA as the design and test target.
+
+**Exit criteria:** shared components look and behave consistently; core content remains legible at 360px width; no overlapping/clipped controls; keyboard/focus states work; reduced-motion is respected.
+
+### Phase 3 — Information architecture and homepage redesign
+
+**Goal:** show the full VELORA identity without a long, confusing list of disconnected sections.
+
+Work:
+- Define the global navigation and department hierarchy.
+- Distinguish department hubs, tools, editorial content and future capabilities.
+- Decide what belongs on the homepage versus its own crawlable route.
+- Design a coherent homepage narrative: brand promise, audience/use cases, connected experiences, actual available tools, selected editorial/discovery, trust and next steps.
+- Make it obvious what users can do now and what is not yet available.
+- Avoid empty department pages created only to make the platform appear larger.
+- Replace redundant sections with stronger pathways into real experiences.
+- Keep Travel as the first commercial wedge while showing the full ecosystem identity.
+
+**Exit criteria:** a first-time visitor can explain what VELORA is, who it serves and what useful action to take; every primary navigation item leads to a meaningful destination; no dead anchors or filler departments.
+
+### Phase 4 — Build the first connected user journeys
+
+**Goal:** users complete a meaningful task from discovery to preparation, not merely browse decorative sections.
+
+Prioritise:
+1. Couple / honeymoon / anniversary journey: occasion → destination discovery → preferences → practical outline → budget → preparation checklist → style/essentials → save/print/return.
+2. India inbound journey: traveller context → official entry guidance → arrival readiness → first-72-hours preparation → local respect/safety → useful city/experience links.
+3. India outbound / first international journey: destination/season questions → official entry/transit checks → budget → insurance/documents → itinerary structure → checklist.
+
+Add only useful decision logic supported by real information. Clearly label user-generated estimates, illustrative suggestions, current official requirements and unavailable data.
+
+**Exit criteria:** each journey has a complete, coherent, testable start-to-finish flow; user data handling is clear; no fake live prices or booking status; save/print behaviour is predictable.
+
+### Phase 5 — Department expansion, one validated use case at a time
+
+**Goal:** develop the eight-department ecosystem in a disciplined way.
+
+- Romance & Experiences: useful occasion-led activities and experience planning.
+- Connection & Companionship: begin with communication prompts and shared activities; no public matching without safety infrastructure.
+- Fashion & Style: context-aware style plans and clear editorial/product distinction.
+- Travel & Destinations: researched inbound and outbound clusters.
+- Lifestyle & Wellness: general, sourced and non-medical overclaiming content.
+- Romance Library: original non-explicit stories, games and shared activities.
+- AI Creative Studio: later, only with consent, privacy, abuse prevention and rights controls.
+- VELORA AI Concierge: later, when a real server-side model, privacy controls, cost limits, evaluation and support are implemented.
+
+Do not start a department because it sounds impressive. Require an audience need, useful workflow, content quality, safety plan and measurable outcome.
+
+**Exit criteria:** each activated department has a real user job, clear page/interaction, quality content, truthful capability labels and a reason to exist inside VELORA.
+
+### Phase 6 — Engineering, trust, SEO and operational readiness
+
+Work:
+- Maintain a clean static/front-end architecture and use server-side functions only where required.
+- Configure D1 only after the existing account inventory and binding are verified with least-privilege access.
+- Keep all secrets in encrypted secret storage, never in Git or browser code.
+- Treat Amazon product integration as unavailable until actual eligibility, required configuration and production tests succeed.
+- Improve error handling, rate limiting, logging that avoids unnecessary personal data, security headers and admin access.
+- Establish source-linked editorial standards and refresh dates for volatile travel facts.
+- Add structured data only where accurate and useful.
+- Maintain crawlable HTML routes, titles, descriptions, canonicals, internal links, sitemap and robots.
+- Add a privacy-conscious analytics and Search Console process only when properly authorised and documented.
+- Test image optimisation, font loading, script weight, caching, PWA/offline behaviour and runtime errors.
+
+**Exit criteria:** no misleading product claims; successful build and automated tests; production smoke tests pass; no exposed secrets; privacy and commercial disclosures are accurate; indexable pages have valid metadata and working links.
+
+---
+
+## 5. Global quality gates — definition of done
+
+No public release is considered finished until applicable items pass.
+
+### Brand and visual
+- Approved VELORA identity and premium editorial art direction.
+- No bikini/swimwear/lingerie/shirtless/suggestive visual styling.
+- No obvious repeated campaign imagery.
+- Consistent font hierarchy, spacing, colour tokens, image quality and component behaviour.
+- Correct focal points and readable overlays at all supported widths.
+
+### UX and accessibility
+- Tested at 1440×900, 1024×768, 390×844 and 360×800 where tools allow.
+- No horizontal overflow or clipped controls.
+- Main body text is comfortably readable; avoid tiny microtype.
+- Interactive controls target at least 44×44 CSS pixels where practicable.
+- Visible keyboard focus, semantic labels and sensible headings.
+- Colour contrast checked against WCAG 2.2 AA.
+- prefers-reduced-motion respected.
+- Clear validation, feedback, empty, error and loading states.
+
+### Product integrity
+- Every advertised action works.
+- Demo/local features are labelled honestly.
+- No fake data, ratings, reviews, prices, availability or bookings.
+- No feature is described as AI-powered unless a real tested AI connection exists.
+- Personal data is not sent to a server unless the user understands why and the product has an appropriate privacy design.
+- Saved state, print/export and reset actions behave as described.
+
+### Engineering and SEO
+- JavaScript syntax/build/quality checks pass.
+- Route and asset checks pass.
+- Internal links and anchors are valid.
+- Unique, relevant titles and descriptions.
+- Correct canonical URLs, robots and sitemap.
+- Structured data validates where implemented.
+- No private keys or secrets in public source.
+- Production smoke checks fetch all changed routes and confirm their expected content.
+- No severe browser console errors or failed critical network requests in browser tests.
+- Performance targets should be measured, not guessed. Use Core Web Vitals targets of LCP ≤2.5s, INP ≤200ms and CLS ≤0.1 at the 75th percentile when real field data becomes available; lab tests are diagnostic and not a substitute for field data.
+
+### Release discipline
+- Inspect the exact diff before commit.
+- Use focused commits with clear messages.
+- Let quality checks run.
+- Confirm Cloudflare deploy result and production smoke test.
+- If deployment or tests fail, fix the issue before claiming success.
+- If live access is unavailable, say so. Do not equate a successful source commit with a verified live release.
+- Update this plan / handover with material decisions and actual state.
+
+---
+
+## 6. How to handle each future "VELORA PUSH"
+
+When the founder says **VELORA PUSH**:
+
+1. Read this plan and the latest handover.
+2. Inspect the current main commit and any user-provided new audit material.
+3. Verify the current live/deployment state as far as available tools permit.
+4. Choose the highest-impact safe task from the remaining priority backlog.
+5. State a short plan, then execute; do not ask the founder to make routine product/design decisions.
+6. Implement the complete change, not merely a mock description.
+7. Add or update tests and acceptance checks.
+8. Review the exact diff and privacy/safety implications.
+9. Push source changes and verify CI/deployment when possible.
+10. Update the operating plan and handover so the next chat can continue without rediscovery.
+11. Report: what changed, where it is saved, test/deployment status, limitations and the next priority.
+
+Do not make the user say "please continue" repeatedly. A new "VELORA PUSH" is enough to resume from the latest verified state.
+
+### Future three-audit rule
+
+The next chat should first receive the three audits from Manus, Grok and Claude. Treat those audits as new evidence, not new authority over the founder's stated vision. Synthesize them with this plan, resolve contradictions and begin the highest-priority execution. Once that synthesis is complete, resume the regular "VELORA PUSH" cadence.
+
+---
+
+## 7. Current immediate backlog
+
+Subject to the three-audit synthesis and latest source verification, the initial order is:
+
+1. Replace the rejected public hero image with approved fully clothed editorial art direction; remove duplicate couple imagery from repeated placements.
+2. Define and implement the coherent VELORA design system; consolidate conflicting CSS and improve mobile legibility.
+3. Redesign homepage information architecture to communicate the complete ecosystem and guide users into real journeys.
+4. Establish a consistent navigation / department-hub structure with honest "available now" versus "future" states.
+5. Connect the highest-value couple/honeymoon and India travel journeys across planner, budget and preparation tools.
+6. Expand SEO architecture only alongside genuinely useful department pages and source-linked content.
+7. Verify backend, AI, catalogue, analytics and account integrations only when their prerequisites and approvals are met.
+
+This is a priority order, not a promise to skip audit evidence or technical dependencies.
+
+---
+
+## 8. Operating principle
+
+**Do not optimise for the number of commits, pages or features. Optimise for a coherent, trusted, useful and beautiful VELORA experience.**
+
+A world-class result requires deliberate product decisions, excellent visual execution, real user utility, trustworthy content, robust engineering and repeated verification.
+
+The founder wants the finished platform. Every push should move towards that outcome.
