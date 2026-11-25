@@ -21,6 +21,7 @@ Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION
 - Full-width homepage hero using the exact sunset-couple photograph supplied for this project.
 - Responsive desktop and mobile layouts; mobile uses a separate composition and focal position rather than simply shrinking the desktop grid.
 - Destination inspiration with original scenic image assets, local search and category filters.
+- Crawlable Travel Hub, India Arrival Ready / First 72 Hours guide, and First International Trip checklist for Indian outbound travellers.
 - A date, duration, traveller, style, budget and stay preference planner that produces a locally generated illustrative itinerary.
 - Style studio with occasion, style direction and weather inputs.
 - Personal travel checklist, an essentials buying guide, saved destinations/ideas/plans, saved-list export and print-friendly views.

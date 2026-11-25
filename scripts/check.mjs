@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'index.html', 'styles.css', 'app.js', 'package.json',
-  'admin-products.html', 'admin-products.js', 'scripts/build.mjs',
+  'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
@@ -26,7 +26,7 @@ if (missing.length) {
 }
 
 const jsFiles = [
-  'app.js', 'admin-products.js', 'scripts/build.mjs',
+  'app.js', 'admin-products.js', 'travel-tools.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js'
@@ -41,6 +41,35 @@ for (const file of jsFiles) {
 }
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+
+const siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim().replace(/\\/+$/, '');
+const travelPages = [
+  { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
+  { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
+  { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'Your First International Trip: A Practical Checklist — VELORA' }
+];
+const titlesSeen = new Set();
+for (const page of travelPages) {
+  const source = fs.readFileSync(path.join(root, page.file), 'utf8');
+  const titles = [...source.matchAll(/<title>(.*?)<\\/title>/gi)].map(match => match[1].trim());
+  const headings = [...source.matchAll(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/gi)];
+  const hasDescription = /<meta\\s+name="description"\\s+content="[^"]+"/i.test(source);
+  const hasCanonical = source.includes('rel="canonical" href="' + siteOrigin + page.route + '"');
+  if (titles.length !== 1 || titles[0] !== page.title || titlesSeen.has(titles[0])) {
+    console.error('Travel page title check failed:', page.file, titles);
+    process.exit(1);
+  }
+  titlesSeen.add(titles[0]);
+  if (headings.length !== 1 || !hasDescription || !hasCanonical || !source.includes('guide.css')) {
+    console.error('Travel page SEO structure failed:', page.file);
+    process.exit(1);
+  }
+  if (page.route !== '/travel/' && !source.includes('/travel-tools.js')) {
+    console.error('Interactive travel checklist script missing:', page.file);
+    process.exit(1);
+  }
+}
+
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 if (duplicates.length) {
@@ -92,12 +121,25 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg'
+  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
   console.error('Build output is missing files:', missingDist.join(', '));
   process.exit(1);
+}
+const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html'];
+const missingGuideDist = requiredGuideDist.filter(file => !fs.existsSync(path.join(dist, file)));
+if (missingGuideDist.length) {
+  console.error('Build output is missing travel pages:', missingGuideDist.join(', '));
+  process.exit(1);
+}
+const sitemapContent = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
+for (const page of travelPages) {
+  if (!sitemapContent.includes('<loc>' + siteOrigin + page.route + '</loc>')) {
+    console.error('Travel page missing from sitemap:', page.route);
+    process.exit(1);
+  }
 }
 const forbiddenDist = ['functions', 'migrations', 'docs', '.env.example', 'wrangler.toml', 'package.json']
   .filter(file => fs.existsSync(path.join(dist, file)));

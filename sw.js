@@ -1,11 +1,13 @@
 /* Small offline shell cache. Bump CACHE_NAME when shipping a new release. */
-const CACHE_NAME = 'velora-shell-v5';
+const CACHE_NAME = 'velora-shell-v6';
 const CORE_ASSETS = [
   './', './index.html', './styles.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
   './public/assets/hero/velora-sunset-couple.jpg',
   './public/assets/destinations/maldives.webp', './public/assets/destinations/amalfi-coast.webp',
-  './public/assets/destinations/kyoto-garden.webp', './public/assets/experiences/couple-sunset-walk.webp'
+  './public/assets/destinations/kyoto-garden.webp', './public/assets/experiences/couple-sunset-walk.webp',
+  './guide.css', './travel-tools.js', './travel/',
+  './travel/india-arrival-ready/', './travel/first-international-trip/'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));
