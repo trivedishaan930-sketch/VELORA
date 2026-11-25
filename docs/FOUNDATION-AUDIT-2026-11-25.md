@@ -115,3 +115,17 @@ Build remaining departments as coherent experiences, not empty cards:
 - **Pending:** Cloudflare account/project verification, successful deploy, live SEO-file validation, Search Console setup, multi-page architecture.
 - **Founder decisions:** Preserve full ecosystem vision and VELORA name; no travel-only pivot; international audience; inbound/outbound travel equally considered; premium English website.
 - **Next exact action:** Verify Cloudflare Pages project and GitHub Actions account mapping, then deploy safely to existing project.
+
+
+## Strategic update — 25 November 2026
+
+The founder requested a complete long-term business and product North Star after this foundation audit. The strategy has now been documented separately in:
+
+- [VELORA Product North Star & Long-Term Roadmap](PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md)
+- [Updated operating plan and founder charter](../BUSINESS-PLAN.md)
+
+The strategy preserves all eight departments and defines the Moment-to-Memory product loop, the global audience, revenue ladder, SEO/content strategy, technical architecture, safety gates, international rollout, metrics and a cross-AI audit brief.
+
+OpenSEO project context has also been updated with the full ecosystem positioning and a directional 25 Nov 2026 keyword/competitor research snapshot. The OpenSEO AI visibility tracker is not configured; its saved brand domain still points to the old GitHub Pages hostname. Correct the project-domain setting before enabling any paid AI visibility checks.
+
+**The next engineering blocker is unchanged:** verify the Cloudflare Pages account/project mapping before attempting production deployment. The strategic document does not override that deployment safety requirement.
