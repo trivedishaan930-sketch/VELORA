@@ -213,12 +213,105 @@
       ['Take the memory home', 'Revisit a favourite and prepare for a smooth departure.']
     ]
   };
+  const occasionBlueprints = {
+    "romantic-escape": {
+      label: "Romantic escape",
+      focus: "Balance one shared highlight with unhurried time. The best plan leaves room for both people to shape the day.",
+      comfort: "Agree on pace, spending comfort and the kind of activities you both enjoy.",
+      moments: [
+        ["Arrive and settle", "Keep the first evening light. Find your bearings, check in comfortably and enjoy a simple first moment together."],
+        ["Explore side by side", "Choose one place or activity you are both curious about, then leave time to wander without a strict schedule."],
+        ["Make a local connection", "Try a local food, craft, culture or nature experience that fits your interests and the place."],
+        ["Keep space for yourselves", "Protect an open stretch for rest, conversation or a spontaneous choice."]
+      ]
+    },
+    "honeymoon": {
+      label: "Honeymoon / newlywed journey",
+      focus: "Treat the trip as shared time, not a race through attractions. Mix one memorable experience with gentle, flexible days.",
+      comfort: "Discuss the overall budget, preferred pace, rest needs and expectations before confirming non-refundable plans.",
+      moments: [
+        ["Arrive without a rush", "Keep arrival day simple, allow time to settle in and avoid stacking activities after a long journey."],
+        ["Discover something together", "Choose one experience that reflects a shared interest, from a scenic walk to a cultural visit."],
+        ["Make room for a signature memory", "Plan one meaningful meal, view, activity or local experience you will both remember."],
+        ["Leave a day beautifully open", "Build in rest, personal space and the freedom to change the plan together."]
+      ]
+    },
+    "anniversary": {
+      label: "Anniversary / milestone",
+      focus: "Connect a familiar memory with something new. Let the celebration reflect what feels meaningful to both of you.",
+      comfort: "Choose a style of celebration that suits both people; a quiet moment can matter as much as a grand occasion.",
+      moments: [
+        ["Begin with your story", "Make time to remember a favourite shared moment or place, without forcing the day to follow a script."],
+        ["Create a new memory", "Choose an activity, neighbourhood or experience neither of you has tried together."],
+        ["Celebrate in your own style", "Keep one special meal, view or shared activity as the day's anchor."],
+        ["Take a small memory home", "Choose a photo, note or local keepsake that brings the experience back later."]
+      ]
+    },
+    "proposal": {
+      label: "Proposal / special celebration",
+      focus: "Make the setting thoughtful and pressure-free. A meaningful moment should leave room for an honest, freely chosen response.",
+      comfort: "Consider whether your partner enjoys surprises or public attention. Avoid a setting that makes someone feel watched, cornered or obliged to answer.",
+      moments: [
+        ["Think about their comfort", "Choose a setting and style that genuinely suits the other person's preferences, not an audience or social-media image."],
+        ["Keep the plan simple", "Have a clear arrival plan and a quiet alternative if weather, crowds or timing change."],
+        ["Make the moment personal", "Use words and details that are true to your relationship; do not rely on a staged script or public pressure."],
+        ["Leave room for the next conversation", "Keep the rest of the day flexible and respect whatever answer or pace feels right."]
+      ]
+    },
+    "first-trip": {
+      label: "First trip together",
+      focus: "Make the first shared journey comfortable by agreeing on practical details as well as the fun parts.",
+      comfort: "Talk through budget limits, sleep, food, activity levels, alone time and how you prefer to handle changes.",
+      moments: [
+        ["Set shared expectations", "Confirm the basics together: arrival, accommodation, money, transport and how full you want each day to be."],
+        ["Choose an easy first outing", "Start with a low-pressure activity close to where you are staying."],
+        ["Share the decisions", "Take turns choosing a stop or activity, and keep an option to pause or change plans."],
+        ["Reflect and reset", "Check in about what is working and leave the next day adaptable."]
+      ]
+    },
+    "solo-reset": {
+      label: "Solo reset",
+      focus: "Design the trip around your own energy, interests and comfort. Make the itinerary spacious rather than crowded.",
+      comfort: "Share a basic plan with someone you trust, check local guidance and choose transport and activities that fit your confidence and needs.",
+      moments: [
+        ["Arrive at your own pace", "Keep the first day simple, confirm your route and settle into a place that feels comfortable."],
+        ["Follow one personal interest", "Choose a museum, landscape, class, food experience or walk that you genuinely want to explore."],
+        ["Protect time to recharge", "Leave a block free for rest, reading or an unplanned discovery."],
+        ["Celebrate your own progress", "Notice what you enjoyed and make the final day easy to navigate."]
+      ]
+    },
+    "friends": {
+      label: "Friends' escape",
+      focus: "Create one or two shared anchors while allowing different energy levels and optional activities.",
+      comfort: "Agree on shared costs, room arrangements, group decisions and how people can opt out without awkwardness.",
+      moments: [
+        ["Get everyone oriented", "Confirm check-in, shared expenses and a simple first meeting point."],
+        ["Choose a group highlight", "Plan one activity most people are excited about, with a backup for changing conditions."],
+        ["Allow different rhythms", "Offer optional plans so no one feels obliged to join every activity."],
+        ["Bring the group together", "Choose a relaxed shared meal or final activity and keep the journey home clear."]
+      ]
+    },
+    "family": {
+      label: "Family holiday",
+      focus: "Balance shared activities with rest, accessible movement and realistic transitions between places.",
+      comfort: "Check age suitability, accessibility, dietary needs, medical needs and transport arrangements with the relevant providers before travel.",
+      moments: [
+        ["Arrive and orient", "Keep the first day easy, confirm room and transport details and identify nearby essentials."],
+        ["Choose one family highlight", "Pick an activity that suits the group's ages, interests and energy."],
+        ["Build in a slower window", "Plan rest, snacks and flexible time rather than filling every hour."],
+        ["Make departure day easier", "Pack ahead, confirm transfers and keep important documents accessible."]
+      ]
+    }
+  };
+
   function createItinerary(event) {
     event.preventDefault();
     const destination = $('#planDestination').value.trim();
     if (!destination) { $('#planDestination').focus(); return; }
     const duration = Math.max(1, Math.min(14, Number($('#planDuration').value) || 5));
     const traveller = $('#planTravellers').value;
+    const occasion = $('#planOccasion').value;
+    const blueprint = occasionBlueprints[occasion] || occasionBlueprints['romantic-escape'];
     const style = $('#planStyle').value;
     const date = $('#planDate').value;
     const budget = $('#planBudget').value;
@@ -226,17 +319,18 @@
     const template = itineraryTemplates[style] || itineraryTemplates['A little of everything'];
     const dayPlans = Array.from({ length: duration }, (_, index) => {
       const item = template[index % template.length];
-      return `<li><strong>Day ${index + 1} · ${item[0]}</strong><br>${item[1]}</li>`;
+      const moment = blueprint.moments[index % blueprint.moments.length];
+      return `<li><strong>Day ${index + 1} · ${escapeHtml(moment[0])}</strong><p>${escapeHtml(moment[1])}</p><p><strong>Travel-style idea:</strong> ${escapeHtml(item[1])}</p></li>`;
     }).join('');
-    const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller];
+    const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller] || 'Getaway';
     const result = $('#plannerResult');
     result.hidden = false;
-    result.innerHTML = `<h3>Your ${duration}-day ${travellerLabel.toLowerCase()}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><ol>${dayPlans}</ol><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This outline is an illustrative template, not a live itinerary or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button><button type="button" id="sendToConcierge">Discuss with concierge</button></div>`;
+    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button><button type="button" id="sendToConcierge">Discuss with concierge</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    $('#saveItinerary').addEventListener('click', () => toggleSaved(`${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
+    $('#saveItinerary').addEventListener('click', () => toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
     $('#printItinerary').addEventListener('click', () => window.print());
     $('#sendToConcierge').addEventListener('click', () => {
-      $('#chatText').value = `Help me refine this ${duration}-day ${travellerLabel.toLowerCase()} in ${destination}. Style: ${style}. Budget: ${budget}.`;
+      $('#chatText').value = `Help me refine this ${duration}-day ${blueprint.label.toLowerCase()} in ${destination}. Travellers: ${travellerLabel}. Style: ${style}. Budget: ${budget}. Keep the plan comfortable and flexible.`;
       $('#concierge').scrollIntoView({ behavior: 'smooth' }); $('#chatText').focus();
     });
   }
