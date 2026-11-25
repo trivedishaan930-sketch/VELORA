@@ -13,14 +13,15 @@
 
 The complete long-term business and product direction is documented in [docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md](PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). It defines the international eight-department vision, product thesis, target audiences, Moment-to-Memory user journey, monetization architecture, search strategy, technical direction, safety requirements, roadmap gates and periodic audit scorecard.
 
-The near-term execution plan is in [BUSINESS-PLAN.md](../BUSINESS-PLAN.md). The latest dated technical baseline is in [docs/FOUNDATION-AUDIT-2026-11-25.md](FOUNDATION-AUDIT-2026-11-25.md).
+The near-term execution plan is in [BUSINESS-PLAN.md](../BUSINESS-PLAN.md). The dedicated marketing and growth operating system is in [docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md](GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md). The latest dated technical baseline is in [docs/FOUNDATION-AUDIT-2026-11-25.md](FOUNDATION-AUDIT-2026-11-25.md).
 
 **Reading order for every new project chat:**
 1. This Master Project Handover System.
 2. Product North Star & Long-Term Roadmap.
 3. Current Business Plan.
-4. Latest dated Foundation Audit and continuity update.
-5. Verify current GitHub, live website, Cloudflare and OpenSEO state.
+4. Go-to-Market, Marketing & Growth Playbook.
+5. Latest dated Foundation Audit and continuity update.
+6. Verify current GitHub, live website, Cloudflare and OpenSEO state.
 
 The North Star sets the long-term destination. The Business Plan sets the near-term operating sequence. The Foundation Audit records a dated technical snapshot. Do not confuse these different purposes.
 
