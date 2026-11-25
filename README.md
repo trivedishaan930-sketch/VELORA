@@ -22,7 +22,7 @@ Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION
 - Responsive desktop and mobile layouts; mobile uses a separate composition and focal position rather than simply shrinking the desktop grid.
 - Destination inspiration with original scenic image assets, local search and category filters.
 - Crawlable Travel Hub, India Arrival Ready / First 72 Hours guide, First International Trip checklist, and a client-side Trip Budget Planner for group/per-person/day estimates.
-- A date, duration, traveller, style, budget and stay preference planner that produces a locally generated illustrative itinerary.
+- An occasion-aware getaway planner for romantic escapes, honeymoons, anniversaries, proposals, first trips together, solo resets, friends and family; it builds a locally generated day-by-day experience outline with comfort reminders and links to the budget/readiness tools.
 - Style studio with occasion, style direction and weather inputs.
 - Personal travel checklist, an essentials buying guide, saved destinations/ideas/plans, saved-list export and print-friendly views.
 - Original, non-explicit editorial stories and practical relationship / date ideas.
