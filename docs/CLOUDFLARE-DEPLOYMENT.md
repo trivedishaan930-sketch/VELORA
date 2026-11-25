@@ -25,18 +25,15 @@ Official limits:
 - https://developers.cloudflare.com/d1/platform/pricing/
 - https://developers.cloudflare.com/pages/functions/bindings/
 
-## 1. One-time Cloudflare account connection (founder action)
+## 1. Existing Cloudflare Pages project and deployment target
 
-I cannot create/authorize a Cloudflare account or approve its GitHub access from this chat. This is the single account-level step required before the new deployment can go live.
+The currently verified public VELORA deployment is `https://velora-75y.pages.dev/`. Its Pages project slug is `velora-75y`. The alternate host `https://velora.pages.dev/` currently serves an unrelated cosmetics storefront; **never create, target or deploy VELORA to the `velora` project/hostname**.
 
-1. Open https://dash.cloudflare.com/sign-up and create/sign in to the Cloudflare account owned by the Founder.
-2. Go to Workers & Pages, choose Create application, Pages, then Connect to Git.
-3. Authorize Cloudflare to access the GitHub repository trivedishaan930-sketch/VELORA.
-4. Choose branch main, project name velora (if available), root directory /, build command npm run build, and output directory dist.
-5. Create the Pages project. The first Pages URL will be https://velora.pages.dev if the project name is available.
-6. In Settings → Builds & deployments → Build configuration → Environment variables, set `SITE_ORIGIN` to the actual Pages URL, for example `https://velora.pages.dev`. If you later attach a custom domain, change this variable to that canonical URL and redeploy.
+The GitHub workflow `.github/workflows/cloudflare.yml` is configured to build this repository and deploy branch `main` to the existing Cloudflare Pages project `velora-75y`. It uses the GitHub repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The workflow deliberately does not auto-create a Pages project: if the expected project or credentials are unavailable, the deployment should fail visibly rather than silently creating or targeting a different project.
 
-The repository includes wrangler.toml and the build script. Do not create a second app or change GitHub repository ownership.
+The build sets `SITE_ORIGIN` to `https://velora-75y.pages.dev` so the generated `robots.txt` and `sitemap.xml` use the actual deployed hostname. If a final custom domain is attached later, update the canonical URL, the workflow's `SITE_ORIGIN`, and the HTML social URLs together, then verify the live redirects and sitemap before changing search-console properties.
+
+Do not create a second app or change GitHub repository ownership. Keep GitHub Pages as a fallback until Cloudflare deployment, API health and the required production setup have all been verified.
 
 ## 2. Create and bind the D1 database
 
@@ -87,7 +84,7 @@ Important:
 
 ## 5. Test after setup
 
-Open these on the new pages.dev site:
+Open these on the verified Cloudflare site https://velora-75y.pages.dev/:
 - /api/health — should report databaseConfigured: true and amazonCreatorsApiConfigured: true when secrets are set.
 - /api/products — should return {"products":[]} until products are selected in the admin page.
 - /admin-products.html — enter the admin token, search products and click Add to VELORA. Product title/image/link are pulled automatically; only ASIN/category are retained in the permanent catalogue table.
