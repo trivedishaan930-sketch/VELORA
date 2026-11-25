@@ -1,7 +1,6 @@
 name: Deploy to Cloudflare Pages
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,7 +18,7 @@ jobs:
           npm run check
           npm run build
           ls dist
-      - name: Deploy to the existing VELORA production Pages project
+      - name: Deploy to the verified VELORA Pages project
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
