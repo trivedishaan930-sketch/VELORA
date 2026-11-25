@@ -35,7 +35,21 @@ The build sets `SITE_ORIGIN` to `https://velora-75y.pages.dev` so the generated 
 
 Do not create a second app or change GitHub repository ownership. Cloudflare Pages is now the production host. The post-deployment smoke test confirms the live homepage, canonical, robots, sitemap and API health endpoint. The older GitHub Pages workflow has been changed to manual-only and is not an active production path.
 
-## 2. Create and bind the D1 database
+## 2. D1 permissions and safe inventory check
+
+The Pages deployment token currently works for the Cloudflare Pages project, but the read-only D1 inventory command failed with Cloudflare API error `10000` on the D1 databases endpoint. The token can deploy Pages; it has not been shown to have D1 read access.
+
+Cloudflare's permission list separates **D1 Read** (read access to D1) from **D1 Edit** (write access to D1). For the lowest-privilege setup:
+
+1. Keep `CLOUDFLARE_API_TOKEN` for the Cloudflare Pages deployment workflow. Do not broaden it simply to make the D1 listing work.
+2. In Cloudflare, create a separate API token restricted to the VELORA account with the **D1 Read** permission only.
+3. Save that token as the GitHub repository Actions secret `CLOUDFLARE_D1_READ_TOKEN`. Never paste the token into chat or commit it to Git.
+4. Open GitHub Actions → **Inspect Cloudflare D1 inventory** → Run workflow. The workflow is manual-only and uses that separate read-only token to list database names/IDs.
+5. Do not grant D1 Edit until the inventory confirms what exists and a specific database operation is approved. If a database must be created or changed through the API, D1 Edit is the write permission; keep it separate from read-only diagnosis.
+
+Official permission reference: https://developers.cloudflare.com/fundamentals/api/reference/permissions/
+
+## 3. Create and bind the D1 database
 
 1. In Cloudflare go to Storage & Databases, D1 SQL Database, Create database.
 2. Name it velora-production.
@@ -46,7 +60,7 @@ Do not create a second app or change GitHub repository ownership. Cloudflare Pag
 
 The migration creates two permanent catalogue tables (featured ASINs and short-lived product cache) plus a one-row API rate-limit table. It does not store customer accounts, payment data or personal travel profiles.
 
-## 3. Add secrets — never commit them to GitHub
+## 4. Add secrets — never commit them to GitHub
 
 In the Pages project go to Settings, Variables and Secrets, Add. Create these as encrypted Secrets (not plain variables):
 - AMAZON_CLIENT_ID
@@ -58,7 +72,7 @@ Add AMAZON_CREDENTIAL_VERSION as a plain variable using the exact Credential Ver
 
 Generate a strong random VELORA_ADMIN_TOKEN (at least 32 random characters) in a password manager. Do not paste it into chat, GitHub files, screenshots, email or WhatsApp. Use it only in the password field on the private product-admin page. The page keeps it in memory for the current tab and does not save it in local storage.
 
-## 4. Amazon India — exact integration and eligibility
+## 5. Amazon India — exact integration and eligibility
 
 The integration uses the current Creators API, not the deprecated PA-API 5 endpoint. Amazon says Creators API access requires:
 - a valid Amazon Associates account for the India marketplace;
@@ -82,7 +96,7 @@ Important:
 - Amazon requires the prominent site disclosure: "As an Amazon Associate I earn from qualifying purchases." A link-level disclosure such as "(paid link)" is also displayed near product links.
 - Product advertising content must carry Amazon's required content disclaimer in plain view. The VELORA product section includes it.
 
-## 5. Test after setup
+## 6. Test after setup
 
 Open these on the verified Cloudflare site https://velora-75y.pages.dev/:
 - /api/health — should report databaseConfigured: true and amazonCreatorsApiConfigured: true when secrets are set.
@@ -92,7 +106,7 @@ Open these on the verified Cloudflare site https://velora-75y.pages.dev/:
 
 If API access is unavailable, no live product links will be shown. Keep the product section in its honest "being prepared" state until access is verified.
 
-## 6. Deployment cutover
+## 7. Deployment cutover
 
 Cloudflare Pages is the verified production deployment. The GitHub Pages workflow is now manual-only; it does not deploy on pushes to main. When the founder no longer needs the legacy fallback, disable GitHub Pages under repository Settings → Pages as a separate account-level cleanup. A custom domain is optional; if one is attached, update the canonical URL, social metadata and SITE_ORIGIN together, then re-run the production smoke tests.
 

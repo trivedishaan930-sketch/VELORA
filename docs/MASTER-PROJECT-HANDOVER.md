@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.3  
+**Version:** 1.4  
 **Last updated:** 25 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -566,3 +566,18 @@ Build now copies the `travel/` route tree, guide styles and checklist script; si
 **Current backend limitation remains:** `/api/health` returns `ok=true`, `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. The product catalogue / Amazon affiliate backend is not operational. Search Console also still needs founder-side property authorisation.
 
 **Next exact work:** inspect D1 availability and existing Pages bindings read-only, without printing credentials or customer data. If a suitable database is absent, document the precise founder action rather than silently creating a new resource. Then improve the trip-planning tool with transparent user-entered budget calculations, followed by the next validated guide cluster.
+
+
+### Product continuity update — Trip Budget Planner release (25 Nov 2026)
+
+Live page: `https://velora-75y.pages.dev/travel/budget-planner/`. Release commit: `a1470700f7630bbd1f6b55b0c30a21c2ab7ebf83`. The tool lets a visitor estimate group trip costs, per-person/per-day amounts, contingency and budget headroom using only user-entered numbers. It formats amounts in a selected currency but performs no FX conversion and fetches no provider prices. Draft save/load is explicit and local to the visitor's browser. No budget data is sent to VELORA.
+
+The current Travel Hub now links to all three guides plus the budget planner. GitHub quality checks run `45631337580` and Cloudflare production smoke run `45631337353` passed. The latter verifies homepage and all four travel pages, canonical URLs, sitemap routes, robots and API health. Sitemap now contains the homepage plus four crawlable travel routes/tools.
+
+### D1 diagnostic and permission boundary (25 Nov 2026)
+
+Read-only D1 inventory workflow run `45630168174` returned Cloudflare API error `10000` at `/accounts/.../d1/database` using the existing Pages deployment token. Pages deployments remain healthy. Cloudflare permissions distinguish D1 Read and D1 Edit; create a separate account-limited D1 Read token and store it only as GitHub Actions secret `CLOUDFLARE_D1_READ_TOKEN`. The D1 inventory workflow is manual-only and now uses that separate secret. The Pages deployment token must remain unchanged. Do not create or bind a database until the existing inventory is known and the founder approves the exact action.
+
+**Current status:** API health `ok=true`, `databaseConfigured=false`, `amazonCreatorsApiConfigured=false`. Search Console property authorisation is also still pending.
+
+**Next exact action:** user-side creation of the separate D1 Read token + GitHub secret, followed by a manual inventory run. Thereafter assess D1 binding and schema migration only against the verified existing database inventory.

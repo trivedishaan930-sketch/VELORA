@@ -103,8 +103,8 @@ Build remaining departments as coherent experiences, not empty cards:
 **Cloudflare production deployment is working and verified by automated smoke tests.** The first crawlable travel release is now live (Travel Hub, India Arrival Ready, and First International Trip). The next product priorities are: inspect whether an appropriate D1 database already exists, configure the backend only after safe verification, then improve the destination-aware planning experience and expand the highest-value guide clusters.
 
 ## Continuity update
-- **Current project stage:** Cloudflare auto-deployment restored; first three crawlable travel-guide pages are live; repository quality checks and live production smoke tests pass.
-- **Work completed:** Corrected Cloudflare project-name/hostname mapping; restored push-to-main deployment using Wrangler 4; added live smoke tests for homepage, three guide routes, canonical URLs, robots, sitemap and API health; switched legacy GitHub Pages workflow to manual-only; created Travel Hub, India Arrival Ready and First International Trip pages with local checklists and official-source register; extended build, sitemap, quality tests and offline cache; updated OpenSEO to approved eight-department vision.
+- **Current project stage:** Cloudflare auto-deployment restored; four crawlable travel tools/pages are live (Travel Hub, inbound arrival guide, outbound first-trip guide, and Trip Budget Planner); repository quality checks and live production smoke tests pass.
+- **Work completed:** Corrected Cloudflare project-name/hostname mapping; restored push-to-main deployment using Wrangler 4; added live smoke tests for homepage, four travel routes, canonical URLs, robots, sitemap and API health; switched legacy GitHub Pages workflow to manual-only; created Travel Hub, India Arrival Ready, First International Trip and Trip Budget Planner; added privacy-conscious local checklists and group/per-person/day cost calculation; extended build, sitemap, quality tests and offline cache; updated OpenSEO to approved eight-department vision.
 - **GitHub changes:** Multiple commits on main. Verify latest commit and Actions before continuing.
 - **Cloudflare deployment:** Project `velora` auto-deploys from `main`; run `45629441223` completed successfully and verified all three travel routes, page titles/canonicals, robots, sitemap and `/api/health`.
 - **Live website:** Current site is served from `https://velora-75y.pages.dev/`; generated canonical/robots/sitemap point to that host.
@@ -164,3 +164,24 @@ A follow-up inspection of the actual GitHub Actions logs corrected the earlier p
 - **Official-source basis:** India e-Visa / e-Arrival portal, MHA ERSS 112, National Portal helpline directory, MEA foreign-travel guidance, MEA consular guide and Passport Seva. Detailed register: [TRAVEL-GUIDE-RESEARCH.md](TRAVEL-GUIDE-RESEARCH.md).
 - **Still not live:** real-time visa eligibility, weather, route/transport data, prices, availability, booking, payment, D1-backed accounts or Amazon catalogue. API health reports `ok=true`, `databaseConfigured=false`, and `amazonCreatorsApiConfigured=false`.
 - **Next priority:** safely inspect D1 account state and current bindings; then improve the trip-planning experience and continue building high-intent crawlable pages based on evidence.
+
+
+## Trip Budget Planner release — 25 November 2026
+
+- **Release commit:** `a1470700f7630bbd1f6b55b0c30a21c2ab7ebf83`.
+- **Live route:** `https://velora-75y.pages.dev/travel/budget-planner/`.
+- **Features:** Currency display selector (no exchange-rate conversion), duration and traveller count, group-total flight/stay/transport/insurance/connectivity/other inputs, per-person food/day and activities inputs, adjustable contingency percentage, optional group budget ceiling, group total, per-person total, group per-day total, budget headroom/overrun, category breakdown, print/PDF and explicitly user-triggered local draft save/load.
+- **Privacy:** All calculations happen in the browser. No budget amounts, travel details or identity information are sent to VELORA. Draft is stored in the current browser only after the visitor chooses Save.
+- **Build / SEO:** Budget page and script included in build; sitemap now lists five canonical URLs (homepage plus four travel pages/tools); quality checks verify unique page title, description, one H1, canonical route and published assets; PWA cache updated with the budget route/script.
+- **Verification:** Quality run `45631337580` passed. Cloudflare production run `45631337353` passed. The live smoke test fetched the budget route, checked its exact title/canonical and sitemap entry, and also passed all other route/robots/API checks.
+- **Not included:** Live airfares, provider quotes, exchange rates, tax estimates, booking, payment or D1-backed account storage.
+
+## D1 access diagnostic — 25 November 2026
+
+- Read-only workflow run `45630168174` attempted `wrangler d1 list` using the existing Pages deployment token.
+- Cloudflare returned API authentication error `10000` for the D1 databases endpoint and advised checking token permissions. The Pages deployment token continues to deploy successfully; this did not interrupt production deployment.
+- Cloudflare's official token permissions distinguish **D1 Read** and **D1 Edit**. A separate, least-privilege D1 Read token is the recommended way to inspect existing database inventory. The manual-only workflow now expects GitHub secret `CLOUDFLARE_D1_READ_TOKEN`; it is intentionally not run until the founder creates and stores that secret.
+- No D1 database was created, modified or bound. No token values were displayed or changed.
+- Source: https://developers.cloudflare.com/fundamentals/api/reference/permissions/
+
+**Current API health:** `ok=true`, `databaseConfigured=false`, `amazonCreatorsApiConfigured=false`. Product catalogue/affiliate backend is not operational yet.
