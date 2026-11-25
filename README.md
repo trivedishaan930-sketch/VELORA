@@ -81,11 +81,15 @@ Run the project checks:
 npm run check
 ```
 
-## Free deployment
+## Production deployment
 
-The repository includes a GitHub Actions workflow for GitHub Pages. Push to the `main` branch, then open the repository's **Settings → Pages** and set the source to **GitHub Actions**. The workflow publishes the static site. A first deployment is not complete until the action run succeeds and the resulting Pages URL opens correctly.
+**Production host:** Cloudflare Pages at [https://velora-75y.pages.dev/](https://velora-75y.pages.dev/).
 
-Alternative: Cloudflare Pages can deploy this repository with no build command and the project root (`/`) as the output directory. Check the current free-plan limits and your account settings before launch.
+The `.github/workflows/cloudflare.yml` workflow automatically builds and deploys each push to `main` to the already-verified Cloudflare Pages project name `velora`. The public `pages.dev` hostname is `velora-75y.pages.dev`. After deployment, the workflow smoke-tests the homepage, canonical URL, `robots.txt`, sitemap and API health endpoint. It can also be run manually from GitHub Actions.
+
+GitHub Pages is no longer the production deployment. Its older workflow (`.github/workflows/deploy.yml`) is retained as a **manual-only legacy fallback** and does not run on every push. Do not use its `github.io` URL as VELORA's canonical production host.
+
+See [Cloudflare deployment and backend setup](docs/CLOUDFLARE-DEPLOYMENT.md) for the project mapping, D1 setup, secrets and post-deployment checks.
 
 ## Current functionality and honest limitations
 
