@@ -526,3 +526,8 @@ Audit में हर चीज को इन तीन श्रेणिय�
 
 **Recommended GitHub link:**  
 https://github.com/trivedishaan930-sketch/VELORA/blob/main/docs/MASTER-PROJECT-HANDOVER.md
+
+
+### Audit follow-up correction (25 Nov 2026)
+
+The first deployment-target correction commit changed the Cloudflare workflow to target `velora-75y`, but the deployment then failed because the Cloudflare account credentials available to GitHub Actions do not contain a Pages project with that name (Cloudflare API returned `Project not found`). The target hostname is still verified as the public VELORA site, but the deployable Cloudflare project/account mapping is not yet verified. Do not retry deployment, create a project, or change account settings until the founder's Cloudflare dashboard project list is inspected. Browser dashboard inspection could not be completed because the TinyFish browser wallet is below zero balance. Build and source checks passed before deployment step; deployment itself did not succeed. Live robots.txt and sitemap have not yet changed.
