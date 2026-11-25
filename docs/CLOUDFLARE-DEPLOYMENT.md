@@ -33,7 +33,7 @@ The GitHub workflow `.github/workflows/cloudflare.yml` builds this repository an
 
 The build sets `SITE_ORIGIN` to `https://velora-75y.pages.dev` so the generated `robots.txt` and `sitemap.xml` use the actual deployed hostname. If a final custom domain is attached later, update the canonical URL, the workflow's `SITE_ORIGIN`, and the HTML social URLs together, then verify the live redirects and sitemap before changing search-console properties.
 
-Do not create a second app or change GitHub repository ownership. Keep GitHub Pages as a fallback until Cloudflare deployment, API health and the required production setup have all been verified.
+Do not create a second app or change GitHub repository ownership. Cloudflare Pages is now the production host. The post-deployment smoke test confirms the live homepage, canonical, robots, sitemap and API health endpoint. The older GitHub Pages workflow has been changed to manual-only and is not an active production path.
 
 ## 2. Create and bind the D1 database
 
@@ -94,10 +94,6 @@ If API access is unavailable, no live product links will be shown. Keep the prod
 
 ## 6. Deployment cutover
 
-After the Cloudflare Pages site, API health and product admin screen are verified:
-1. Add the final custom domain later if desired; a custom domain is not required to use pages.dev.
-2. Disable GitHub Pages in repository Settings, Pages.
-3. Disable or remove the old .github/workflows/deploy.yml GitHub Pages workflow.
-4. Update canonical URLs and sitemap once the final public domain is known.
+Cloudflare Pages is the verified production deployment. The GitHub Pages workflow is now manual-only; it does not deploy on pushes to main. When the founder no longer needs the legacy fallback, disable GitHub Pages under repository Settings → Pages as a separate account-level cleanup. A custom domain is optional; if one is attached, update the canonical URL, social metadata and SITE_ORIGIN together, then re-run the production smoke tests.
 
 No paid Cloudflare plan, paid database, paid ads or new affiliate account is required for this initial architecture. Upgrade only when actual use or reliability needs justify it.
