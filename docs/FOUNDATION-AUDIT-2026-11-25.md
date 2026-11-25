@@ -28,8 +28,7 @@ The entire approved vision remains: an international 18+ Romance, Connection & L
 - Style studio is local guidance, not connected weather-aware service.
 - Concierge is rules-based demo, not real AI.
 - Product admin exists, but production dependencies are not configured.
-- Cloudflare Pages deployment project/account mapping is unverified. The public hostname `velora-75y.pages.dev` is confirmed, but GitHub Actions' Cloudflare API account reports no Pages project named `velora-75y`.
-- First Cloudflare deploy failed with `Project not found`. Automatic Cloudflare deployment is paused (manual workflow only) until account/project is confirmed.
+- Initial Cloudflare project-name diagnosis was incorrect and is now resolved. The Pages project name is `velora`; its production hostname is `velora-75y.pages.dev`. A corrected GitHub Actions deployment to `velora` has succeeded, and live smoke tests have passed. See the deployment diagnosis correction at the end of this audit.
 - Amazon Creators API is a server-side skeleton; eligibility and credentials are not confirmed.
 - D1 database is not bound to production.
 
@@ -48,7 +47,7 @@ The entire approved vision remains: an international 18+ Romance, Connection & L
 | Priority | Issue | Verified evidence | Status |
 |---|---|---|
 | P0 | Sitemap and robots point to wrong hostname | Production files on `velora-75y.pages.dev` reference `velora.pages.dev`; that host currently serves unrelated beauty storefront | Source fix committed; live deploy pending |
-| P0 | Cloudflare project mismatch | Deploy to `velora-75y` failed: API says project not found for GitHub Actions account | Blocked on account/project verification |
+| P0 | Cloudflare project-name mismatch | Deploying to project name `velora-75y` failed; earlier successful run used project name `velora` | Resolved: project name corrected to `velora`; automated deployment and live smoke tests pass |
 | P1 | Production API cannot serve catalogue | `/api/health` reports databaseConfigured=false and amazonCreatorsApiConfigured=false; `/api/products` returned 503 | Requires correct Pages project, D1 and Amazon API eligibility/configuration |
 | P1 | Single-page SEO architecture | OpenSEO crawled 1 page, found 0 internal outgoing links; homepage indexable with title, description, one H1 and no missing image alt | Page architecture needed |
 | P1 | Search Console unavailable | OpenSEO has no selected Google Search Console property; connected account had no properties returned | User-side property setup required |
@@ -57,11 +56,11 @@ The entire approved vision remains: an international 18+ Romance, Connection & L
 ## Immediate roadmap
 
 ### Phase 0: Protect deployment and fix foundation
-1. Verify which Cloudflare account owns the live `velora-75y.pages.dev` Pages project.
-2. Verify GitHub Actions secrets point to that account; never expose secret values.
-3. After project verification, manually deploy a test build to that exact project.
-4. Verify live canonical metadata, robots.txt, sitemap.xml, health endpoint and product API.
-5. Keep existing live site and fallback intact until verification succeeds.
+1. [Complete] Identify existing Pages project name `velora` from the successful GitHub Actions run.
+2. [Complete] Verify the repository's Cloudflare credentials can deploy to that project without exposing secrets.
+3. [Complete] Restore push-to-main automation using the existing project; do not create a second project.
+4. [Complete] Add live smoke tests for homepage/title/canonical, robots.txt, sitemap.xml and `/api/health`.
+5. [Pending] Configure and verify D1 and Amazon Creators API before treating product catalogue/affiliate commerce as operational.
 
 ### Phase 1: Crawlable content architecture
 Create distinct useful HTML pages with unique titles, descriptions, headings, links and original content. Initial page families:
@@ -101,20 +100,20 @@ Build remaining departments as coherent experiences, not empty cards:
 
 ## Next action
 
-**Do not deploy to production yet.** Resolve Cloudflare project/account mapping first. In parallel, prepare the multi-page architecture and Phase 1 content plan without publishing thin or unverified pages.
+**Cloudflare production deployment is now working and verified by automated smoke tests.** The next product foundation priorities are: identify/configure the D1 database binding and approved commerce dependencies; then build the first useful crawlable inbound/outbound travel pages and a stronger destination-aware planner.
 
 ## Continuity update
-- **Current project stage:** Foundation audit completed; corrective configuration committed; production deployment blocked pending Cloudflare project/account verification.
+- **Current project stage:** Cloudflare deployment automation restored; live smoke tests pass; production site is publishing from GitHub main.
 - **Work completed:** Verified live host, homepage crawl, API health/catalogue endpoint, GitHub structure and build/quality workflow; corrected canonical/sitemap build origin and social metadata in source; corrected Wrangler project name; switched Cloudflare workflow to manual until verified; corrected Cloudflare documentation; updated OpenSEO to approved eight-department vision.
 - **GitHub changes:** Multiple commits on main. Verify latest commit and Actions before continuing.
-- **Cloudflare deployment:** Not verified after source corrections; first attempt failed because account did not find expected Pages project.
-- **Live website:** Old version remains live. robots/sitemap still wrong until deployment succeeds.
+- **Cloudflare deployment:** Corrected deployment to project `velora` succeeds; automated live smoke tests verify the configured production host.
+- **Live website:** Current site is served from `https://velora-75y.pages.dev/`; generated canonical/robots/sitemap point to that host.
 - **OpenSEO:** One page crawled; 0 outgoing links warning; indexable homepage; title/description present; 1 H1; 1,563 words; 10 images; 0 missing alt; Search Console not connected.
-- **Problems discovered:** Wrong sitemap/robots origin; Cloudflare project mapping mismatch; D1/Amazon API not configured; one-page crawl architecture.
-- **Source fixes:** Build origin default; canonical/OG/Twitter metadata; Wrangler slug; Cloudflare deployment workflow made manual; deployment docs corrected.
-- **Pending:** Cloudflare account/project verification, successful deploy, live SEO-file validation, Search Console setup, multi-page architecture.
+- **Problems discovered:** D1 and Amazon Creators API are not configured in production; site still has a one-page/hash-navigation SEO architecture; Search Console is not connected.
+- **Source fixes:** Corrected Wrangler project name to `velora`; restored Cloudflare push-to-main workflow using Wrangler Action v4; added live smoke tests; changed GitHub Pages workflow to manual-only; updated deployment docs.
+- **Pending:** D1 inventory/binding and Amazon API eligibility/credentials; Search Console setup; multi-page content architecture; planner improvement.
 - **Founder decisions:** Preserve full ecosystem vision and VELORA name; no travel-only pivot; international audience; inbound/outbound travel equally considered; premium English website.
-- **Next exact action:** Verify Cloudflare Pages project and GitHub Actions account mapping, then deploy safely to existing project.
+- **Next exact action:** Inspect whether a suitable D1 database already exists using read-only Cloudflare account access, then bind it safely or document the precise user-side action; in parallel begin the first crawlable travel-guide architecture.
 
 
 ## Strategic update — 25 November 2026
@@ -128,7 +127,7 @@ The strategy preserves all eight departments and defines the Moment-to-Memory pr
 
 OpenSEO project context has also been updated with the full ecosystem positioning and a directional 25 Nov 2026 keyword/competitor research snapshot. The OpenSEO AI visibility tracker is not configured; its saved brand domain still points to the old GitHub Pages hostname. Correct the project-domain setting before enabling any paid AI visibility checks.
 
-**The next engineering blocker is unchanged:** verify the Cloudflare Pages account/project mapping before attempting production deployment. The strategic document does not override that deployment safety requirement.
+**The Cloudflare project-name blocker is resolved.** The corrected GitHub Actions pipeline now deploys automatically and verifies the production URL. Its `/api/health` smoke test currently returns `ok=true`, `databaseConfigured=false`, and `amazonCreatorsApiConfigured=false`; those two backend dependencies remain separate work.
 
 
 ## Deployment diagnosis correction — 25 November 2026
@@ -141,3 +140,13 @@ A follow-up inspection of the actual GitHub Actions logs corrected the earlier p
 - Corrective source configuration: Wrangler project name `velora`, Cloudflare workflow target `--project-name=velora`, and `SITE_ORIGIN=https://velora-75y.pages.dev`. The workflow is restored to deploy automatically on pushes to `main` and remains manually triggerable. It does not create a new Pages project.
 - Production is considered restored only after the corrected workflow succeeds and the live root, `robots.txt`, `sitemap.xml`, `/api/health` and `/api/products` are checked. D1 and Amazon API secrets/bindings remain separate setup items unless independently verified.
 
+
+
+## Production deployment restored — 25 November 2026
+
+- Corrected target mapping: Pages project name `velora`; public production hostname `https://velora-75y.pages.dev/`.
+- GitHub Actions run `45626274386` deployed successfully with Wrangler 4.168.0.
+- Run `45626553816` repeated the deployment after adding live verification; homepage title and canonical, `robots.txt`, `sitemap.xml`, and `/api/health` all passed.
+- API returned `ok=true`; it also reported `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. Do not claim the Amazon catalogue or affiliate commerce backend is live.
+- Cloudflare workflow now automatically deploys pushes to `main`. The legacy GitHub Pages workflow is manual-only.
+- Next engineering step: inspect D1 availability/binding and make the first crawlable high-value travel journey; Search Console still needs founder-side property authorisation.
