@@ -14,21 +14,14 @@ jobs:
           node-version: 22
       - name: Verify source and build public output
         env:
-          SITE_ORIGIN: https://velora.pages.dev
+          SITE_ORIGIN: https://velora-75y.pages.dev
         run: |
           npm run check
           npm run build
           ls dist
-      - name: Create Pages project if missing
-        continue-on-error: true
+      - name: Deploy to the existing VELORA production Pages project
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages project create velora --production-branch=main
-      - name: Deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=velora --branch=main
+          command: pages deploy dist --project-name=velora-75y --branch=main
