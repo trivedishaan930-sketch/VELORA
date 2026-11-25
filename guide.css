@@ -39,3 +39,60 @@
 .guide-visual-abstract:after{background:linear-gradient(180deg,rgba(16,26,44,.02) 24%,rgba(8,19,33,.76) 100%)}
 .abstract-orbit{position:absolute;z-index:1;top:17%;right:22%;width:120px;height:120px;border:1px solid rgba(255,255,255,.4);border-radius:50%;box-shadow:0 0 0 16px rgba(255,255,255,.07),0 0 0 32px rgba(255,255,255,.045)}
 .abstract-horizon{position:absolute;z-index:1;left:0;right:0;bottom:25%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent)}
+
+/* VELORA Trip Budget Builder */
+.budget-hero .guide-visual{min-height:355px}
+.budget-shell{display:grid;grid-template-columns:1.08fr .92fr;gap:20px;align-items:start}
+.budget-form,.budget-results{background:#fffdf8;border:1px solid rgba(16,26,44,.1);box-shadow:0 14px 40px rgba(16,26,44,.055)}
+.budget-form{padding:25px}
+.budget-form-section{padding:0 0 22px;margin-bottom:22px;border-bottom:1px solid rgba(16,26,44,.11)}
+.budget-section-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:17px}
+.budget-section-heading>span{color:#987951;font-size:8px;font-weight:700;letter-spacing:.15em}
+.budget-section-heading p{margin:0;color:#85877f;font-size:9px}
+.budget-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.budget-field{display:flex;flex-direction:column;gap:6px;color:var(--navy);font-size:10px;font-weight:700}
+.budget-field small{color:#8e9188;font-size:8px;font-weight:400}
+.budget-field input,.budget-field select{width:100%;min-height:43px;padding:10px 11px;border:1px solid #e3ded2;background:#fff;color:#233b40;font:500 12px var(--sans);border-radius:0}
+.budget-field input:focus,.budget-field select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.budget-field input[type=range]{min-height:auto;padding:0;accent-color:#9a774d}
+.budget-contingency .budget-field{max-width:430px}
+.budget-contingency .budget-field>span{display:flex;justify-content:space-between}
+.budget-contingency .budget-field strong{color:#93724a}
+.budget-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.budget-actions .guide-button{border:0;cursor:pointer}
+.budget-actions .guide-button:disabled{opacity:.42;cursor:not-allowed}
+.budget-reset{padding:10px 5px;border:0;background:transparent;color:#8c6e46;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.budget-status{margin:15px 0 0;color:#868b82;font-size:9px;line-height:1.7}
+.budget-results{position:sticky;top:18px;padding:25px}
+.budget-result-head h2{margin:10px 0 8px;color:var(--navy);font:500 clamp(31px,3.3vw,43px)/1.04 var(--serif);letter-spacing:-.04em}
+.budget-result-head h2 em{color:#a7794e;font-weight:400}
+.budget-result-head p{color:#85887f;font-size:9px;line-height:1.7}
+.budget-total-card{margin-top:20px;padding:20px;background:var(--navy);color:white}
+.budget-total-card small,.budget-stat small{display:block;color:#d4bd92;font-size:7px;font-weight:700;letter-spacing:.15em}
+.budget-total-card strong{display:block;margin:8px 0 4px;color:#fff;font:500 clamp(29px,3.5vw,42px)/1.1 var(--serif);overflow-wrap:anywhere}
+.budget-total-card span{color:#c1c7c0;font-size:9px}
+.budget-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.budget-stat{padding:13px;background:#f1ede3}
+.budget-stat small{color:#987951}.budget-stat strong{display:block;margin-top:6px;color:var(--navy);font:500 17px var(--serif);overflow-wrap:anywhere}
+.budget-stat:last-child{grid-column:1/-1}
+.budget-comparison{margin-top:11px;padding:14px;border:1px solid rgba(16,26,44,.15)}
+.budget-comparison small{display:block;color:#8d7656;font-size:7px;font-weight:700;letter-spacing:.14em}
+.budget-comparison strong{display:block;margin-top:5px;color:var(--navy);font:500 21px var(--serif)}
+.budget-comparison p{margin:9px 0 0;color:#49725c;font-size:9px;line-height:1.7}
+.budget-comparison p.is-over{color:#a34e43}
+.budget-breakdown{margin-top:22px}
+.budget-breakdown-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:10px}
+.budget-breakdown-head h3{margin:0;color:var(--navy);font:500 21px var(--serif)}
+.budget-breakdown-head span{color:#9a8b75;font-size:7px;font-weight:700;letter-spacing:.12em}
+.budget-breakdown-list{display:grid;gap:13px;padding-top:15px}
+.budget-empty{color:#84877e;font-size:10px}
+.budget-bar-label{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;color:#646f67;font-size:9px}
+.budget-bar-label strong{color:var(--navy);font-size:9px}
+.budget-bar-track{height:5px;background:#ece7db;overflow:hidden}
+.budget-bar-track span{display:block;height:100%;background:linear-gradient(90deg,#b18b55,#e1c38b)}
+.budget-result-actions{display:flex;gap:10px;margin-top:21px}
+.budget-result-actions .guide-button{border:0;cursor:pointer}
+.budget-footnote{margin:15px 0 0;color:#929289;font-size:8px;line-height:1.8}
+@media(max-width:920px){.budget-shell{grid-template-columns:1fr}.budget-results{position:static}.budget-total-card strong{font-size:38px}}
+@media(max-width:620px){.budget-form,.budget-results{padding:17px}.budget-fields{grid-template-columns:1fr}.budget-section-heading{display:block}.budget-section-heading p{margin-top:5px}.budget-actions{display:grid;grid-template-columns:1fr 1fr}.budget-actions .guide-button{justify-content:center}.budget-reset{grid-column:1/-1;text-align:left}.budget-result-head h2{font-size:34px}.budget-stat-grid{grid-template-columns:1fr 1fr}}
+@media print{.guide-topbar,.guide-breadcrumbs,.guide-hero,.guide-note,.budget-form,.guide-footer,.guide-actions,.budget-result-actions{display:none!important}.budget-shell{display:block}.budget-results{position:static;box-shadow:none;border:0;padding:0}.budget-page{background:#fff}.guide-wrap{width:100%}.budget-footnote{font-size:10px}}

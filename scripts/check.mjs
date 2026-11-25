@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'index.html', 'styles.css', 'app.js', 'package.json',
-  'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'scripts/build.mjs',
+  'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
@@ -26,7 +26,7 @@ if (missing.length) {
 }
 
 const jsFiles = [
-  'app.js', 'admin-products.js', 'travel-tools.js', 'scripts/build.mjs',
+  'app.js', 'admin-products.js', 'travel-tools.js', 'budget-planner.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js'
@@ -47,7 +47,8 @@ while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
 const travelPages = [
   { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
   { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
-  { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'Your First International Trip: A Practical Checklist — VELORA' }
+  { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'Your First International Trip: A Practical Checklist — VELORA' },
+  { file: 'travel/budget-planner/index.html', route: '/travel/budget-planner/', title: 'Trip Budget Planner — Estimate Your Travel Costs | VELORA' }
 ];
 const titlesSeen = new Set();
 for (const page of travelPages) {
@@ -67,8 +68,12 @@ for (const page of travelPages) {
     console.error('Travel page SEO structure failed:', page.file);
     process.exit(1);
   }
-  if (page.route !== '/travel/' && !source.includes('/travel-tools.js')) {
+  if (page.route !== '/travel/' && page.route !== '/travel/budget-planner/' && !source.includes('/travel-tools.js')) {
     console.error('Interactive travel checklist script missing:', page.file);
+    process.exit(1);
+  }
+  if (page.route === '/travel/budget-planner/' && !source.includes('/budget-planner.js')) {
+    console.error('Budget calculator script missing:', page.file);
     process.exit(1);
   }
 }
@@ -124,14 +129,14 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html'
+  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
   console.error('Build output is missing files:', missingDist.join(', '));
   process.exit(1);
 }
-const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html'];
+const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html'];
 const missingGuideDist = requiredGuideDist.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingGuideDist.length) {
   console.error('Build output is missing travel pages:', missingGuideDist.join(', '));

@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist");
 const publishFiles = [
   "index.html", "styles.css", "app.js", "admin-products.html",
-  "admin-products.js", "guide.css", "travel-tools.js", "_headers", "_routes.json"
+  "admin-products.js", "guide.css", "travel-tools.js", "budget-planner.js", "_headers", "_routes.json"
 ];
 
 await rm(output, { recursive: true, force: true });
@@ -33,7 +33,8 @@ const sitemapPaths = [
   "/",
   "/travel/",
   "/travel/india-arrival-ready/",
-  "/travel/first-international-trip/"
+  "/travel/first-international-trip/",
+  "/travel/budget-planner/"
 ];
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',

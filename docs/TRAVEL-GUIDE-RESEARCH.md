@@ -34,3 +34,12 @@ Recheck before campaigns and substantive updates: visa eligibility/categories/fe
 - Browser checklists save only checkbox item IDs in local storage. They do not collect names, passport numbers, nationality, itinerary or exact location.
 - No live weather, bookings, transport routes, visa eligibility API, provider quotes or availability are connected in this release.
 - Never imply the guide confirms entry permission, booking, safety conditions or real-time prices.
+
+
+## Trip Budget Planner — product calculation notes
+
+Public route: `/travel/budget-planner/`. The tool performs deterministic calculations entirely in the browser. Group totals are entered for flights, accommodation, local transport, insurance, connectivity and other costs. Food is per person per day and multiplied by traveller count and trip days. Activities are per person for the trip and multiplied by traveller count. A user-selected contingency percentage is applied to the base estimate.
+
+Currency is a display/format selection only. All amounts must be entered in the same currency; no foreign-exchange conversion, live fare, live provider price, tax estimate or booking availability is fetched. The optional budget ceiling is for the entire group. The saved draft feature stores only numeric estimates and trip counts in the current browser's local storage, only when the user chooses to save. It is not uploaded to VELORA.
+
+The tool is a planning estimator, not a quote, booking, financial guarantee or substitute for provider fee/tax terms. Reconcile all amounts with current provider quotes before purchase.

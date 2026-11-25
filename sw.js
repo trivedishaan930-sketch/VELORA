@@ -7,7 +7,8 @@ const CORE_ASSETS = [
   './public/assets/destinations/maldives.webp', './public/assets/destinations/amalfi-coast.webp',
   './public/assets/destinations/kyoto-garden.webp', './public/assets/experiences/couple-sunset-walk.webp',
   './guide.css', './travel-tools.js', './travel/',
-  './travel/india-arrival-ready/', './travel/first-international-trip/'
+  './travel/india-arrival-ready/', './travel/first-international-trip/',
+  './budget-planner.js', './travel/budget-planner/'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));

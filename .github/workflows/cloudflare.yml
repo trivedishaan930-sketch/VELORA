@@ -62,6 +62,10 @@ jobs:
           grep -Fq '<title>Your First International Trip: A Practical Checklist — VELORA</title>' "$RUNNER_TEMP/velora-first-trip.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/first-international-trip/\">" "$RUNNER_TEMP/velora-first-trip.html"
 
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/budget-planner/" -o "$RUNNER_TEMP/velora-budget-planner.html"
+          grep -Fq '<title>Trip Budget Planner — Estimate Your Travel Costs | VELORA</title>' "$RUNNER_TEMP/velora-budget-planner.html"
+          grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/budget-planner/\">" "$RUNNER_TEMP/velora-budget-planner.html"
+
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/robots.txt" -o "$RUNNER_TEMP/velora-robots.txt"
           grep -Fq "Sitemap: $SITE_ORIGIN/sitemap.xml" "$RUNNER_TEMP/velora-robots.txt"
 
@@ -70,8 +74,9 @@ jobs:
           grep -Fq "<loc>$SITE_ORIGIN/travel/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/india-arrival-ready/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/first-international-trip/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/travel/budget-planner/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
 
-          echo "Production smoke checks passed: homepage, three travel pages, canonical URLs, robots, sitemap and API health."
+          echo "Production smoke checks passed: homepage, four travel pages, canonical URLs, robots, sitemap and API health."

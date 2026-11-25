@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101a2c">
+<meta name="description" content="Build a transparent trip budget with your own flight, stay, transport, food and activity estimates. See the group total, per-person cost and contingency without fictional live prices.">
+<link rel="canonical" href="https://velora-75y.pages.dev/travel/budget-planner/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VELORA"><meta property="og:title" content="VELORA Trip Budget Planner"><meta property="og:description" content="Estimate your trip cost using your own numbers. No live prices or currency conversion."><meta property="og:url" content="https://velora-75y.pages.dev/travel/budget-planner/">
+<title>Trip Budget Planner — Estimate Your Travel Costs | VELORA</title>
+<link rel="icon" href="/public/icons/velora-mark.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/guide.css"><script src="/budget-planner.js" defer></script>
+</head>
+<body class="guide-page budget-page">
+<header class="guide-topbar"><nav class="guide-nav" aria-label="Budget planner navigation">
+<a class="guide-brand" href="/" aria-label="VELORA home"><img src="/public/icons/velora-mark.svg" alt=""><span>VELORA<small>MAKE ROOM FOR ROMANCE</small></span></a>
+<div class="guide-nav-links"><a href="/travel/">Travel hub</a><a href="/travel/india-arrival-ready/">India arrival</a><a href="/travel/first-international-trip/">First trip abroad</a><a href="/">VELORA home ↗</a></div>
+</nav></header>
+<main class="guide-wrap">
+<nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/travel/">Travel</a><span>›</span><span>Trip Budget Planner</span></nav>
+<section class="guide-hero budget-hero">
+<div><span class="guide-kicker">THE VELORA PLANNING TOOL</span><h1 class="guide-title">Know the numbers.<br><em>Keep the wonder.</em></h1>
+<p class="guide-lead">Build a trip budget from your own estimates—before you compare, commit or book.</p>
+<p class="guide-intro">Add the costs you already know. VELORA calculates the group estimate, per-person share, per-day average and a contingency reserve. You stay in control of every number.</p>
+<div class="guide-actions"><a class="guide-button" href="#budget-builder">Build my budget ↓</a><a class="guide-button secondary" href="/travel/">Explore travel guides</a></div>
+<div class="guide-meta"><span>Free planning tool</span><span>Works in this browser</span><span>No live prices</span></div></div>
+<div class="guide-visual"><img src="/public/assets/destinations/kyoto-garden.webp" alt="A quiet Japanese garden path beside a pond"><div class="guide-visual-caption"><small>THE JOURNEY, CONSIDERED</small><b>Plan with clarity.<br>Travel with freedom.</b></div></div>
+</section>
+<div class="guide-note"><strong>Important:</strong> This is an estimate calculator, not a quote or booking price. Enter amounts in one currency only. VELORA does not fetch live fares, exchange rates, taxes, provider prices or availability; confirm final costs with each provider.</div>
+<section class="guide-section" id="budget-builder">
+<div class="guide-section-heading"><span class="guide-kicker">YOUR TRIP, YOUR ESTIMATES</span><h2>Build your trip budget.</h2><p>Enter whole-trip costs for the group, and per-person costs where labelled. The calculator applies the traveller count and trip length automatically.</p></div>
+<div class="budget-shell">
+<form class="budget-form" id="budgetForm" novalidate>
+<div class="budget-form-section">
+<div class="budget-section-heading"><span>01 / THE TRIP</span><p>Set the trip size and budget ceiling.</p></div>
+<div class="budget-fields">
+<label class="budget-field"><span>Currency</span><select id="budgetCurrency" name="currency"><option value="INR">INR · Indian Rupee</option><option value="USD">USD · US Dollar</option><option value="EUR">EUR · Euro</option><option value="GBP">GBP · Pound Sterling</option><option value="AED">AED · UAE Dirham</option><option value="SGD">SGD · Singapore Dollar</option><option value="THB">THB · Thai Baht</option><option value="JPY">JPY · Japanese Yen</option></select></label>
+<label class="budget-field"><span>Trip length · days</span><input id="budgetDays" name="days" type="number" min="1" max="365" step="1" value="5" inputmode="numeric" required></label>
+<label class="budget-field"><span>Travellers</span><input id="budgetTravellers" name="travellers" type="number" min="1" max="50" step="1" value="2" inputmode="numeric" required></label>
+<label class="budget-field"><span>Total budget ceiling <small>Optional · whole group</small></span><input id="budgetLimit" name="budgetLimit" type="number" min="0" max="1000000000" step="0.01" placeholder="e.g. 150000" inputmode="decimal"></label>
+</div>
+</div>
+<div class="budget-form-section">
+<div class="budget-section-heading"><span>02 / THE COSTS</span><p>Use actual quotes where available. Leave unknown costs at zero and update later.</p></div>
+<div class="budget-fields">
+<label class="budget-field"><span>Flights / long-distance travel <small>Total for everyone</small></span><input id="costFlights" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Accommodation <small>Total for the entire stay</small></span><input id="costStay" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Local transport <small>Total for everyone</small></span><input id="costTransport" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Food per person / per day</span><input id="costFood" type="number" min="0" max="100000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Activities per person <small>Total for the trip</small></span><input id="costActivities" type="number" min="0" max="100000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Insurance / cover <small>Total for everyone</small></span><input id="costInsurance" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Connectivity / SIM / eSIM <small>Total for everyone</small></span><input id="costConnectivity" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+<label class="budget-field"><span>Other costs <small>Visa, baggage, fees, shopping etc.</small></span><input id="costOther" type="number" min="0" max="1000000000" step="0.01" value="0" inputmode="decimal"></label>
+</div>
+</div>
+<div class="budget-form-section budget-contingency">
+<div class="budget-section-heading"><span>03 / THE BUFFER</span><p>Keep room for changes, small surprises and overlooked costs.</p></div>
+<label class="budget-field"><span>Contingency reserve <strong id="contingencyValue">10%</strong></span><input id="budgetContingency" type="range" min="0" max="30" step="1" value="10"><small>Applied to the estimated base cost. This is a planning choice, not a required fee.</small></label>
+</div>
+<div class="budget-actions"><button class="guide-button" type="submit">Calculate my budget ↗</button><button class="guide-button secondary" id="budgetSave" type="button">Save on this device</button><button class="guide-button secondary" id="budgetLoad" type="button" disabled>Load saved draft</button><button class="budget-reset" id="budgetReset" type="button">Reset calculator</button></div>
+<p class="budget-status" id="budgetStatus" role="status" aria-live="polite">Your entries stay in this browser unless you choose to save a local draft.</p>
+</form>
+<section class="budget-results" aria-labelledby="budgetResultsTitle" aria-live="polite">
+<div class="budget-result-head"><span class="guide-kicker">YOUR ESTIMATED TRIP COST</span><h2 id="budgetResultsTitle">Your numbers,<br><em>made clearer.</em></h2><p id="budgetCurrencyNote">All figures are shown in the selected currency. No currency conversion is performed.</p></div>
+<div class="budget-total-card"><small>ESTIMATED TOTAL · GROUP</small><strong id="estimatedTotal">—</strong><span id="estimatedSubline">Enter your costs to calculate an estimate.</span></div>
+<div class="budget-stat-grid">
+<div class="budget-stat"><small>PER PERSON</small><strong id="perPersonTotal">—</strong></div>
+<div class="budget-stat"><small>PER DAY · GROUP</small><strong id="perDayTotal">—</strong></div>
+<div class="budget-stat"><small>CONTINGENCY</small><strong id="contingencyTotal">—</strong></div>
+</div>
+<div class="budget-comparison" id="budgetComparison" hidden><div><small>BUDGET CEILING</small><strong id="budgetCeiling">—</strong></div><p id="budgetDifference"></p></div>
+<div class="budget-breakdown"><div class="budget-breakdown-head"><h3>Where the estimate goes</h3><span>SHARE OF TOTAL</span></div><div id="budgetBreakdownList" class="budget-breakdown-list"><p class="budget-empty">Your cost breakdown will appear here.</p></div></div>
+<div class="budget-result-actions"><button class="guide-button" type="button" id="budgetPrint">Print / save as PDF</button></div>
+<p class="budget-footnote">The result is only as accurate as the numbers entered. Check whether provider quotes include taxes, baggage, transfers, deposits, cancellation charges and other fees. A contingency reserve does not guarantee that the trip will stay within budget.</p>
+</section>
+</div>
+</section>
+<section class="guide-section compact"><div class="guide-columns"><div class="guide-copy"><h3>What goes into the total?</h3><p>Flights, accommodation, local transport, insurance, connectivity and other costs are entered as group totals. Food and activities are entered per person and multiplied by travellers and trip duration where applicable.</p></div><div class="guide-copy"><h3>What does this tool not do?</h3><p>It does not find destinations, predict fares, fetch exchange rates, compare providers, calculate visa eligibility or reserve anything. Use verified provider prices and official information when you turn an estimate into a real plan.</p></div></div></section>
+<div class="guide-actions"><a class="guide-button" href="/travel/">Back to Travel Hub ↗</a><a class="guide-button secondary" href="/#planner">Open VELORA getaway planner</a></div>
+</main>
+<footer class="guide-footer"><div class="guide-footer-inner"><div><strong>VELORA</strong><p>Make Room for Romance. Plan the details. Leave room for the memory.</p></div><div><a href="/travel/">Travel hub ↗</a><br><a href="/">VELORA home ↗</a></div></div></footer>
+</body></html>
