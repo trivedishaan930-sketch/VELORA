@@ -204,7 +204,8 @@ Travel की market research या competition analysis के आधार �
 
 - Website: https://velora-75y.pages.dev/
 - GitHub repository: `trivedishaan930-sketch/VELORA`
-- Cloudflare Pages project slug: `velora-75y`
+- Cloudflare Pages project name: `velora`  
+- Cloudflare Pages production hostname: `https://velora-75y.pages.dev/`
 - OpenSEO project ID: `18e3573d-194a-4456-ad0e-0ca4f7dac95d`
 - Google Search Console: पिछली जानकारी के अनुसार connected नहीं था।
 
@@ -548,4 +549,4 @@ https://github.com/trivedishaan930-sketch/VELORA/blob/main/docs/MASTER-PROJECT-H
 
 ### Audit follow-up correction (25 Nov 2026)
 
-Correction verified from GitHub Actions history (25 Nov 2026): the existing Cloudflare Pages project name is `velora`; its deployment output used the `velora-75y.pages.dev` hostname. Run `45614874702` successfully executed `pages deploy dist --project-name=velora --branch=main` using the repository's Cloudflare secrets and returned a deployment URL under `velora-75y.pages.dev`. A later run (`45619408206`) failed with Cloudflare error 8000007 only after the workflow changed the target to `--project-name=velora-75y`. The account/token pair therefore had successfully authenticated and deployed to the existing `velora` project; this was a project-name/hostname mix-up, not a TinyFish outage. TinyFish was only relevant to visual dashboard inspection. The workflow and Wrangler project name are being restored to `velora`, while `SITE_ORIGIN` remains `https://velora-75y.pages.dev`. After the corrected push-triggered deployment, verify the live home page, robots, sitemap and API health before calling production restored.
+Correction verified from GitHub Actions history (25 Nov 2026): the existing Cloudflare Pages project name is `velora`; its configured production hostname is `velora-75y.pages.dev`. Run `45614874702` successfully executed `pages deploy dist --project-name=velora --branch=main` and returned a preview URL under `velora-75y.pages.dev`. Later run `45619408206` failed with Cloudflare error 8000007 only after the workflow incorrectly targeted `--project-name=velora-75y`. The issue was a project-name/hostname mix-up, not TinyFish or invalid API credentials. TinyFish was only relevant to visual dashboard inspection. The workflow and `wrangler.toml` were restored to project name `velora`; `SITE_ORIGIN` remains `https://velora-75y.pages.dev`. Corrected run `45626274386` successfully deployed using Wrangler 4.168.0. The subsequent run `45626553816` also succeeded and its live smoke tests passed for homepage/title/canonical, robots, sitemap and `/api/health`. API health returned `ok=true`, but `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`; the catalogue backend is therefore not yet operational. GitHub Pages automatic deployment has been switched to manual-only.
