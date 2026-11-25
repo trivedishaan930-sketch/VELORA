@@ -1,6 +1,6 @@
 # VELORA — LONG-TERM PRODUCT NORTH STAR & BUSINESS ROADMAP
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Created:** 25 November 2026  
 **Status:** Strategic operating blueprint based on the founder-approved VELORA vision  
 **Applies to:** Product, design, engineering, content, SEO, partnerships, monetization, safety and future AI work
