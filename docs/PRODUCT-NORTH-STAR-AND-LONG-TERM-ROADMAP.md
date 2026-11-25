@@ -850,6 +850,8 @@ Track brand mentions and citations in relevant AI answer surfaces when measureme
 
 Pinterest's official Trends tool provides regional search/save/shopping trend history. Use it as a research input, not as a substitute for keyword and user evidence.
 
+The detailed channel strategy, campaign briefs, creator/partner workflow, lifecycle email, measurement taxonomy, UTM rules, conversion experiments, paid-media gates and marketing operations are maintained separately in [GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md](GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md). Use that playbook for execution while this North Star remains the strategic source of truth.
+
 ---
 
 # 10. Technology and platform architecture
