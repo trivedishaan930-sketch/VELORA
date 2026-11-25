@@ -1,6 +1,6 @@
 # VELORA — Go-to-Market, Marketing & Growth Operating Playbook
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Research / strategy review date:** 25 November 2026  
 **Status:** Founder-aligned operating blueprint. It is not proof that campaigns, analytics, email infrastructure, tracking, integrations or paid media are live.  
 **Brand:** VELORA — *Make Room for Romance.*  
@@ -69,6 +69,21 @@ VELORA's eight departments are the long-term ecosystem. Marketing must not try t
 **Priority rule:** Begin with the first three P1 audiences and the shared planning problem. Do not create separate acquisition campaigns for all eight departments before the relevant experience is real.
 
 Every campaign brief must specify one primary audience, one situation/trigger, one user decision, one live VELORA solution, one CTA, one success event and one limitation that must be stated honestly.
+
+### Customer research and voice of customer
+
+Marketing assumptions must be checked against real people before they become campaign strategy.
+
+Use a lightweight research cycle:
+- **Search demand:** review Search Console queries when available, live search results, OpenSEO keyword/competitor findings, Google Trends and Pinterest Trends. Search volume is a directional signal, not proof that a user will choose VELORA.
+- **Question mining:** record recurring questions and objections from public communities, creator comments, support messages and voluntary feedback. Follow community rules; do not scrape private groups or collect sensitive details.
+- **Short interviews:** speak with a small, relevant set of target users before committing to a major journey. A first 5–8 interviews can reveal language, triggers and friction, but are qualitative and not statistically representative.
+- **Post-plan feedback:** ask one or two optional questions after a plan is completed: what was useful, what was confusing, what is still missing? Do not make feedback a condition of access.
+- **Lost-journey review:** investigate where people abandon the planner or leave the page using aggregate analytics, usability observation and voluntary feedback—not invasive tracking.
+- **Willingness-to-pay check:** test the problem and product value before building a paid PDF, membership or premium tool. Stated interest is weaker evidence than a real purchase or deposit.
+- **Research log:** record date, audience, question, method, sample limitations, findings, confidence, product implication and follow-up. Obtain permission before using identifiable quotes or testimonials.
+
+Review key competitor pages and search results quarterly: audience served, query intent, content depth, tools, conversion path, partner model, trust/disclosure and gaps. Learn from the market; do not copy a competitor's brand, content or product.
 
 ## 4. Positioning, message and CTA system
 
@@ -497,6 +512,37 @@ Which audience/use case produced completed plans? Which pages helped? Which sour
 
 One person can perform several roles at first; responsibilities still need to be explicit.
 
+### Free-first marketing technology stack
+
+Do not buy a large marketing stack at the foundation stage. Use the smallest set that can answer a real operating question.
+
+| Need | Starting option | When to add something else |
+|---|---|---|
+| Search demand and technical visibility | Google Search Console + the existing OpenSEO project; Google Trends for broader trend context | Add a specialised paid research tool only when a recurring decision cannot be answered with current tools |
+| Visual trend discovery | Pinterest Trends and platform-native search/analytics | Add paid social listening only when volume and workflow justify it |
+| Website behaviour | A privacy-appropriate GA4 setup or equivalent, plus Cloudflare diagnostics where useful | Add a tag manager only when multiple tags/events make direct implementation difficult |
+| Campaign tracking | UTM convention + a controlled campaign register | Add attribution software only after multiple channels and conversion volume create a measured need |
+| Affiliate revenue | Individual approved partner dashboards + commission register | Add a consolidated platform only if partner count/reporting workload requires it |
+| Social publishing | Native platform tools and a simple content calendar | Add a scheduler only when it saves measurable time and has approved cost |
+| Creator/partner pipeline | Protected spreadsheet or lightweight CRM with access limits | Add CRM software when handoffs, volume or reporting become difficult to manage |
+| Email | No list until a useful opt-in proposition exists; then a reputable email provider with authentication and unsubscribe controls | Select by consent features, security, deliverability, export/deletion, pricing and geography—not free-plan headline alone |
+| Feedback/support | A monitored official contact route and issue log | Add ticketing software when response volume and ownership require it |
+
+For Gmail deliverability, Google publishes sender requirements including SPF or DKIM for all senders and additional SPF, DKIM, DMARC alignment and one-click unsubscribe requirements for bulk senders (5,000+ messages/day to Gmail accounts). Treat this as a technical floor, not permission to send unsolicited email. Verify the current requirements before sending.
+
+Never place API keys, partner credentials, private customer data or payment details in GitHub, public documents or an open spreadsheet. A tool is optional until its use case, owner, data access and cost are approved.
+
+### Reputation, feedback and customer response
+
+- Publish a real contact route and state what support VELORA can and cannot handle.
+- Acknowledge factual errors, broken links and misleading copy; correct the page and record what changed.
+- Route privacy requests, safety reports, image-consent issues, fraud allegations and legal notices to a named owner with restricted access and an escalation path.
+- Do not argue publicly about a user's personal circumstances. Respond calmly, factually and without exposing private details.
+- Do not promise a refund, booking remedy or supplier action VELORA cannot control. Direct the user to the responsible provider where appropriate and explain VELORA's role accurately.
+- Obtain permission and rights before reusing user-submitted photos, stories, reviews or plans. Keep a record of scope, channel, term and withdrawal/takedown route.
+- Never manufacture testimonials, hide legitimate criticism or pay for positive reviews without compliant disclosure.
+- For a significant privacy, safety or platform incident, preserve relevant records securely, pause the affected campaign/feature, notify the responsible owner and obtain qualified advice before making public claims.
+
 ## 16. Stage-gated execution plan
 
 These are indicative windows, not promises. Advance on exit criteria, not the calendar.
@@ -581,6 +627,21 @@ Do not set arbitrary targets until baseline data exists.
 | Safety | Incidents, reports, privacy requests, response time | Can VELORA operate responsibly? |
 
 A channel wins when it brings the right people who complete useful plans and, where relevant, create sustainable disclosed revenue without unacceptable risk—not simply because reach is high.
+
+### Growth and marketing risk register
+
+| Risk | Early warning | Preventive control / response |
+|---|---|---|
+| Wrong audience or low-quality traffic | Reach/clicks rise but completed plans do not | Tighten audience, query intent, creative promise and landing page; stop low-quality placements |
+| Search or social platform change | Visibility or reach falls sharply | Diversify useful owned content and channels; monitor policy and query changes; do not chase loopholes |
+| Stale travel facts | Old visa, schedule, safety, price or entry details | Label checked dates, use authoritative sources, set review triggers and temporarily remove unsupported claims |
+| Affiliate attribution failure or reversal | Clicks do not reconcile with partner reports | Test deep links, log terms and IDs, check exclusions, distinguish pending/approved/reversed/paid |
+| Creator fraud or disclosure failure | Inflated engagement, copied content, missing labels | Vet audience quality, use written briefs/rights, pre-agree tracking and disclosure, pause non-compliant content |
+| Privacy or consent incident | Unexpected data collection, complaints or unsubscribe failure | Minimise data, restrict access, pause affected collection/campaign, follow incident process and seek legal advice |
+| UGC/image rights dispute | Unclear permission or takedown request | Keep consent/licence evidence, remove disputed use while reviewed, honour valid withdrawal rights |
+| Misleading AI/synthetic media | Audience believes an illustration is a real customer or first-hand trip | Label illustrative/synthetic use where confusion is plausible; never invent a testimonial or visit |
+| Paid-media loss | Spend rises without approved revenue or plan completions | Hard spend cap, short review windows, predefined stop-loss; no auto-scaling |
+| Brand fragmentation | Department pages sound like unrelated businesses | Shared voice, identity, navigation and Moment-to-Memory story; preserve distinct audience landing messages |
 
 ## 19. Official research and policy references
 
