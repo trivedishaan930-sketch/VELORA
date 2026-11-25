@@ -5,7 +5,7 @@
 **Version:** 1.1 · 25 November 2026  
 **Primary business objective:** Build VELORA into a trusted international Romance, Connection & Lifestyle Ecosystem, with a focused first execution and revenue-validation phase spanning India outbound travel, international travel to India, and meaningful couple/solo experiences.
 
-> This file is the near-term operating plan. The long-term product vision, eight departments, product architecture, revenue ladder, release gates and strategic scorecard are defined in [docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md](docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). Travel is the first commercial wedge, not the permanent definition of VELORA. Revenue is a target, not a guarantee; partner approvals, audience growth, bookings and payouts are outside the website's direct control.
+> This file is the near-term operating plan. The long-term product vision, eight departments, product architecture, revenue ladder, release gates and strategic scorecard are defined in [docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md](docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). The dedicated marketing operating system is in [docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md](docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md). Travel is the first commercial wedge, not the permanent definition of VELORA. Revenue is a target, not a guarantee; partner approvals, audience growth, bookings and payouts are outside the website's direct control.
 
 ## 1. Brand and market position
 
