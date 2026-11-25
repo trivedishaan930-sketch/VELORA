@@ -32,3 +32,10 @@
 @media(max-width:820px){.guide-nav{width:calc(100% - 38px)}.guide-nav-links{gap:12px}.guide-wrap{width:calc(100% - 40px)}.guide-hero{grid-template-columns:1fr .8fr;gap:22px}.guide-visual{min-height:330px}.guide-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.guide-nav{align-items:flex-start;padding:14px 0;flex-direction:column;gap:12px}.guide-nav-links{gap:10px 17px}.guide-wrap{width:calc(100% - 34px)}.guide-hero{grid-template-columns:1fr;gap:20px;padding:12px 0 35px}.guide-title{font-size:clamp(43px,12vw,61px)}.guide-lead{font-size:18px}.guide-visual{min-height:260px;grid-row:1}.guide-visual-caption b{font-size:26px}.guide-section{padding:38px 0}.guide-grid,.guide-columns{grid-template-columns:1fr;gap:12px}.guide-card{min-height:180px;padding:18px}.guide-checklist{padding:16px}.checklist-head{display:block}.checklist-progress{display:block;margin-top:9px}.guide-footer{margin-top:40px}}
 @media(prefers-reduced-motion:reduce){.checklist-track span{transition:none}}
+
+/* Non-literal editorial artwork for the India arrival page; not a location photograph. */
+.guide-visual-abstract{display:block;background:radial-gradient(ellipse at 70% 26%,rgba(238,213,162,.92) 0,rgba(215,179,106,.5) 18%,transparent 44%),linear-gradient(145deg,#17364a 0%,#44616a 48%,#a7794e 100%)}
+.guide-visual-abstract:before{content:"";position:absolute;z-index:0;inset:10% 14%;border:1px solid rgba(255,255,255,.35);border-radius:50% 50% 44% 56%;transform:rotate(-17deg) scaleX(.76);box-shadow:0 0 0 26px rgba(255,255,255,.045),0 0 0 58px rgba(255,255,255,.035)}
+.guide-visual-abstract:after{background:linear-gradient(180deg,rgba(16,26,44,.02) 24%,rgba(8,19,33,.76) 100%)}
+.abstract-orbit{position:absolute;z-index:1;top:17%;right:22%;width:120px;height:120px;border:1px solid rgba(255,255,255,.4);border-radius:50%;box-shadow:0 0 0 16px rgba(255,255,255,.07),0 0 0 32px rgba(255,255,255,.045)}
+.abstract-horizon{position:absolute;z-index:1;left:0;right:0;bottom:25%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent)}

@@ -36,7 +36,13 @@
       const done = boxes.filter(box => box.checked).length;
       if (count) count.textContent = String(done);
       if (total) total.textContent = String(boxes.length);
-      if (bar) bar.style.width = (boxes.length ? done / boxes.length * 100 : 0) + "%";
+      const percentage = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+      if (bar) bar.style.width = percentage + "%";
+      const progress = root.querySelector('[role="progressbar"]');
+      if (progress) {
+        progress.setAttribute("aria-valuenow", String(percentage));
+        progress.setAttribute("aria-valuetext", done + " of " + boxes.length + " items complete");
+      }
     }
     clear?.addEventListener("click", () => {
       saved.clear();

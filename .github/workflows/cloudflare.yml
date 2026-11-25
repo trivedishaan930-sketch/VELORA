@@ -50,13 +50,28 @@ jobs:
           grep -Fq '<title>VELORA — Make Room for Romance</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
 
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/" -o "$RUNNER_TEMP/velora-travel.html"
+          grep -Fq '<title>Travel Planning, With Confidence — VELORA Travel Guides</title>' "$RUNNER_TEMP/velora-travel.html"
+          grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/\">" "$RUNNER_TEMP/velora-travel.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/india-arrival-ready/" -o "$RUNNER_TEMP/velora-india-arrival.html"
+          grep -Fq '<title>India Arrival Ready: Your First 72 Hours — VELORA</title>' "$RUNNER_TEMP/velora-india-arrival.html"
+          grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/india-arrival-ready/\">" "$RUNNER_TEMP/velora-india-arrival.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/first-international-trip/" -o "$RUNNER_TEMP/velora-first-trip.html"
+          grep -Fq '<title>Your First International Trip: A Practical Checklist — VELORA</title>' "$RUNNER_TEMP/velora-first-trip.html"
+          grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/first-international-trip/\">" "$RUNNER_TEMP/velora-first-trip.html"
+
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/robots.txt" -o "$RUNNER_TEMP/velora-robots.txt"
           grep -Fq "Sitemap: $SITE_ORIGIN/sitemap.xml" "$RUNNER_TEMP/velora-robots.txt"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/sitemap.xml" -o "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/travel/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/travel/india-arrival-ready/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/travel/first-international-trip/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
 
-          echo "Production smoke checks passed: homepage, canonical, robots, sitemap and API health.";
+          echo "Production smoke checks passed: homepage, three travel pages, canonical URLs, robots, sitemap and API health."
