@@ -2,32 +2,35 @@
 
 **Owner / Founder:** Shubhechhu Tripathi  
 **Operating support:** ChatGPT (virtual product, engineering, research and growth partner)  
-**Version:** 1.0 · 24 November 2026  
-**Primary business objective:** Build a useful, trusted travel-and-lifestyle product that can reach a first measurable revenue milestone of ₹1,000/month without upfront spend wherever possible.
+**Version:** 1.1 · 25 November 2026  
+**Primary business objective:** Build VELORA into a trusted international Romance, Connection & Lifestyle Ecosystem, with a focused first execution and revenue-validation phase spanning India outbound travel, international travel to India, and meaningful couple/solo experiences.
 
-> Revenue is a target, not a guarantee. Program approvals, audience growth, bookings and payouts are outside the website's direct control.
+> This file is the near-term operating plan. The long-term product vision, eight departments, product architecture, revenue ladder, release gates and strategic scorecard are defined in [docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md](docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). Travel is the first commercial wedge, not the permanent definition of VELORA. Revenue is a target, not a guarantee; partner approvals, audience growth, bookings and payouts are outside the website's direct control.
 
 ## 1. Brand and market position
 
-**Brand promise:** VELORA helps people turn a travel idea into a thoughtful, well-planned experience.
+**Brand promise:** VELORA helps adults discover, design, prepare for and remember meaningful experiences across romance, connection, travel, personal style and lifestyle.
 
-**Initial acquisition wedge:** India-first couples planning honeymoons, anniversaries, romantic weekends and short escapes. The public brand remains English-language and globally presentable; early acquisition and commerce tests prioritise the Indian audience and INR-friendly decisions.
+**Long-term audience:** an international adult (18+) audience, including Indian users travelling abroad and international visitors coming to India, alongside couples, solo explorers and broader romance/lifestyle seekers.
 
-**Secondary audiences:** solo explorers and broader romance/lifestyle seekers. They remain part of the brand, but early marketing should not try to speak to everyone at once.
+**Initial acquisition and revenue wedge:** India outbound and inbound travel, with early emphasis on couple experiences, honeymoons, romantic weekends, practical trip readiness and useful planning. This is a focused first release, not a narrowing of the full ecosystem.
 
 **Positioning line:** *Make room for romance. Discover places. Plan with confidence. Make the moment yours.*
 
-VELORA is an inspiration and planning publisher at first—not a travel agency, booking operator, hotel supplier, dating service or medical/wellness provider. It must not imply that it can confirm live hotel inventory, prices, reservations or travel conditions unless a verified provider integration is actually in place.
+VELORA is initially an inspiration and planning platform—not a travel agency, booking operator, hotel supplier, dating service, payment processor or medical provider. It must not imply live inventory, prices, reservations, verified matches or connected AI unless the relevant service is actually integrated and tested.
 
 ## 2. Product strategy
 
-Build around one useful visitor journey:
+Build around the VELORA Moment-to-Memory Loop defined in the North Star:
 
-1. **Discover:** Searchable destination and occasion guides.
-2. **Decide:** Clear comparisons—who a destination suits, seasonality, route, realistic cost assumptions, trade-offs and what to verify.
-3. **Plan:** A useful trip planner that turns destination, dates, duration, travel party, interests and budget into an editable outline.
-4. **Act:** Clearly labelled links to appropriate official providers or approved affiliate partners.
-5. **Return:** Saveable lists, checklists, updated guides, seasonal planning and original stories.
+1. **Discover:** Useful department, destination, occasion and lifestyle guides.
+2. **Personalise:** Ask only the details needed to improve the result.
+3. **Design:** Create an editable trip, date, style or experience plan.
+4. **Prepare:** Add checklists, source links, style and practical guidance.
+5. **Act:** Connect to official providers or approved affiliate partners with clear disclosure.
+6. **Remember and return:** Save, edit, share and revisit plans, stories and ideas with appropriate privacy controls.
+
+For the first release, prioritise the Travel and Romance use cases. The same product loop must later support the other six departments.
 
 The planner should remain free at the start. A visitor should receive a useful result before seeing a commercial recommendation. Later, test paid downloadable planning packs or an optional human-reviewed itinerary service only after users demonstrate demand and the payment, refund and support processes are ready.
 
@@ -65,10 +68,13 @@ Other hotel/activity programs may be evaluated only after their official terms, 
 
 Only after a visitor audience exists:
 - Low-cost printable honeymoon / weekend getaway planners.
+- India Arrival Ready planning packs for international visitors.
+- Couple activity, conversation and anniversary packs.
 - Destination-specific editable itinerary packs.
+- Later style, story and wellness products where demand is demonstrated.
 - Optional itinerary review service with clear scope, delivery time, cancellations and refund terms.
 
-Do not create a paid service that promises bookings or prices VELORA cannot actually verify.
+Do not create a paid service that promises bookings or prices VELORA cannot actually verify. Do not add subscriptions until recurring value and retention are demonstrated.
 
 ## 4. Search and content strategy
 
@@ -76,6 +82,8 @@ Do not invent keyword-volume figures. Search Console data becomes meaningful onl
 
 Initial topic hypotheses to validate:
 - Honeymoon destinations in India by budget, season and trip length.
+- First-time India visitor readiness, arrival preparation, connectivity, payments, transport and cultural expectations.
+- India outbound destination planning by budget, travel season and preparation needs.
 - Romantic weekend getaways in India: 2-day, 3-day and 5-day planning.
 - Honeymoon packing checklist for different climates.
 - Beach vs hill-station honeymoon: decision guide.
@@ -145,13 +153,17 @@ No paid ads, paid software subscriptions, custom domain, contractors, paid Cloud
 
 ## 9. First 90-day execution sequence
 
+The 90-day sequence is a first operating window, not a promise that the entire North Star can be launched in 90 days. Advance by exit criteria, not by dates alone. The exact phase gates are in the North Star document.
+
 ### Foundation
+- Resolve the verified Cloudflare Pages account/project mapping before attempting production deployment.
 - Stabilise mobile experience and test it on real devices.
 - Add and verify sitemap, robots, canonical URLs, metadata, social previews and structured data where genuinely appropriate.
 - Set up Search Console and analytics with the founder's account authorization.
 - Complete trust pages and editorial / affiliate disclosure framework.
 
 ### Validation
+- Build both India outbound and international inbound travel journeys, rather than publishing India-only travel content.
 - Publish at least 10 substantial original guides before applying to Amazon Associates.
 - Build planner journeys that link to relevant guide pages.
 - Prepare first affiliate comparison pages using current, verifiable offers and transparent disclosures.
@@ -173,3 +185,5 @@ No paid ads, paid software subscriptions, custom domain, contractors, paid Cloud
 When the founder sends **“VELORA PUSH”**, continue from the current repository state: inspect the latest commit and metrics available, choose the highest-impact next task, implement it where safe, verify it, and report the result plus only the specific action needed from the founder.
 
 **Operating principle:** build trust first, useful product second, distribution third, monetisation fourth. Revenue must come from real value—not misleading claims, spam or shortcuts.
+
+**Strategic source of truth:** [VELORA Product North Star & Long-Term Roadmap](docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). Any future change to the near-term operating plan must remain consistent with that document unless the founder explicitly changes the vision.
