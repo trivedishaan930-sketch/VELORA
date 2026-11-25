@@ -591,3 +591,19 @@ Read-only D1 inventory workflow run `45630168174` returned Cloudflare API error 
 - **Quality gate:** scripts/check.mjs now checks the occasion selector and all eight blueprint keys. The Cloudflare production smoke test now checks that the live homepage includes the selector. The resulting quality/deployment run must be checked against the latest main commit before claiming release verification.
 - **Supporting cleanup:** Root robots.txt and sitemap.xml source copies were aligned with the current production hostname and all five crawlable routes. The Cloudflare build continues to generate its own dist/robots.txt and dist/sitemap.xml from SITE_ORIGIN.
 - **Latest implementation commit at the time of this note:** d18af1d853a39b485f6c5adb822ca01101035dd1. Verify the latest commit and Actions before the next change.
+
+## Founder-authorised autonomous execution mandate — 25 November 2026
+
+**Permanent operating plan:** [docs/VELORA-AUTONOMOUS-EXECUTION-PLAN.md](VELORA-AUTONOMOUS-EXECUTION-PLAN.md). Read this before any new VELORA implementation session, together with the Product North Star and current source state.
+
+The founder explicitly approved the comprehensive improvement direction covering brand / photography, visual system, information architecture, all eight department status, product/backend truthfulness and SEO/content architecture. The founder authorised the assistant to make appropriate routine product, UX/UI, design, code, content architecture, testing, documentation and existing GitHub / authorised deployment changes autonomously, without repeatedly asking routine questions.
+
+**Founder instruction for future conversations:** the next conversation is expected to receive independent audits from Manus, Grok and Claude. Read all three in full, compare claims against current repository and live evidence, synthesise consensus and disagreements, then implement the highest-priority founder-aligned changes. After the audit synthesis, the founder's standing trigger is **VELORA PUSH**. Interpret it as: inspect latest state → choose next highest-impact safe task → implement → test → deploy if verified and authorised → update the plan and handover → report actual outcome.
+
+**Important image decision:** the founder rejected the previous shirtless / bikini-style swimwear hero image. The earlier instruction to preserve that exact photograph has been superseded. Do not reuse bikini/swimwear, lingerie/underwear-coded styling, shirtless male models, cleavage/midriff emphasis or suggestive poses in public VELORA art direction. Future campaign imagery must be fully clothed, tasteful, premium editorial / quiet luxury, and must not repeat the same image across multiple sections. See DESIGN-DECISIONS.md and ASSET-SOURCES.md.
+
+**Autonomy boundaries:** safe reversible source, design, UX, tests, docs and existing GitHub changes are authorised. Do not spend money, create or alter accounts/domains, enter contracts, change secrets, expose credentials, make destructive database changes, enable payments/bookings or launch public matching / user-generated content without the required specific approval and privacy, security, safety and legal readiness.
+
+**Quality standard:** do not optimise for number of commits or pages. A release is complete only after applicable design, accessibility, responsive, functionality, privacy, SEO, build, CI and production smoke gates pass. A successful commit alone is not proof of a live release.
+
+**Plan file commit:** 2c32b5a9175f74fccc1b3d173f5bfa4e731bb2d8.
