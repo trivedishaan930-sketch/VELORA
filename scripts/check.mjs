@@ -42,7 +42,8 @@ for (const file of jsFiles) {
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
-const siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim().replace(/\\/+$/, '');
+let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
+while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
 const travelPages = [
   { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
   { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
@@ -51,16 +52,18 @@ const travelPages = [
 const titlesSeen = new Set();
 for (const page of travelPages) {
   const source = fs.readFileSync(path.join(root, page.file), 'utf8');
-  const titles = [...source.matchAll(/<title>(.*?)<\\/title>/gi)].map(match => match[1].trim());
-  const headings = [...source.matchAll(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/gi)];
-  const hasDescription = /<meta\\s+name="description"\\s+content="[^"]+"/i.test(source);
+  const titleStart = source.indexOf('<title>');
+  const titleEnd = source.indexOf('</title>');
+  const title = titleStart >= 0 && titleEnd > titleStart ? source.slice(titleStart + 7, titleEnd).trim() : '';
+  const headingCount = source.split('<h1').length - 1;
+  const hasDescription = source.includes('name="description" content="');
   const hasCanonical = source.includes('rel="canonical" href="' + siteOrigin + page.route + '"');
-  if (titles.length !== 1 || titles[0] !== page.title || titlesSeen.has(titles[0])) {
-    console.error('Travel page title check failed:', page.file, titles);
+  if (!title || title !== page.title || titlesSeen.has(title)) {
+    console.error('Travel page title check failed:', page.file, title);
     process.exit(1);
   }
-  titlesSeen.add(titles[0]);
-  if (headings.length !== 1 || !hasDescription || !hasCanonical || !source.includes('guide.css')) {
+  titlesSeen.add(title);
+  if (headingCount !== 1 || !hasDescription || !hasCanonical || !source.includes('guide.css')) {
     console.error('Travel page SEO structure failed:', page.file);
     process.exit(1);
   }
