@@ -581,3 +581,13 @@ Read-only D1 inventory workflow run `45630168174` returned Cloudflare API error 
 **Current status:** API health `ok=true`, `databaseConfigured=false`, `amazonCreatorsApiConfigured=false`. Search Console property authorisation is also still pending.
 
 **Next exact action:** user-side creation of the separate D1 Read token + GitHub secret, followed by a manual inventory run. Thereafter assess D1 binding and schema migration only against the verified existing database inventory.
+
+### Occasion-aware getaway planner upgrade — 25 November 2026
+
+- **Feature:** The homepage getaway planner now asks what the trip is for and produces an occasion-aware outline rather than only cycling through generic travel-style prompts.
+- **Occasions:** Romantic escape, honeymoon/newlywed journey, anniversary/milestone, proposal/special celebration, first trip together, solo reset, friends' escape and family holiday.
+- **User value:** Day-by-day prompts adapt to the selected occasion and travel style. The output includes a practical comfort/preparation reminder, direct links to the Trip Budget Planner and Travel Hub, and retains local save, print/PDF and concierge hand-off.
+- **Safety and privacy:** The proposal guidance explicitly avoids public pressure and leaves room for a freely chosen response. The planner remains browser-generated; it does not send the user's destination, dates or budget to a VELORA server. Output is inspiration, not a verified itinerary, live price or reservation.
+- **Quality gate:** scripts/check.mjs now checks the occasion selector and all eight blueprint keys. The Cloudflare production smoke test now checks that the live homepage includes the selector. The resulting quality/deployment run must be checked against the latest main commit before claiming release verification.
+- **Supporting cleanup:** Root robots.txt and sitemap.xml source copies were aligned with the current production hostname and all five crawlable routes. The Cloudflare build continues to generate its own dist/robots.txt and dist/sitemap.xml from SITE_ORIGIN.
+- **Latest implementation commit at the time of this note:** d18af1d853a39b485f6c5adb822ca01101035dd1. Verify the latest commit and Actions before the next change.
