@@ -1,11 +1,28 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Last updated:** 25 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
 
 > **This is the project's continuity and operating guide.** Any new assistant or ChatGPT conversation working on VELORA should read this document first, then verify the current repository, live website, Cloudflare and OpenSEO state before making changes. This document records vision and decisions; it is not proof that a feature is currently implemented.
+
+
+
+## Strategic source of truth — read this before planning new work
+
+The complete long-term business and product direction is documented in [docs/PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md](PRODUCT-NORTH-STAR-AND-LONG-TERM-ROADMAP.md). It defines the international eight-department vision, product thesis, target audiences, Moment-to-Memory user journey, monetization architecture, search strategy, technical direction, safety requirements, roadmap gates and periodic audit scorecard.
+
+The near-term execution plan is in [BUSINESS-PLAN.md](../BUSINESS-PLAN.md). The latest dated technical baseline is in [docs/FOUNDATION-AUDIT-2026-11-25.md](FOUNDATION-AUDIT-2026-11-25.md).
+
+**Reading order for every new project chat:**
+1. This Master Project Handover System.
+2. Product North Star & Long-Term Roadmap.
+3. Current Business Plan.
+4. Latest dated Foundation Audit and continuity update.
+5. Verify current GitHub, live website, Cloudflare and OpenSEO state.
+
+The North Star sets the long-term destination. The Business Plan sets the near-term operating sequence. The Foundation Audit records a dated technical snapshot. Do not confuse these different purposes.
 
 ---
 
