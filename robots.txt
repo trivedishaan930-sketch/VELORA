@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin-products.html
 Disallow: /api/
 
-Sitemap: https://velora.pages.dev/sitemap.xml
+Sitemap: https://velora-75y.pages.dev/sitemap.xml
