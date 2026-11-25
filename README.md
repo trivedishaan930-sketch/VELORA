@@ -8,6 +8,8 @@ A browser-first, responsive website foundation for an international adult audien
 
 Before making changes, read [`docs/MASTER-PROJECT-HANDOVER.md`](docs/MASTER-PROJECT-HANDOVER.md). It records VELORA's full product vision, eight departments, operating principles, audit requirements, safety rules and cross-chat continuity process. Treat it as the project guide, then verify the current code and deployment state rather than assuming the status written there is still current.
 
+Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION-AUDIT-2026-11-25.md). It records the verified baseline and prioritized roadmap as of 25 Nov 2026; treat it as dated and re-check current state.
+
 ## What's included
 
 - Full-width homepage hero using the exact sunset-couple photograph supplied for this project.
