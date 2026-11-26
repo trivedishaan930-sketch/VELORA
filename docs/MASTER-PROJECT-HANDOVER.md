@@ -665,3 +665,50 @@ The production `/api/health` endpoint still reports `ok=true`, `databaseConfigur
 
 Continue autonomously on safe, reversible source, UX, content and test work. Never invent the missing live/mobile/GSC/D1 evidence.
 
+---
+
+## Visual refinement continuity update — 26 November 2026
+
+This is the response to the founder's mobile screenshots and renewed direction for a premium, classic VELORA identity. It supersedes the earlier statement that the editorial hero SVG was an acceptable transition for the live homepage.
+
+### Screenshot diagnosis
+
+- Both supplied phone screenshots visibly displayed **"No internet connection"** in the browser status area. Offline state was a contributing factor to missing network-fetched visuals.
+- The hero illustration was genuinely an interim SVG with simplified human figures; it was not an appropriate final premium hero and has been removed from the public asset folder.
+- The destination cards were not merely failing to load: their HTML contained no image elements. The original Maldives, Amalfi and Kyoto WebP assets existed in the repository but were never attached to those cards.
+- The three audience-intent cards were intentionally gradient-only and the section included a large decorative panel. That produced large empty blocks, so the decorative panel has been removed and the cards restyled as compact editorial surfaces.
+
+### Work implemented and deployed
+
+- Hero now uses the existing project asset `public/assets/experiences/couple-sunset-walk.webp`, an AI-generated, fully clothed editorial scene. This is project artwork, not customer or first-hand travel photography.
+- Added the three existing destination WebP images back into the Maldives, Amalfi Coast and Kyoto card markup with descriptive alt text and lazy loading.
+- Removed the oversized audience visual panel and changed the three audience cards from large dark gradients to light, bordered editorial cards.
+- Replaced the announcement strap text `MADE FOR ADULTS` with **THOUGHTFUL EXPERIENCES. BEAUTIFULLY CONSIDERED.** The adult-oriented product boundary remains in the relevant policy/safety copy rather than the top brand message.
+- Simplified typography to Playfair Display + DM Sans (removed the redundant Manrope font request). Enlarged desktop navigation, buttons, form labels and body copy; changed CTA text to normal title/sentence case and introduced a consistent rectangular gold/outline button style.
+- Rebalanced homepage width, desktop navigation, hero, destination cards, audience cards and mobile breakpoints.
+- Deleted the temporary SVG hero from `public/assets/hero/` and removed its Open Graph/Twitter references.
+- Updated Service Worker cache to `velora-shell-v10`. The four current homepage photos are precached individually so one optional image failure cannot cancel installation of the whole image cache.
+- Updated repository tests, production workflow smoke checks, design decisions and asset-source register. The Cloudflare workflow now makes real HTTP requests for all four homepage image assets.
+
+### Release and verification evidence
+
+- Visual source commit: `b792054dc64ccb4b0594015e117a3222c6750d3e`. Its first check attempt exposed a stale test assertion for the retired SVG; the deployment did not proceed on that failed run.
+- Corrected test/design documentation commit: `b46767e90bc3c66f23f3610d5c38c9f1d57a4421`. Quality run `45747150893` passed and Cloudflare deployment `45747150871` passed.
+- Image-response smoke-test commit: `74e0647ac44ca8dfabb8aab2d464a850198e903f`. Quality run `45747300582` passed; Cloudflare deploy and production image/route smoke run `45747300644` passed. The run made successful HTTP requests for the hero image and all three destination WebP files, plus the existing route, robots, sitemap and API checks.
+- Latest OpenSEO crawl: `a3f39ce6-7cc4-43f4-95c5-312d9bd95689`. It crawled 8/8 sitemap pages; all returned HTTP 200 and were indexable; each page has one H1; the homepage now reports four images; zero images are missing alt text; total crawl issues: zero.
+
+### Honest visual QA limits
+
+- Exact browser screenshots at desktop 1440px, mobile 390×844 and 360×800 have not yet been captured. Source breakpoints and CSS have been updated, but do not label real-device visual QA as passed.
+- The founder's captured browser showed no internet connection. To receive the new Service Worker and offline photo cache, open the live site once while online and refresh so cache v10 can install; afterwards test offline again.
+- The similar-name reference `velora.pages.dev` is a separate beauty/cosmetics storefront, not this business. It is a general reference only; do not copy its brand, products, content, reviews or exact layout.
+- The existing hero is an interim AI-generated project image. Future photography may be commissioned/generated as a coherent asset library, with distinct scenes and no repeated hero image across sections.
+
+### Next priority order
+
+1. Complete actual desktop and 390×844 / 360×800 screenshot QA after the founder refreshes once online.
+2. Refine further based on those screenshots, and create a coherent high-resolution photography/art direction for the remaining departments without image repetition.
+3. Consolidate the existing long CSS cascade into a maintained design-token/component layer; this pass added a final coherent override block but did not yet fully refactor every historical rule.
+4. Correct the OpenSEO tracked hostname to `velora-75y.pages.dev` and connect the correct Google Search Console property.
+5. Continue only with safe UX/content improvements; D1, Amazon API, accounts, catalogue, payments and bookings remain gated and unconfigured.
+

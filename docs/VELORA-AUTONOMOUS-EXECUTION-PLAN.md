@@ -460,3 +460,42 @@ This status is reconciled against main, the live site, GitHub Actions and the Op
 4. Improve route-aware offline behaviour and destination-relevant preparation.
 5. Resume D1 read-only inventory only after the founder supplies the separate D1 Read token. Keep all gated commercial and connection features disabled until their release gates are met.
 
+---
+
+## Premium visual refinement release — 26 November 2026
+
+The founder's screenshots showed the interim hero illustration, oversized gradient-only audience blocks, blank destination panels, very small desktop controls and the top-line "Made for adults" wording. Both screenshots also visibly showed "No internet connection".
+
+### Implemented on production
+
+- Removed the interim illustrated hero SVG and its social-preview references. Current homepage hero/social image is the fully clothed, AI-generated project asset `couple-sunset-walk.webp`.
+- Restored actual image elements for the Maldives, Amalfi Coast and Kyoto destination cards, with alt text.
+- Replaced the large decorative audience panel and dark empty gradients with a compact editorial intro and three light bordered audience cards.
+- Changed the announcement line to "THOUGHTFUL EXPERIENCES. BEAUTIFULLY CONSIDERED."
+- Reduced the font stack to Playfair Display + DM Sans. Increased desktop navigation, action buttons, body copy and form label sizes; changed button typography from tiny widely tracked uppercase to readable, regular case.
+- Added responsive refinements to hero, audience grid, ecosystem grid, destination cards, planner and footer.
+- Service worker cache is now v10 and attempts each homepage image cache entry independently.
+- CI validates the new imagery/announcement and deployment smoke-tests the four actual photo URLs using HTTP requests.
+
+### Verified release
+
+- Visual source: `b792054dc64ccb4b0594015e117a3222c6750d3e`.
+- Corrected test + docs: `b46767e90bc3c66f23f3610d5c38c9f1d57a4421`; quality run `45747150893` success; deployment run `45747150871` success.
+- Live-image smoke update: `74e0647ac44ca8dfabb8aab2d464a850198e903f`; quality `45747300582` success; Cloudflare deploy / image HTTP smoke `45747300644` success.
+- Final OpenSEO audit `a3f39ce6-7cc4-43f4-95c5-312d9bd95689`: 8/8 URLs returned HTTP 200 and indexable status; one H1 per page; homepage four images; zero missing alt text; zero audit issues.
+
+### Remaining gaps
+
+- Exact desktop/phone viewport visual tests at 1440px, 390×844 and 360×800 remain unverified. Do not infer screenshot approval from CSS or workflow success.
+- Founder should open and refresh the site once online so the Service Worker can install cache v10 and save the four image assets, then retry offline.
+- The hero scene is an AI-generated interim project asset, not real customer imagery. Develop a deliberate, non-repetitive, premium image library as the next creative pass.
+- Fully consolidate the old CSS cascade after viewport testing; this visual pass adds a final tokenized override block but does not yet remove every historical style rule.
+- OpenSEO project hostname and Search Console connection remain stale/pending; backend database/Amazon API, accounts, catalogue, payments and bookings remain unconfigured.
+
+### Next execution steps
+
+1. Get real desktop and 390/360px screenshots after cache v10 installs.
+2. Fix any measured collisions/overflow/legibility findings and tune desktop typography, card scale and image crop.
+3. Replace temporary hero art only when a consistent high-quality image direction is approved; avoid repeating the same scene.
+4. Correct the OpenSEO project hostname and connect Search Console; preserve the separate D1 Read token requirement for any future backend work.
+
