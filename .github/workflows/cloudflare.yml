@@ -50,6 +50,12 @@ jobs:
           grep -Fq '<title>VELORA — Make Room for Romance</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'id="planOccasion"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'id="planBudgetCurrency"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'velora-hero-editorial.svg' "$RUNNER_TEMP/velora-home.html"
+          if grep -Fq 'velora-sunset-couple.jpg' "$RUNNER_TEMP/velora-home.html"; then
+            echo "Rejected hero asset is still referenced by the public homepage."
+            exit 1
+          fi
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/" -o "$RUNNER_TEMP/velora-travel.html"
           grep -Fq '<title>Travel Planning, With Confidence — VELORA Travel Guides</title>' "$RUNNER_TEMP/velora-travel.html"
@@ -66,6 +72,17 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/budget-planner/" -o "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq '<title>Trip Budget Planner — Estimate Your Travel Costs | VELORA</title>' "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/budget-planner/\">" "$RUNNER_TEMP/velora-budget-planner.html"
+          grep -Fq 'id="plannerContextNote"' "$RUNNER_TEMP/velora-budget-planner.html"
+
+          for policy in privacy terms safety; do
+            curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$policy/" -o "$RUNNER_TEMP/velora-$policy.html"
+            grep -Fq '<title>' "$RUNNER_TEMP/velora-$policy.html"
+            grep -Fq "href=\"$SITE_ORIGIN/$policy/\"" "$RUNNER_TEMP/velora-$policy.html"
+            if cmp -s "$RUNNER_TEMP/velora-$policy.html" "$RUNNER_TEMP/velora-home.html"; then
+              echo "Policy route /$policy/ returned the homepage instead of its own page."
+              exit 1
+            fi
+          done
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/robots.txt" -o "$RUNNER_TEMP/velora-robots.txt"
           grep -Fq "Sitemap: $SITE_ORIGIN/sitemap.xml" "$RUNNER_TEMP/velora-robots.txt"
