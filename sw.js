@@ -1,9 +1,9 @@
 /* Small offline shell cache. Bump CACHE_NAME when shipping a new release. */
-const CACHE_NAME = 'velora-shell-v6';
+const CACHE_NAME = 'velora-shell-v7';
 const CORE_ASSETS = [
-  './', './index.html', './styles.css', './app.js', './manifest.webmanifest',
+  './', './index.html', './styles.css', './velora-premium.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
-  './public/assets/hero/velora-sunset-couple.jpg',
+  './public/assets/hero/velora-hero-editorial.svg',
   './public/assets/destinations/maldives.webp', './public/assets/destinations/amalfi-coast.webp',
   './public/assets/destinations/kyoto-garden.webp', './public/assets/experiences/couple-sunset-walk.webp',
   './guide.css', './travel-tools.js', './travel/',
