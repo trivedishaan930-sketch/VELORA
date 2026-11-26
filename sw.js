@@ -1,5 +1,5 @@
 /* Small offline shell cache. Bump CACHE_NAME when shipping a new release. */
-const CACHE_NAME = 'velora-shell-v8';
+const CACHE_NAME = 'velora-shell-v9';
 const CORE_ASSETS = [
   './', './index.html', './styles.css', './velora-premium.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
@@ -8,6 +8,7 @@ const CORE_ASSETS = [
   './public/assets/destinations/kyoto-garden.webp',
   './guide.css', './travel-tools.js', './travel/',
   './travel/india-arrival-ready/', './travel/first-international-trip/',
+  './privacy/', './terms/', './safety/',
   './budget-planner.js', './travel/budget-planner/'
 ];
 self.addEventListener('install', event => {
