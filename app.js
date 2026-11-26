@@ -86,7 +86,6 @@
   $$('#mobileNav a').forEach(link => link.addEventListener('click', () => {
     mobileNav.hidden = true; menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open menu');
   }));
-  $('#floatConcierge').addEventListener('click', () => $('#concierge').scrollIntoView({ behavior: 'smooth' }));
 
   // Saved items drawer.
   const savedDialog = $('#savedDialog');
@@ -343,14 +342,10 @@
     const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller] || 'Getaway';
     const result = $('#plannerResult');
     result.hidden = false;
-    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p>${styleResolution.note ? `<p class="planner-style-note"><strong>Style check:</strong> ${escapeHtml(styleResolution.note)}</p>` : ""}<ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button><button type="button" id="sendToConcierge">Discuss with concierge</button></div>`;
+    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p>${styleResolution.note ? `<p class="planner-style-note"><strong>Style check:</strong> ${escapeHtml(styleResolution.note)}</p>` : ""}<ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     $('#saveItinerary').addEventListener('click', () => toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
     $('#printItinerary').addEventListener('click', () => window.print());
-    $('#sendToConcierge').addEventListener('click', () => {
-      $('#chatText').value = `Help me refine this ${duration}-day ${blueprint.label.toLowerCase()} in ${destination}. Travellers: ${travellerLabel}. Style: ${style}. Budget: ${budget}. Keep the plan comfortable and flexible.`;
-      $('#concierge').scrollIntoView({ behavior: 'smooth' }); $('#chatText').focus();
-    });
   }
   plannerForm.addEventListener('submit', createItinerary);
 
@@ -406,32 +401,6 @@
     const guide = essentialGuides[button.dataset.esscat];
     $('#essentialGuide').innerHTML = `<span>0${Object.keys(essentialGuides).indexOf(button.dataset.esscat) + 1} / WHAT TO COMPARE</span><h4>${escapeHtml(guide.title)}</h4><p>${escapeHtml(guide.text)}</p><small>VELORA buying guide · General criteria, not a product recommendation</small>`;
   }));
-
-  // Local demo concierge. The interface never claims an external AI model is connected.
-  const chatMessages = $('#chatMessages');
-  function appendMessage(text, type) {
-    const row = document.createElement('div'); row.className = `chat-message ${type}`;
-    if (type === 'assistant') { const avatar = document.createElement('span'); avatar.className = 'chat-avatar'; avatar.textContent = 'V'; row.append(avatar); }
-    const p = document.createElement('p'); p.textContent = text; row.append(p); chatMessages.append(row); chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-  function localConciergeReply(message) {
-    const text = message.toLowerCase();
-    if (/budget|cost|price|spend/.test(text)) return 'Start by separating transport, accommodation, meals, local travel and activities. Keep a contingency for changes. I cannot check live prices here, so compare current quotes directly with providers before deciding.';
-    if (/solo|alone|confidence/.test(text)) return 'For a solo trip, consider a well-connected neighbourhood, daytime arrival, reputable accommodation and a couple of guided group experiences. Share your itinerary with someone you trust and check official local safety guidance.';
-    if (/beach|island|coast|honeymoon|romantic/.test(text)) return 'A good beach escape balances the setting with practical details: season, transfer time, swimming conditions, privacy expectations and the kind of pace you both enjoy. Tell me your preferred month, starting point and budget to shape a more useful shortlist.';
-    if (/outfit|clothes|fashion|style|pack/.test(text)) return 'Build a small capsule around the destination, forecast and activities: two versatile base looks, one occasion outfit, comfortable walking shoes and a light layer. Check local norms and weather shortly before departure.';
-    if (/story|date|connection|relationship/.test(text)) return 'Try an experience that makes room for conversation: a phone-free walk, a shared cooking class, a small gallery or a dinner where you take turns choosing the next course. Ask what feels comfortable for everyone and keep boundaries clear.';
-    if (/weather|visa|entry|safety|advisory/.test(text)) return 'Those details change and are not connected to live sources in this demo. Check the destination government, your own government travel advisory, the airline and the relevant embassy or consulate before booking.';
-    return 'A useful place to begin is with three things: where you might go, what kind of experience you want, and the budget or dates you need to work within. I can help organise those into a practical outline, but this demo does not access live bookings or external AI.';
-  }
-  function sendChat(message) {
-    const clean = message.trim(); if (!clean) return;
-    appendMessage(clean, 'user');
-    const reply = localConciergeReply(clean);
-    window.setTimeout(() => appendMessage(reply, 'assistant'), 240);
-  }
-  $('#chatForm').addEventListener('submit', event => { event.preventDefault(); const input = $('#chatText'); sendChat(input.value); input.value = ''; });
-  $$('.quick-prompts button').forEach(button => button.addEventListener('click', () => sendChat(button.dataset.prompt)));
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
