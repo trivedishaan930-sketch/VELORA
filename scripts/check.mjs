@@ -54,14 +54,22 @@ if (!appSource.includes('function resolvePlannerStyle') || !appSource.includes('
 }
 if (!appSource.includes('resolveUseCulture') || !appSource.includes('resolveEditDestination') ||
     appSource.includes("$('#chatForm')") || appSource.includes("$('#floatConcierge')") ||
-    appSource.includes('function localConciergeReply')) {
-  console.error('Planner conflict choices or removal of the demo Concierge workflow is incomplete.');
+    appSource.includes('function localConciergeReply') || appSource.includes('loadProductEdit') ||
+    appSource.includes('heroSearchForm')) {
+  console.error('Planner conflict choices or removal of unused demo/shop/search code is incomplete.');
   process.exit(1);
 }
 const homepageSections = [...html.matchAll(/<section\b/g)].length;
-if (homepageSections > 9 || html.includes('hero-search-panel') || html.includes('id="concierge"') ||
-    html.includes('class="wellness-section"') || html.includes('class="closing-section"')) {
-  console.error('Homepage still contains redundant modules or the travel-first hero search.');
+if (homepageSections > 9 || html.includes('hero-search-panel') || html.includes('heroSearchForm') ||
+    html.includes('id="concierge"') || html.includes('id="chatForm"') ||
+    html.includes('class="concierge-section"') || html.includes('class="wellness-section"') ||
+    html.includes('class="closing-section"') || html.includes('class="floating-concierge"')) {
+  console.error('Homepage still contains redundant modules, a duplicate hero search or a demo chat shell.');
+  process.exit(1);
+}
+if (!html.includes('FUTURE</em></article>') || !html.includes('VELORA AI Concierge') ||
+    html.includes('Rules-based local prototype')) {
+  console.error('Future AI Concierge capability is not labelled honestly.');
   process.exit(1);
 }
 if (!html.includes('ROMANCE · CONNECTION · LIFESTYLE') || !html.includes('Start a plan') ||
