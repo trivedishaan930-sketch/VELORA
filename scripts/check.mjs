@@ -76,6 +76,7 @@ if (supportedCurrencies.some(code => !budgetCurrencyBlock.includes('value="' + c
     !budgetPageSource.includes('data-prep-route="first-international-trip"') ||
     !budgetScriptSource.includes('velora-preparation-handoff-v1') ||
     !budgetScriptSource.includes('function continueToPreparation') ||
+    (budgetScriptSource.match(/window\\.location\\.assign\\("\\/travel\\/" \\+ path \\+ "\\/"\\)/g) || []).length !== 1 ||
     !budgetScriptSource.includes('preparationStepReady') ||
     !travelToolsSource.includes('function attachPreparationContext') ||
     !travelToolsSource.includes('plan-context-note') ||
@@ -134,14 +135,16 @@ if (!html.includes('public/assets/experiences/couple-sunset-walk.webp') ||
 }
 const siteCss = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
 const sitePagesCss = fs.readFileSync(path.join(root, 'site-pages.css'), 'utf8');
+const guideCssSource = fs.readFileSync(path.join(root, 'guide.css'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes('font-size:16px') ||
     !sitePagesCss.includes('.page-header') || !sitePagesCss.includes('.gateway-card-grid') ||
+    !guideCssSource.includes('.budget-next-step') || !guideCssSource.includes('.plan-context-note') ||
     !sitePagesCss.includes('@media(max-width:480px)') || !sitePagesCss.includes('prefers-reduced-motion')) {
   console.error('Responsive multi-page design system checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v12') ||
+if (!serviceWorker.includes('velora-shell-v13') ||
     !serviceWorker.includes('couple-sunset-walk.webp') ||
     !serviceWorker.includes('maldives.webp') ||
     !serviceWorker.includes('amalfi-coast.webp') ||
