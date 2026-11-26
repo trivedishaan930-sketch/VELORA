@@ -300,13 +300,19 @@ if (build.status !== 0) {
 const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
-  'robots.txt', 'sitemap.xml', '_headers', '_routes.json', 'site-pages.css',
+  'robots.txt', 'sitemap.xml', '_headers', '_routes.json', 'site-pages.css', 'sw.js',
   'experiences/index.html', 'style/index.html', 'journal/index.html', 'journal/postcards-from-blue-hour/index.html', 'journal/small-gestures/index.html', 'journal/a-night-with-no-itinerary/index.html', 'about/index.html',
   'public/assets/experiences/couple-sunset-walk.webp', 'public/assets/destinations/maldives.webp', 'public/assets/destinations/amalfi-coast.webp', 'public/assets/destinations/kyoto-garden.webp', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
   console.error('Build output is missing files:', missingDist.join(', '));
+  process.exit(1);
+}
+const serviceWorkerDist = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
+if (!serviceWorkerDist.includes('velora-shell-v13') ||
+    !serviceWorkerDist.includes('velora-preparation-handoff-v1')) {
+  console.error('Cloudflare build output is missing the current service worker release.');
   process.exit(1);
 }
 const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html'];
