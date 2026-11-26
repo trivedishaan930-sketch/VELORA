@@ -128,7 +128,7 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Responsive multi-page design system checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v11') ||
+if (!serviceWorker.includes('velora-shell-v12') ||
     !serviceWorker.includes('couple-sunset-walk.webp') ||
     !serviceWorker.includes('maldives.webp') ||
     !serviceWorker.includes('amalfi-coast.webp') ||
