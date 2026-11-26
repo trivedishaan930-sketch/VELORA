@@ -68,3 +68,29 @@
  .ecosystem-card h3{font-size:21px}
  .ecosystem-card p{font-size:14px}
 }
+body{font-size:16px}
+.safety-concierge{display:grid;grid-template-columns:.82fr 1.18fr;gap:30px;align-items:stretch;margin-top:52px;padding:28px;background:rgba(255,255,255,.045);border:1px solid rgba(237,213,162,.2)}
+.safety-concierge .concierge-copy{color:#f7f3e9;padding:8px 4px;align-self:center}
+.safety-concierge .concierge-copy h3{margin:17px 0 12px;color:#f7f3e9;font:500 clamp(32px,3vw,46px)/1.05 var(--serif)}
+.safety-concierge .concierge-copy h3 em{color:var(--gold-light);font-weight:400}
+.safety-concierge .concierge-copy>p:not(.section-index){max-width:420px;color:#c6ccc7;font-size:14px;line-height:1.75}
+.safety-concierge .concierge-promise{border-color:rgba(237,213,162,.22)}
+.safety-concierge .concierge-promise small{color:#c6ccc7}
+.safety-concierge .chat-window{min-width:0;box-shadow:0 18px 55px rgba(0,0,0,.18)}
+.safety-concierge .chat-disclaimer{font-size:11px}
+@media(max-width:760px){
+ body{font-size:16px}
+ .safety-concierge{grid-template-columns:1fr;gap:18px;margin-top:30px;padding:18px 14px}
+ .safety-concierge .concierge-copy h3{font-size:32px}
+ .safety-concierge .concierge-copy>p:not(.section-index){font-size:14px}
+ .safety-concierge .chat-messages{min-height:190px;max-height:270px}
+ .field>span,.field>span:first-child{font-size:13px}
+ .field input,.field select,.chat-input input{font-size:16px}
+ .form-topline,.form-required,.checklist-foot,.data-note,.destination-meta,.chat-disclaimer{font-size:10px}
+ .filter-pill,.essential-tab{font-size:10px}
+ .chat-message p,.story-info p,.style-tile p,.essentials-copy>p{font-size:13px;line-height:1.65}
+ .footer-column a,.footer-link{font-size:13px}
+ .footer-bottom{font-size:10px;line-height:1.6}
+ .section-index,.small-overline,.card-kicker,.story-meta{font-size:10px}
+}
+@media(max-width:390px){.safety-concierge{padding:15px 11px}.safety-concierge .chat-messages{min-height:175px}}
