@@ -162,6 +162,15 @@ for (const page of [...travelPages, ...policyPages]) {
   }
 }
 
+const privacyPolicySource = fs.readFileSync(path.join(root, 'privacy/index.html'), 'utf8');
+const termsPolicySource = fs.readFileSync(path.join(root, 'terms/index.html'), 'utf8');
+if (!privacyPolicySource.includes('planned future capability') ||
+    privacyPolicySource.includes('rules-based browser demonstration') ||
+    !termsPolicySource.includes('not available in the current public prototype')) {
+  console.error('Policy pages do not match the published AI Concierge capability state.');
+  process.exit(1);
+}
+
 const metadataPages = [
   { file: 'index.html', label: 'homepage' },
   ...travelPages,
