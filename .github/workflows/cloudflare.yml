@@ -66,7 +66,7 @@ jobs:
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/india-arrival-ready/\">" "$RUNNER_TEMP/velora-india-arrival.html"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/first-international-trip/" -o "$RUNNER_TEMP/velora-first-trip.html"
-          grep -Fq '<title>Your First International Trip: A Practical Checklist — VELORA</title>' "$RUNNER_TEMP/velora-first-trip.html"
+          grep -Fq '<title>First International Trip Checklist — VELORA</title>' "$RUNNER_TEMP/velora-first-trip.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/first-international-trip/\">" "$RUNNER_TEMP/velora-first-trip.html"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/budget-planner/" -o "$RUNNER_TEMP/velora-budget-planner.html"

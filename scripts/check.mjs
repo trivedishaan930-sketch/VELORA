@@ -162,6 +162,23 @@ for (const page of [...travelPages, ...policyPages]) {
   }
 }
 
+const metadataPages = [
+  { file: 'index.html', label: 'homepage' },
+  ...travelPages,
+  ...policyPages
+];
+for (const page of metadataPages) {
+  const source = page.file === 'index.html' ? html : fs.readFileSync(path.join(root, page.file), 'utf8');
+  const titleMatch = source.match(/<title>([^<]+)<\/title>/i);
+  const descriptionMatch = source.match(/<meta[^>]*name="description"[^>]*content="([^"]*)"/i);
+  const titleLength = titleMatch ? titleMatch[1].trim().length : 0;
+  const descriptionLength = descriptionMatch ? descriptionMatch[1].trim().length : 0;
+  if (!titleLength || titleLength > 60 || descriptionLength < 70 || descriptionLength > 160) {
+    console.error('Search metadata length check failed:', page.file, { titleLength, descriptionLength });
+    process.exit(1);
+  }
+}
+
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 if (duplicates.length) {
