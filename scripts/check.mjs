@@ -15,8 +15,7 @@ const required = [
   'public/assets/destinations/maldives.webp',
   'public/assets/destinations/amalfi-coast.webp',
   'public/assets/destinations/kyoto-garden.webp',
-  'public/assets/experiences/couple-sunset-walk.webp',
-  'public/icons/velora-mark.svg', 'README.md', 'BUSINESS-PLAN.md',
+    'public/icons/velora-mark.svg', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'README.md', 'BUSINESS-PLAN.md',
   'docs/CLOUDFLARE-DEPLOYMENT.md', 'LICENSE'
 ];
 const missing = required.filter(file => !fs.existsSync(path.join(root, file)));
@@ -98,6 +97,25 @@ for (const page of travelPages) {
   }
 }
 
+const policyPages = [
+  { file: 'privacy/index.html', route: '/privacy/', title: 'Privacy | VELORA' },
+  { file: 'terms/index.html', route: '/terms/', title: 'Terms of Use | VELORA' },
+  { file: 'safety/index.html', route: '/safety/', title: 'Safety & Respect | VELORA' }
+];
+for (const page of policyPages) {
+  const source = fs.readFileSync(path.join(root, page.file), 'utf8');
+  const titleStart = source.indexOf('<title>');
+  const titleEnd = source.indexOf('</title>');
+  const title = titleStart >= 0 && titleEnd > titleStart ? source.slice(titleStart + 7, titleEnd).trim() : '';
+  const headingCount = source.split('<h1').length - 1;
+  const canonical = source.includes('rel="canonical" href="' + siteOrigin + page.route + '"');
+  if (title !== page.title || headingCount !== 1 || !source.includes('name="description"') ||
+      !canonical || !source.includes('href="/velora-premium.css"')) {
+    console.error('Standalone policy page SEO/content check failed:', page.file);
+    process.exit(1);
+  }
+}
+
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 if (duplicates.length) {
@@ -149,7 +167,7 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'styles.css', 'velora-premium.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
+  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
@@ -166,6 +184,12 @@ const sitemapContent = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
 for (const page of travelPages) {
   if (!sitemapContent.includes('<loc>' + siteOrigin + page.route + '</loc>')) {
     console.error('Travel page missing from sitemap:', page.route);
+    process.exit(1);
+  }
+}
+for (const page of policyPages) {
+  if (!sitemapContent.includes('<loc>' + siteOrigin + page.route + '</loc>')) {
+    console.error('Policy page missing from sitemap:', page.route);
     process.exit(1);
   }
 }
