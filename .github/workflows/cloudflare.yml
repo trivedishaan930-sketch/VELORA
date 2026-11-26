@@ -109,4 +109,4 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
 
-          echo "Production smoke checks passed: homepage, four travel pages, canonical URLs, robots, sitemap and API health."
+          echo "Production smoke checks passed: homepage, hero/design assets, four travel pages, three policy pages, canonical URLs, robots, sitemap and API health."
