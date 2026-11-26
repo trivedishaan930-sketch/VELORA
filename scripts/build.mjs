@@ -5,7 +5,7 @@ import path from "node:path";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist");
 const publishFiles = [
-  "index.html", "styles.css", "app.js", "admin-products.html",
+  "index.html", "offline.html", "styles.css", "app.js", "admin-products.html",
   "admin-products.js", "guide.css", "travel-tools.js", "budget-planner.js", "_headers", "_routes.json"
 ];
 
