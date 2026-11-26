@@ -197,7 +197,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .style-section .section-heading h2{font-size:clamp(55px,6vw,83px)}
 .style-layout{display:grid;grid-template-columns:1.12fr .88fr;gap:18px;margin-top:48px}
 .style-feature{background:#ddd2bf}
-.style-feature-art{position:relative;height:460px;overflow:hidden;background:linear-gradient(180deg,rgba(12,25,38,.03),rgba(12,25,38,.24)),url('public/assets/experiences/couple-sunset-walk.webp') center 48%/cover}
+.style-feature-art{position:relative;height:460px;overflow:hidden;background:radial-gradient(circle at 72% 28%,rgba(215,179,106,.45),transparent 20%),repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 1px,transparent 1px 18px),linear-gradient(135deg,#203b49 0%,#50645e 54%,#a68b67 100%)}
 .style-feature-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,19,31,.38),transparent 40%)}
 .art-caption{position:absolute;z-index:2;bottom:21px;left:25px;color:white;font-size:7px;letter-spacing:.2em}
 .art-stamp{position:absolute;right:24px;top:23px;z-index:2;color:rgba(255,255,255,.8);font:italic 21px var(--serif)}
