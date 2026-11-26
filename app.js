@@ -312,12 +312,34 @@
     return { conflict: Boolean(knownCity && requestedStyle === "Beach & coast"), knownCity: knownCity || "" };
   }
 
+  const plannerHandoffKey = "velora-planner-budget-handoff-v1";
+  const supportedCurrencies = ["INR", "USD", "EUR", "GBP", "AED", "SGD", "THB", "JPY"];
+
   function createItinerary(event) {
     event.preventDefault();
     const destination = $('#planDestination').value.trim();
     if (!destination) { $('#planDestination').focus(); return; }
+
+    const travellersInput = $('#planTravellers');
+    const travellers = Number(travellersInput.value);
+    if (!Number.isInteger(travellers) || travellers < 1 || travellers > 50) {
+      travellersInput.setCustomValidity("Enter a whole number from 1 to 50.");
+      travellersInput.reportValidity();
+      return;
+    }
+    travellersInput.setCustomValidity("");
+
+    const budgetInput = $('#planBudgetAmount');
+    const budgetRaw = budgetInput.value.trim();
+    const budgetCeiling = budgetRaw === "" ? null : Number(budgetRaw);
+    if (budgetRaw !== "" && (!Number.isFinite(budgetCeiling) || budgetCeiling <= 0 || budgetCeiling > 1000000000)) {
+      budgetInput.setCustomValidity("Enter a positive group budget or leave this field blank.");
+      budgetInput.reportValidity();
+      return;
+    }
+    budgetInput.setCustomValidity("");
+
     const duration = Math.max(1, Math.min(14, Number($('#planDuration').value) || 5));
-    const traveller = $('#planTravellers').value;
     const occasion = $('#planOccasion').value;
     const blueprint = occasionBlueprints[occasion] || occasionBlueprints['romantic-escape'];
     const requestedStyle = $('#planStyle').value;
@@ -337,20 +359,54 @@
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
-    const style = requestedStyle;
+
     const date = $('#planDate').value;
-    const budget = $('#planBudget').value;
+    const currency = $('#planBudgetCurrency').value;
     const stay = $('#planStay').value;
+    const style = requestedStyle;
+    const budgetLabel = budgetCeiling === null
+      ? "Not set"
+      : (() => {
+          try {
+            return new Intl.NumberFormat(currency === "INR" ? "en-IN" : "en-US", {
+              style: "currency",
+              currency,
+              maximumFractionDigits: currency === "JPY" ? 0 : 2
+            }).format(budgetCeiling);
+          } catch {
+            return currency + " " + budgetCeiling.toFixed(2);
+          }
+        })();
     const template = itineraryTemplates[style] || itineraryTemplates['A little of everything'];
     const dayPlans = Array.from({ length: duration }, (_, index) => {
       const item = template[index % template.length];
       const moment = blueprint.moments[index % blueprint.moments.length];
       return `<li><strong>Day ${index + 1} · ${escapeHtml(moment[0])}</strong><p>${escapeHtml(moment[1])}</p><p><strong>Travel-style idea:</strong> ${escapeHtml(item[1])}</p></li>`;
     }).join('');
-    const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller] || 'Getaway';
+    const travellerLabel = travellers === 1 ? 'Solo journey' : travellers === 2 ? 'Journey for two' : `${travellers}-person group`;
     result.hidden = false;
-    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
+    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Travellers: ${travellers}<br>Budget ceiling: ${escapeHtml(budgetLabel)} ${budgetCeiling === null ? '' : '(' + escapeHtml(currency) + ')'}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="continueBudget">Continue to budget <span>↗</span></button><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    $('#continueBudget').addEventListener('click', () => {
+      const handoff = {
+        version: 1,
+        createdAt: Date.now(),
+        destination: destination.slice(0, 120),
+        occasion: blueprint.label,
+        duration,
+        travellers,
+        currency: supportedCurrencies.includes(currency) ? currency : "INR",
+        budgetCeiling
+      };
+      try {
+        // This optional, user-triggered handoff stays on this device. It is not sent to VELORA.
+        localStorage.setItem(plannerHandoffKey, JSON.stringify(handoff));
+        window.location.assign('/travel/budget-planner/');
+      } catch {
+        showToast('Your browser could not carry this context forward. You can still open the budget planner from Travel.');
+      }
+    });
     $('#saveItinerary').addEventListener('click', () => toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
     $('#printItinerary').addEventListener('click', () => window.print());
   }
