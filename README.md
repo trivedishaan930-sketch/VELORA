@@ -125,7 +125,7 @@ VELORA is an adult-oriented, non-explicit romance, travel and lifestyle concept.
 - Change page copy in `index.html`.
 - Adjust responsive visual design in `styles.css`.
 - Update local behaviour in `app.js`.
-- Replace the hero only with an image you have rights to use; preserve the supplied original as required by the project brief.
+- Use only fully clothed, tasteful premium editorial imagery that follows `docs/DESIGN-DECISIONS.md`; the earlier rejected swimwear hero has been removed from published assets.
 - When changing the offline asset list, update `CACHE_NAME` in `sw.js` so returning browsers refresh the cache.
 
 ## Security
