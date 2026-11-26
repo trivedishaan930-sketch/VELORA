@@ -1,8 +1,8 @@
-# VELORA — Romance · Travel · Lifestyle
+# VELORA — Romance · Connection · Lifestyle
 
 **Make Room for Romance.**
 
-A browser-first, responsive website foundation for an international adult audience. The product direction is editorial, cinematic and helpful: travel discovery, romantic experience planning, personal style, useful essentials, original non-explicit stories, wellness and safety guidance.
+A premium international Romance, Connection & Lifestyle product foundation for adults (18+). Travel is the first commercial wedge, not the full identity. The North Star is to make meaningful experiences easier to imagine, plan and enjoy.
 
 ## Project continuity and working rules
 
@@ -12,14 +12,17 @@ Near-term operating plan: [`BUSINESS-PLAN.md`](BUSINESS-PLAN.md). It must stay c
 
 Marketing and growth execution: [`docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md`](docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md). This operating playbook covers audience priorities, channels, campaigns, content distribution, lifecycle, partners, funnel, analytics, experimentation, paid-media gates and compliance.
 
+Permanent founder-authorised execution plan: [`docs/VELORA-AUTONOMOUS-EXECUTION-PLAN.md`](docs/VELORA-AUTONOMOUS-EXECUTION-PLAN.md). Read it before each `VELORA PUSH` and before using the three independent Manus, Grok and Claude audits.
+
 Before making changes, read [`docs/MASTER-PROJECT-HANDOVER.md`](docs/MASTER-PROJECT-HANDOVER.md). It records VELORA's full product vision, eight departments, operating principles, audit requirements, safety rules and cross-chat continuity process. Treat it as the project guide, then verify the current code and deployment state rather than assuming the status written there is still current.
 
 Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION-AUDIT-2026-11-25.md). It records the verified baseline and prioritized roadmap as of 25 Nov 2026; treat it as dated and re-check current state.
 
 ## What's included
 
-- Full-width homepage hero using the exact sunset-couple photograph supplied for this project.
-- Responsive desktop and mobile layouts; mobile uses a separate composition and focal position rather than simply shrinking the desktop grid.
+- Bespoke VELORA editorial hero artwork (`public/assets/hero/velora-hero-editorial.svg`) with fully clothed, tasteful styling; the previously rejected swimwear image has been removed.
+- An eight-department ecosystem map that distinguishes available guides/tools, editorial content, local demos and future work without empty department shells.
+- Responsive desktop and mobile layouts with an audited hero/entry-point layout and no floating Concierge overlap on small screens.
 - Destination inspiration with original scenic image assets, local search and category filters.
 - Crawlable Travel Hub, India Arrival Ready / First 72 Hours guide, First International Trip checklist, and a client-side Trip Budget Planner for group/per-person/day estimates.
 - An occasion-aware getaway planner for romantic escapes, honeymoons, anniversaries, proposals, first trips together, solo resets, friends and family; it builds a locally generated day-by-day experience outline with comfort reminders and links to the budget/readiness tools.
@@ -123,9 +126,9 @@ VELORA is an adult-oriented, non-explicit romance, travel and lifestyle concept.
 ## Updating the site
 
 - Change page copy in `index.html`.
-- Adjust responsive visual design in `styles.css`.
+- Base components remain in `styles.css`; the audited responsive release layer is `velora-premium.css`.
 - Update local behaviour in `app.js`.
-- Replace the hero only with an image you have rights to use; preserve the supplied original as required by the project brief.
+- The approved current hero is `public/assets/hero/velora-hero-editorial.svg`. Do not reintroduce the rejected shirtless / bikini-style photograph or other swimwear/sexualised imagery.
 - When changing the offline asset list, update `CACHE_NAME` in `sw.js` so returning browsers refresh the cache.
 
 ## Security
