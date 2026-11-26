@@ -45,11 +45,11 @@ velora-project/
 │   └── agra-ai-homepage-reference.jpg
 ├── public/
 │   ├── assets/
-│   │   ├── hero/velora-sunset-couple.jpg
+│   │   ├── hero/velora-hero-editorial.svg
 │   │   ├── destinations/*.webp
 │   │   └── experiences/*.webp
 │   └── icons/
-├── scripts/check.mjs
+├── privacy/index.html\n├── terms/index.html\n├── safety/index.html\n├── velora-premium.css\n├── scripts/check.mjs
 ├── .env.example
 ├── .gitignore
 ├── app.js
@@ -61,7 +61,7 @@ velora-project/
 └── sw.js
 ```
 
-## Run locally
+## Current redesign status (26 November 2026)\n\nThe founder-approved P0 redesign is being prepared on branch `work/velora-world-class-p0-v2`. It introduces the replacement editorial hero, eight-department status map, shorter homepage flow, mobile collision fix, destination/style mismatch check and standalone trust pages. It is **not a production release** until GitHub quality checks and the Cloudflare production smoke test pass on the merged main commit.\n\n## Run locally
 
 ### Android / Termux
 
@@ -89,7 +89,7 @@ npm run check
 
 **Production host:** Cloudflare Pages at [https://velora-75y.pages.dev/](https://velora-75y.pages.dev/).
 
-The `.github/workflows/cloudflare.yml` workflow automatically builds and deploys each push to `main` to the already-verified Cloudflare Pages project name `velora`. The public `pages.dev` hostname is `velora-75y.pages.dev`. After deployment, the workflow smoke-tests the homepage, all four published travel-tool and guide routes, their titles/canonicals, `robots.txt`, all sitemap routes and API health. It can also be run manually from GitHub Actions.
+The `.github/workflows/cloudflare.yml` workflow automatically builds and deploys each push to `main` to the already-verified Cloudflare Pages project name `velora`. The public `pages.dev` hostname is `velora-75y.pages.dev`. After deployment, the workflow smoke-tests the homepage, all four published travel-tool and guide routes, their titles/canonicals, `robots.txt`, all sitemap routes and API health. It can also be run manually from GitHub Actions. The production smoke test now also covers the three standalone trust pages and the approved hero/design assets.
 
 GitHub Pages is no longer the production deployment. Its older workflow (`.github/workflows/deploy.yml`) is retained as a **manual-only legacy fallback** and does not run on every push. Do not use its `github.io` URL as VELORA's canonical production host.
 
@@ -99,7 +99,7 @@ See [Cloudflare deployment and backend setup](docs/CLOUDFLARE-DEPLOYMENT.md) for
 
 | Area | Current state |
 |---|---|
-| Homepage, navigation and responsive sections | Implemented in static HTML/CSS |
+| Homepage and connected eight-department map | Static HTML/CSS; the redesigned P0 branch is pending merge and production verification |
 | Search and destination filters | Browser-side filters over included inspiration cards |
 | Trip planner | Local illustrative day-by-day outline; not a live itinerary, quote or booking |
 | Style studio | Local outfit guidance based on selected occasion and weather |
@@ -108,7 +108,7 @@ See [Cloudflare deployment and backend setup](docs/CLOUDFLARE-DEPLOYMENT.md) for
 | Weather, visas, advisories, hotels and reservations | Not connected; check current official/provider sources |
 | Shopping checkout, product prices and ratings | Not connected; no product is represented as live or verified |
 | Login, database, user profile or community | Not implemented in this starter |
-| PWA/offline | Manifest and service-worker shell cache included; test after HTTPS deployment |
+| Privacy / Terms / Safety | Standalone starter pages; legal review still required before commercial launch |\n| PWA/offline | Manifest and service-worker shell cache included (v9); test after HTTPS deployment |
 
 The legal and privacy copy is starter information, not legal advice. Replace it with reviewed, jurisdiction-appropriate policies before accepting users or collecting data. An age acknowledgement is not identity verification.
 
