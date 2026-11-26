@@ -45,7 +45,7 @@ jobs:
         env:
           SITE_ORIGIN: https://velora-75y.pages.dev
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/" -o "$RUNNER_TEMP/velora-home.html"
           grep -Fq '<title>VELORA — Romance, Travel & Thoughtful Experiences</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
@@ -128,6 +128,9 @@ jobs:
           grep -Fq 'plan-context-note' "$RUNNER_TEMP/velora-travel-tools.js"
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/sw.js" -o "$RUNNER_TEMP/velora-sw.js"
           grep -Fq 'velora-shell-v13' "$RUNNER_TEMP/velora-sw.js"
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsSI "$SITE_ORIGIN/sw.js" -o "$RUNNER_TEMP/velora-sw-headers.txt"
+          grep -Eiq '^cache-control:.*no-cache.*no-store.*must-revalidate' "$RUNNER_TEMP/velora-sw-headers.txt"
+          grep -Eiq '^service-worker-allowed: /' "$RUNNER_TEMP/velora-sw-headers.txt"
 
           for policy in privacy terms safety; do
             curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$policy/" -o "$RUNNER_TEMP/velora-$policy.html"

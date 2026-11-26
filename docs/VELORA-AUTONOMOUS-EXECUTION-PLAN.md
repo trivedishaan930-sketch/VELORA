@@ -499,3 +499,31 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 3. Replace temporary hero art only when a consistent high-quality image direction is approved; avoid repeating the same scene.
 4. Correct the OpenSEO project hostname and connect Search Console; preserve the separate D1 Read token requirement for any future backend work.
 
+---
+
+## Budget-to-preparation journey release — 26 November 2026
+
+### Implemented and deployed
+
+- The Trip Budget Planner now reveals a next-step panel after the visitor calculates a budget, with two explicit routes: **I am visiting India** and **I am travelling abroad from India**.
+- The selected route receives a one-time, 30-minute, browser-local handoff containing only the optional destination, trip length and traveller count. It does not receive budget amounts, currency, breakdowns, the budget ceiling, passport data or identity details.
+- The selected preparation guide displays the context as a reminder, clearly distinguishes it from verified travel requirements, and consumes the handoff once. Existing checklist item IDs remain stored separately in the browser.
+- The Privacy page documents the exact handoff fields and limits.
+- Mobile styling stacks the route choices; print output excludes navigation controls.
+- Service-worker version is now `v13`. The Cloudflare build now includes `sw.js` in `dist`, and the worker response has explicit revalidation / scope headers.
+
+### Release evidence and root-cause correction
+
+- The first feature PR passed repository quality checks, but the production smoke test caught that production still served service-worker v12.
+- Diagnosis: `scripts/build.mjs` had omitted the root `sw.js` from its published files. The source was updated, but the file never reached Cloudflare Pages.
+- Corrected the build allow-list, added a build assertion that checks `dist/sw.js` for v13 and its precached planning scripts, and added no-cache / Service-Worker-Allowed headers.
+- Main release commit: `9d4bb370957be95ef1f033b0ae82af6582201c64`.
+- Final quality run `45760052581`: success.
+- Final Cloudflare deployment and production smoke run `45760052539`: success. It verified homepage, planner, budget-to-preparation routes, both selected checklist routes, scripts, v13 service worker, policies, canonical URLs, robots, sitemap and API health.
+
+### Current verified constraints
+
+- `/api/health` is reachable and reports `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. Product catalog/Amazon Creators API are not live.
+- There is still no verified Google Search Console property; search performance and indexing outcomes cannot yet be measured.
+- A true external-browser/device QA of the complete planner → budget → selected checklist click-through is still needed. CI verifies deployed routes/assets and local handoff source/contract; it does not simulate a real visitor's browser storage/session.
+- Do not claim the feature fetches live travel requirements, prices, weather, exchange rates, routes or bookings. It is a planning handoff to existing source-linked checklists.
