@@ -60,6 +60,14 @@ jobs:
             echo "Unwanted adult-only announcement wording is still present."
             exit 1
           fi
+
+          for asset in \
+            public/assets/experiences/couple-sunset-walk.webp \
+            public/assets/destinations/maldives.webp \
+            public/assets/destinations/amalfi-coast.webp \
+            public/assets/destinations/kyoto-garden.webp; do
+            curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$asset" -o /dev/null
+          done
           if grep -Fq 'velora-hero-editorial.svg' "$RUNNER_TEMP/velora-home.html"; then
             echo "Temporary illustration hero is still referenced by the public homepage."
             exit 1
