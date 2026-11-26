@@ -304,19 +304,12 @@
   };
 
   const cultureFirstDestinations = [
-    "kyoto", "tokyo", "paris", "rome", "london", "jaipur", "varanasi",
-    "new york", "singapore", "istanbul", "florence", "agra"
+    "kyoto", "jaipur", "varanasi", "florence", "agra", "paris", "london"
   ];
   function resolvePlannerStyle(destination, requestedStyle) {
     const normalized = destination.toLowerCase().replace(/\s+/g, " ").trim();
     const knownCity = cultureFirstDestinations.find(place => normalized === place || normalized.includes(place));
-    if (knownCity && requestedStyle === "Beach & coast") {
-      return {
-        effectiveStyle: "Culture & city",
-        note: `You entered "${destination}" with a Beach & coast preference. This starting outline uses Culture & city for the recognised city/heritage destination instead. For a nearby coastal stay, enter the specific coastal area. This is a planning prompt, not verified destination research.`
-      };
-    }
-    return { effectiveStyle: requestedStyle, note: "" };
+    return { conflict: Boolean(knownCity && requestedStyle === "Beach & coast"), knownCity: knownCity || "" };
   }
 
   function createItinerary(event) {
@@ -329,7 +322,22 @@
     const blueprint = occasionBlueprints[occasion] || occasionBlueprints['romantic-escape'];
     const requestedStyle = $('#planStyle').value;
     const styleResolution = resolvePlannerStyle(destination, requestedStyle);
-    const style = styleResolution.effectiveStyle;
+    const result = $('#plannerResult');
+    if (styleResolution.conflict) {
+      result.hidden = false;
+      result.innerHTML = `<div class="planner-conflict"><span class="card-kicker">A QUICK DESTINATION CHECK</span><h3>Let's make the plan fit the place.</h3><p><strong>${escapeHtml(destination)}</strong> is commonly approached as a city / culture destination, while the current style selection is Beach &amp; coast. This is a broad planning hint, not a live destination lookup. Choose how to continue.</p><div class="result-actions"><button type="button" id="resolveUseCulture">Use Culture &amp; city</button><button type="button" id="resolveEditDestination">Change destination</button></div></div>`;
+      $('#resolveUseCulture').addEventListener('click', () => {
+        $('#planStyle').value = 'Culture & city';
+        createItinerary({ preventDefault() {} });
+      });
+      $('#resolveEditDestination').addEventListener('click', () => {
+        result.hidden = true;
+        $('#planDestination').focus();
+      });
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+    const style = requestedStyle;
     const date = $('#planDate').value;
     const budget = $('#planBudget').value;
     const stay = $('#planStay').value;
@@ -342,7 +350,7 @@
     const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller] || 'Getaway';
     const result = $('#plannerResult');
     result.hidden = false;
-    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p>${styleResolution.note ? `<p class="planner-style-note"><strong>Style check:</strong> ${escapeHtml(styleResolution.note)}</p>` : ""}<ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
+    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     $('#saveItinerary').addEventListener('click', () => toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
     $('#printItinerary').addEventListener('click', () => window.print());
