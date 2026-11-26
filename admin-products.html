@@ -11,11 +11,11 @@
 <body class="admin-page">
   <main class="admin-shell">
     <a href="./" class="admin-back">← Back to VELORA</a>
-    <div class="eyebrow"><span></span> PRIVATE CATALOGUE TOOL</div>
+    <div class="eyebrow"><span></span> ADMIN ACCESS · TOKEN REQUIRED</div>
     <h1>VELORA <em>Product Desk.</em></h1>
-    <p class="admin-intro">Search Amazon India through the approved Creators API and select products for the VELORA Shop Edit. Your access token stays in this browser tab only.</p>
+    <p class="admin-intro">This public page is only the admin interface shell. Protected catalogue endpoints require the server-side admin token. No products or private catalogue data are available until the API connection and database are configured.</p>
     <section class="admin-auth surface-card">
-      <label class="field"><span>Private admin token</span><input id="adminToken" type="password" autocomplete="off" spellcheck="false" placeholder="Paste the Cloudflare admin token"></label>
+      <label class="field"><span>Admin token</span><input id="adminToken" type="password" autocomplete="off" spellcheck="false" placeholder="Enter the configured admin token"></label>
       <div class="admin-auth-actions"><button id="connectAdmin" class="button button-dark" type="button">Connect securely ↗</button><button id="disconnectAdmin" class="text-link" type="button">Clear token</button></div>
       <p id="adminStatus" class="admin-status" role="status">Connect with the token stored in Cloudflare Pages Secrets.</p>
     </section>
