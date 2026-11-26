@@ -197,6 +197,16 @@ for (const page of allContentPages) {
 
 const privacyPolicySource = fs.readFileSync(path.join(root, 'privacy/index.html'), 'utf8');
 const termsPolicySource = fs.readFileSync(path.join(root, 'terms/index.html'), 'utf8');
+if (!appSource.includes('View full plan') || !appSource.includes('item.details') ||
+    !appSource.includes('result.cloneNode(true)') ||
+    !appSource.includes('VELORA — MY SAVED MOMENTS & PLANS') ||
+    !experiencesHtml.includes('Saving stores the full plan only in this browser on this device.') ||
+    !privacyPolicySource.includes('complete experience plans you explicitly save') ||
+    !html.includes('Make room<br>for <em>what matters.</em>') ||
+    !html.includes('Make Room for Romance is where VELORA begins')) {
+  console.error('Full-plan local saving/export, privacy disclosure or broad VELORA homepage positioning is incomplete.');
+  process.exit(1);
+}
 if (!privacyPolicySource.includes('planned future capability') ||
     privacyPolicySource.includes('rules-based browser demonstration') ||
     !termsPolicySource.includes('not available in the current public prototype')) {
