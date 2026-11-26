@@ -31,13 +31,22 @@
   function updateSavedCount() { const count = $('#savedCount'); if (count) count.textContent = String(saved.length); }
   function persistSaved() { safeWrite(STORAGE.saved, saved); updateSavedCount(); renderSaved(); }
   function isSaved(name) { return saved.some(item => item.name === name); }
-  function toggleSaved(name, type = 'idea') {
-    if (isSaved(name)) {
+  function toggleSaved(name, type = 'idea', details = '') {
+    const existing = saved.find(item => item.name === name);
+    const fullDetails = typeof details === 'string' ? details.trim().slice(0, 25000) : '';
+    if (existing && fullDetails) {
+      existing.type = type;
+      existing.details = fullDetails;
+      existing.updatedAt = new Date().toISOString();
+      showToast('Full plan updated in your personal edit.');
+    } else if (existing) {
       saved = saved.filter(item => item.name !== name);
       showToast('Removed from your saved moments.');
     } else {
-      saved.push({ name, type, addedAt: new Date().toISOString() });
-      showToast('Saved to your personal edit.');
+      const entry = { name, type, addedAt: new Date().toISOString() };
+      if (fullDetails) entry.details = fullDetails;
+      saved.push(entry);
+      showToast(fullDetails ? 'Full plan saved on this device.' : 'Saved to your personal edit.');
     }
     persistSaved();
     syncSaveButtons();
@@ -68,6 +77,13 @@
       const title = document.createElement('b'); title.textContent = item.name;
       const meta = document.createElement('small'); meta.textContent = `${item.type || 'idea'} · saved on this device`;
       info.append(title, meta);
+      if (typeof item.details === 'string' && item.details.trim()) {
+        const planDetails = document.createElement('details'); planDetails.className = 'saved-plan-details';
+        const summary = document.createElement('summary'); summary.textContent = 'View full plan';
+        const planText = document.createElement('pre'); planText.textContent = item.details;
+        planDetails.append(summary, planText);
+        info.append(planDetails);
+      }
       const remove = document.createElement('button'); remove.type = 'button'; remove.textContent = 'Remove';
       remove.addEventListener('click', () => toggleSaved(item.name, item.type));
       row.append(info, remove); root.append(row);
@@ -101,8 +117,13 @@
   const exportSaved = $('#exportSaved');
   if (exportSaved) exportSaved.addEventListener('click', () => {
     if (!saved.length) { showToast('Save at least one place or idea first.'); return; }
-    const content = ['VELORA — MY SAVED MOMENTS', '', ...saved.map((item, i) => `${i + 1}. ${item.name} (${item.type})`)].join(String.fromCharCode(10));
-    downloadText('velora-saved-moments.txt', content);
+    const lines = ['VELORA — MY SAVED MOMENTS & PLANS', ''];
+    saved.forEach((item, index) => {
+      lines.push(`${index + 1}. ${item.name} (${item.type || 'idea'})`);
+      if (typeof item.details === 'string' && item.details.trim()) lines.push(item.details.trim());
+      lines.push('');
+    });
+    downloadText('velora-saved-moments-and-plans.txt', lines.join(String.fromCharCode(10)));
   });
 
   // Destination filters and local search.
@@ -399,7 +420,7 @@
     }).join('');
     const travellerLabel = travellers === 1 ? 'Solo journey' : travellers === 2 ? 'Journey for two' : `${travellers}-person group`;
     result.hidden = false;
-    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Travellers: ${travellers}<br>Budget ceiling: ${escapeHtml(budgetLabel)} ${budgetCeiling === null ? '' : '(' + escapeHtml(currency) + ')'}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="continueBudget">Continue to budget <span>↗</span></button><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
+    result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Travellers: ${travellers}<br>Budget ceiling: ${escapeHtml(budgetLabel)} ${budgetCeiling === null ? '' : '(' + escapeHtml(currency) + ')'}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="continueBudget">Continue to budget <span>↗</span></button><button type="button" id="saveItinerary">Save full plan on this device</button><button type="button" id="printItinerary">Print / save as PDF</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
     $('#continueBudget').addEventListener('click', () => {
@@ -421,7 +442,12 @@
         showToast('Your browser could not carry this context forward. You can still open the budget planner from Travel.');
       }
     });
-    $('#saveItinerary').addEventListener('click', () => toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary'));
+    $('#saveItinerary').addEventListener('click', () => {
+      const savedView = result.cloneNode(true);
+      savedView.querySelector('.result-actions')?.remove();
+      const fullPlan = (savedView.innerText || savedView.textContent || '').trim();
+      toggleSaved(`${blueprint.label} · ${duration}-day ${travellerLabel}: ${destination}`, 'itinerary', fullPlan);
+    });
     $('#printItinerary').addEventListener('click', () => window.print());
   }
   plannerForm.addEventListener('submit', createItinerary);
