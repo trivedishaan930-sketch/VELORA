@@ -58,7 +58,7 @@ if (!appSource.includes('resolveUseCulture') || !appSource.includes('resolveEdit
   console.error('Planner conflict choices or removal of the demo Concierge workflow is incomplete.');
   process.exit(1);
 }
-const homepageSections = [...html.matchAll(/<section\\b/g)].length;
+const homepageSections = [...html.matchAll(/<section\b/g)].length;
 if (homepageSections > 9 || html.includes('hero-search-panel') || html.includes('id="concierge"') ||
     html.includes('class="wellness-section"') || html.includes('class="closing-section"')) {
   console.error('Homepage still contains redundant modules or the travel-first hero search.');
