@@ -45,7 +45,7 @@ jobs:
         env:
           SITE_ORIGIN: https://velora-75y.pages.dev
         run: |
-          set -euo pipefail
+          set -euxo pipefail
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/" -o "$RUNNER_TEMP/velora-home.html"
           grep -Fq '<title>VELORA — Romance, Travel & Thoughtful Experiences</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
