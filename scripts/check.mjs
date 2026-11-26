@@ -7,7 +7,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'package.json',
   'privacy/index.html', 'terms/index.html', 'safety/index.html',
-  'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
+  'admin-products.html', 'admin-products.js', 'guide.css', 'site-pages.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
+  'experiences/index.html', 'style/index.html', 'journal/index.html', 'journal/postcards-from-blue-hour/index.html', 'journal/small-gestures/index.html', 'journal/a-night-with-no-itinerary/index.html', 'about/index.html',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
@@ -41,19 +42,23 @@ for (const file of jsFiles) {
 }
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const experiencesHtml = fs.readFileSync(path.join(root, 'experiences/index.html'), 'utf8');
+const styleHtml = fs.readFileSync(path.join(root, 'style/index.html'), 'utf8');
+const aboutHtml = fs.readFileSync(path.join(root, 'about/index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const requiredOccasions = ['romantic-escape', 'honeymoon', 'anniversary', 'proposal', 'first-trip', 'solo-reset', 'friends', 'family'];
-if (!html.includes('id="planOccasion"') || requiredOccasions.some(key => !appSource.includes('"'+key+'"'))) {
+if (!experiencesHtml.includes('id="planOccasion"') || requiredOccasions.some(key => !appSource.includes('"'+key+'"')) ||
+    !styleHtml.includes('id="styleStudio"') || !styleHtml.includes('id="styleResult"')) {
   console.error('Occasion-aware getaway planner is incomplete.');
   process.exit(1);
 }
 
 const supportedCurrencies = ['INR', 'USD', 'EUR', 'GBP', 'AED', 'SGD', 'THB', 'JPY'];
-const plannerCurrencyBlock = html.slice(html.indexOf('id="planBudgetCurrency"'), html.indexOf('</select>', html.indexOf('id="planBudgetCurrency"')) + 9);
-const plannerTravellerField = html.includes('id="planTravellers" name="travellers" type="number"');
+const plannerCurrencyBlock = experiencesHtml.slice(experiencesHtml.indexOf('id="planBudgetCurrency"'), experiencesHtml.indexOf('</select>', experiencesHtml.indexOf('id="planBudgetCurrency"')) + 9);
+const plannerTravellerField = experiencesHtml.includes('id="planTravellers" name="travellers" type="number"');
 if (!plannerCurrencyBlock || supportedCurrencies.some(code => !plannerCurrencyBlock.includes('value="' + code + '"')) ||
     !plannerCurrencyBlock.includes('value="INR" selected') || !plannerTravellerField ||
-    !html.includes('id="planBudgetAmount"') || html.includes('id="planBudget"')) {
+    !experiencesHtml.includes('id="planBudgetAmount"') || experiencesHtml.includes('id="planBudget"')) {
   console.error('Local-currency budget and exact traveller-count inputs are incomplete.');
   process.exit(1);
 }
@@ -91,13 +96,14 @@ if (homepageSections > 9 || html.includes('hero-search-panel') || html.includes(
   console.error('Homepage still contains redundant modules, a duplicate hero search or a demo chat shell.');
   process.exit(1);
 }
-if (!html.includes('FUTURE</em></article>') || !html.includes('VELORA AI Concierge') ||
-    html.includes('Rules-based local prototype')) {
+if (!aboutHtml.includes('FUTURE') || !aboutHtml.includes('VELORA AI Concierge') ||
+    !aboutHtml.includes('LIVE GUIDES') || html.includes('Rules-based local prototype')) {
   console.error('Future AI Concierge capability is not labelled honestly.');
   process.exit(1);
 }
 if (!html.includes('ROMANCE · CONNECTION · LIFESTYLE') || !html.includes('Start a plan') ||
-    !html.includes('id="discover"')) {
+    !html.includes('href="/experiences/"') || !html.includes('href="/travel/"') ||
+    !html.includes('href="/style/"') || !html.includes('href="/journal/"') || !html.includes('href="/about/"')) {
   console.error('The homepage brand/navigation entry points are incomplete.');
   process.exit(1);
 }
@@ -114,19 +120,23 @@ if (!html.includes('public/assets/experiences/couple-sunset-walk.webp') ||
   process.exit(1);
 }
 const siteCss = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+const sitePagesCss = fs.readFileSync(path.join(root, 'site-pages.css'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes('font-size:16px') ||
-    !html.includes('id="experienceTitle"') || !html.includes('class="journey-steps"')) {
-  console.error('Mobile readability or experience-journey design checks are missing.');
+    !sitePagesCss.includes('.page-header') || !sitePagesCss.includes('.gateway-card-grid') ||
+    !sitePagesCss.includes('@media(max-width:480px)') || !sitePagesCss.includes('prefers-reduced-motion')) {
+  console.error('Responsive multi-page design system checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v10') ||
+if (!serviceWorker.includes('velora-shell-v11') ||
     !serviceWorker.includes('couple-sunset-walk.webp') ||
     !serviceWorker.includes('maldives.webp') ||
     !serviceWorker.includes('amalfi-coast.webp') ||
     !serviceWorker.includes('kyoto-garden.webp') ||
     !serviceWorker.includes('await cache.addAll(CORE_ASSETS)') ||
     !serviceWorker.includes('await cache.add(asset)') ||
+    !serviceWorker.includes("'./experiences/'") || !serviceWorker.includes("'./style/'") ||
+    !serviceWorker.includes("'./journal/'") || !serviceWorker.includes("'./about/'") ||
     !serviceWorker.includes('./offline.html') ||
     !serviceWorker.includes("caches.match('./offline.html')")) {
   console.error('Offline image caching or route-aware fallback is incomplete.');
@@ -141,13 +151,23 @@ const travelPages = [
   { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'First International Trip Checklist — VELORA' },
   { file: 'travel/budget-planner/index.html', route: '/travel/budget-planner/', title: 'Trip Budget Planner — Estimate Your Travel Costs | VELORA' }
 ];
+const contentPages = [
+  { file: 'experiences/index.html', route: '/experiences/', title: 'Getaway & Experience Planner | VELORA' },
+  { file: 'style/index.html', route: '/style/', title: 'Personal Style & Travel Outfits | VELORA' },
+  { file: 'journal/index.html', route: '/journal/', title: 'The VELORA Journal — Stories & Date Ideas' },
+  { file: 'journal/postcards-from-blue-hour/index.html', route: '/journal/postcards-from-blue-hour/', title: 'Postcards from the Blue Hour | VELORA' },
+  { file: 'journal/small-gestures/index.html', route: '/journal/small-gestures/', title: 'Small Gestures, Lasting Meaning | VELORA' },
+  { file: 'journal/a-night-with-no-itinerary/index.html', route: '/journal/a-night-with-no-itinerary/', title: 'A Night With No Itinerary | VELORA' },
+  { file: 'about/index.html', route: '/about/', title: 'About VELORA — Romance, Travel & Lifestyle' }
+];
 const policyPages = [
   { file: 'privacy/index.html', route: '/privacy/', title: 'Privacy Information — VELORA' },
   { file: 'terms/index.html', route: '/terms/', title: 'Terms of Use — VELORA' },
   { file: 'safety/index.html', route: '/safety/', title: 'Safety & Respect — VELORA' }
 ];
+const allContentPages = [...contentPages, ...travelPages, ...policyPages];
 const titlesSeen = new Set();
-for (const page of [...travelPages, ...policyPages]) {
+for (const page of allContentPages) {
   const source = fs.readFileSync(path.join(root, page.file), 'utf8');
   const titleStart = source.indexOf('<title>');
   const titleEnd = source.indexOf('</title>');
@@ -160,7 +180,8 @@ for (const page of [...travelPages, ...policyPages]) {
     process.exit(1);
   }
   titlesSeen.add(title);
-  if (headingCount !== 1 || !hasDescription || !hasCanonical || !source.includes('guide.css')) {
+  if (headingCount !== 1 || !hasDescription || !hasCanonical ||
+      (!source.includes('guide.css') && !source.includes('site-pages.css'))) {
     console.error('Travel page SEO structure failed:', page.file);
     process.exit(1);
   }
@@ -185,6 +206,7 @@ if (!privacyPolicySource.includes('planned future capability') ||
 
 const metadataPages = [
   { file: 'index.html', label: 'homepage' },
+  ...contentPages,
   ...travelPages,
   ...policyPages
 ];
@@ -234,7 +256,8 @@ if (/AKIA[0-9A-Z]{16}|amzn\.mws\.[A-Za-z0-9/+=]{20,}/.test(amazonModule)) {
   console.error('Potential credential-like string found in Amazon integration source.');
   process.exit(1);
 }
-const localAssets = [...html.matchAll(/(?:src|href)="(public\/[^"]+|styles\.css|app\.js)"/g)].map(match => match[1]);
+const localAssets = [...html.matchAll(/(?:src|href)="(\/?public\/[^"]+|\/?styles\.css|\/?site-pages\.css|\/?app\.js)"/g)]
+  .map(match => match[1].replace(/^\/+/, ''));
 const brokenAssets = localAssets.filter(asset => !fs.existsSync(path.join(root, asset)));
 if (brokenAssets.length) {
   console.error('Broken local assets:', brokenAssets.join(', '));
@@ -250,7 +273,8 @@ if (build.status !== 0) {
 const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
-  'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
+  'robots.txt', 'sitemap.xml', '_headers', '_routes.json', 'site-pages.css',
+  'experiences/index.html', 'style/index.html', 'journal/index.html', 'journal/postcards-from-blue-hour/index.html', 'journal/small-gestures/index.html', 'journal/a-night-with-no-itinerary/index.html', 'about/index.html',
   'public/assets/experiences/couple-sunset-walk.webp', 'public/assets/destinations/maldives.webp', 'public/assets/destinations/amalfi-coast.webp', 'public/assets/destinations/kyoto-garden.webp', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
@@ -265,7 +289,7 @@ if (missingGuideDist.length) {
   process.exit(1);
 }
 const sitemapContent = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
-for (const page of [...travelPages, ...policyPages]) {
+for (const page of allContentPages) {
   if (!sitemapContent.includes('<loc>' + siteOrigin + page.route + '</loc>')) {
     console.error('Travel page missing from sitemap:', page.route);
     process.exit(1);
@@ -278,4 +302,4 @@ if (forbiddenDist.length) {
   process.exit(1);
 }
 console.log('VELORA checks passed: ' + required.length + ' required files, ' + jsFiles.length +
-  ' JavaScript syntax checks, unique IDs, anchor targets, travel and policy page metadata, API routes, Amazon module, local assets and safe build output.');
+  ' JavaScript syntax checks, multi-page content metadata, unique IDs, anchor targets, planner and style tools, API routes, sitemap, assets and safe build output.');

@@ -28,7 +28,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
   }
-  function updateSavedCount() { $('#savedCount').textContent = String(saved.length); }
+  function updateSavedCount() { const count = $('#savedCount'); if (count) count.textContent = String(saved.length); }
   function persistSaved() { safeWrite(STORAGE.saved, saved); updateSavedCount(); renderSaved(); }
   function isSaved(name) { return saved.some(item => item.name === name); }
   function toggleSaved(name, type = 'idea') {
@@ -77,47 +77,57 @@
   // Navigation: accessible mobile menu and same-page anchors.
   const menuToggle = $('#menuToggle');
   const mobileNav = $('#mobileNav');
-  menuToggle.addEventListener('click', () => {
-    const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', String(!isOpen));
-    mobileNav.hidden = isOpen;
-    menuToggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
-  });
-  $$('#mobileNav a').forEach(link => link.addEventListener('click', () => {
-    mobileNav.hidden = true; menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open menu');
-  }));
+  if (menuToggle && mobileNav) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      mobileNav.hidden = isOpen;
+      menuToggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+    });
+    $$('#mobileNav a').forEach(link => link.addEventListener('click', () => {
+      mobileNav.hidden = true; menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open menu');
+    }));
+  }
 
   // Saved items drawer.
   const savedDialog = $('#savedDialog');
-  $('#savedOpen').addEventListener('click', () => { renderSaved(); savedDialog.showModal(); });
-  $('#savedClose').addEventListener('click', () => savedDialog.close());
-  savedDialog.addEventListener('click', event => { if (event.target === savedDialog) savedDialog.close(); });
-  $('#exportSaved').addEventListener('click', () => {
+  const savedOpen = $('#savedOpen');
+  if (savedDialog && savedOpen) {
+    savedOpen.addEventListener('click', () => { renderSaved(); savedDialog.showModal(); });
+    const savedClose = $('#savedClose');
+    if (savedClose) savedClose.addEventListener('click', () => savedDialog.close());
+    savedDialog.addEventListener('click', event => { if (event.target === savedDialog) savedDialog.close(); });
+  }
+  const exportSaved = $('#exportSaved');
+  if (exportSaved) exportSaved.addEventListener('click', () => {
     if (!saved.length) { showToast('Save at least one place or idea first.'); return; }
-    const content = ['VELORA — MY SAVED MOMENTS', '', ...saved.map((item, i) => `${i + 1}. ${item.name} (${item.type})`)].join('\n');
+    const content = ['VELORA — MY SAVED MOMENTS', '', ...saved.map((item, i) => `${i + 1}. ${item.name} (${item.type})`)].join(String.fromCharCode(10));
     downloadText('velora-saved-moments.txt', content);
   });
 
   // Destination filters and local search.
-  let activeFilter = 'all';
-  function filterDestinations() {
-    const query = $('#destinationSearch').value.trim().toLowerCase();
-    $$('.destination-card').forEach(card => {
-      const filterMatch = activeFilter === 'all' || card.dataset.kind === activeFilter;
-      const searchMatch = !query || (card.dataset.search + ' ' + card.querySelector('h3').textContent).toLowerCase().includes(query);
-      card.hidden = !(filterMatch && searchMatch);
-    });
+  if ($('#destinationSearch')) {
+    let activeFilter = 'all';
+    function filterDestinations() {
+      const query = $('#destinationSearch').value.trim().toLowerCase();
+      $$('.destination-card').forEach(card => {
+        const filterMatch = activeFilter === 'all' || card.dataset.kind === activeFilter;
+        const searchMatch = !query || (card.dataset.search + ' ' + card.querySelector('h3').textContent).toLowerCase().includes(query);
+        card.hidden = !(filterMatch && searchMatch);
+      });
+    }
+    $$('.filter-pill').forEach(button => button.addEventListener('click', () => {
+      activeFilter = button.dataset.filter;
+      $$('.filter-pill').forEach(pill => pill.classList.toggle('active', pill === button));
+      filterDestinations();
+    }));
+    $('#destinationSearch').addEventListener('input', filterDestinations);
+    $$('.destination-save').forEach(button => button.addEventListener('click', () => toggleSaved(button.dataset.save, button.dataset.type)));
   }
-  $$('.filter-pill').forEach(button => button.addEventListener('click', () => {
-    activeFilter = button.dataset.filter;
-    $$('.filter-pill').forEach(pill => pill.classList.toggle('active', pill === button));
-    filterDestinations();
-  }));
-  $('#destinationSearch').addEventListener('input', filterDestinations);
-  $$('.destination-save').forEach(button => button.addEventListener('click', () => toggleSaved(button.dataset.save, button.dataset.type)));
 
   // Reusable editorial / destination modal.
   const modal = $('#contentModal');
+  if (modal) {
   const storyContent = {
     'blue-hour': {
       kicker: 'VELORA ORIGINAL · FICTION', title: 'Postcards from the blue hour', save: 'Postcards from the blue hour',
@@ -163,8 +173,12 @@
     openModal({ ...legal[kind], save: null });
   }));
 
+
+  }
+
   // Planner: produces a locally generated sample outline, never a booking or quote.
   const plannerForm = $('#plannerForm');
+  if (plannerForm) {
   const dateInput = $('#planDate');
   const localToday = new Date();
   dateInput.min = `${localToday.getFullYear()}-${String(localToday.getMonth() + 1).padStart(2, '0')}-${String(localToday.getDate()).padStart(2, '0')}`;
@@ -412,6 +426,9 @@
   }
   plannerForm.addEventListener('submit', createItinerary);
 
+
+  }
+
   // Style studio: simple rules-based suggestions; no shopping products are represented as live.
   const styleNotes = {
     'Beach day': { warm: 'Choose breathable linen or cotton, secure sandals, sunglasses and a hat. Keep a light cover-up handy.', cool: 'Layer a light knit over a comfortable base, add closed-toe shoes and carry a wind-resistant outer layer.', rainy: 'Choose quick-drying layers, a compact rain shell and shoes with reliable grip.', layers: 'Build around a breathable base, an adaptable mid-layer and a packable weather layer.' },
@@ -420,7 +437,8 @@
     'Romantic dinner': { warm: 'Choose an elegant breathable silhouette, comfortable footwear and one subtle finishing detail.', cool: 'Add a fine knit, jacket or wrap to a polished base look; plan footwear for the route.', rainy: 'Keep the look refined but practical with a weather-ready coat and secure shoes.', layers: 'Choose a simple base look and one tailored layer that makes the outfit feel complete.' },
     'Long travel day': { warm: 'Soft breathable layers, easy footwear, a light wrap and a small personal-care kit make the journey easier.', cool: 'Use a comfortable base, warm socks, a layer you can remove and supportive shoes.', rainy: 'Choose quick-drying layers, a compact shell and footwear that handles damp conditions.', layers: 'Dress in easy-to-adjust layers and keep a spare top and essential items within reach.' }
   };
-  $('#styleStudio').addEventListener('submit', event => {
+  const styleStudio = $('#styleStudio');
+  if (styleStudio) styleStudio.addEventListener('submit', event => {
     event.preventDefault();
     const occasion = $('#styleOccasion').value;
     const direction = $('#styleDirection').value;
@@ -432,8 +450,10 @@
   });
 
   // Essential checklist, persisted in this browser.
-  const checklistState = safeRead(STORAGE.checks, {});
   const checkboxes = $$('[data-check]');
+  if (checkboxes.length) {
+    const checklistState = safeRead(STORAGE.checks, {});
+
   function renderChecklist() {
     let count = 0;
     checkboxes.forEach(input => {
@@ -450,6 +470,10 @@
   $('#checkAll').addEventListener('click', () => { checkboxes.forEach(input => { checklistState[input.dataset.check] = true; }); safeWrite(STORAGE.checks, checklistState); renderChecklist(); showToast('All checklist items marked as packed.'); });
   $('#resetChecklist').addEventListener('click', () => { Object.keys(checklistState).forEach(key => delete checklistState[key]); safeWrite(STORAGE.checks, checklistState); renderChecklist(); showToast('Checklist reset.'); });
   $('#printChecklist').addEventListener('click', () => window.print());
+
+
+    renderChecklist();
+  }
 
   // Lifestyle essentials buying guide: criteria only, no invented brands, prices or ratings.
   const essentialGuides = {
@@ -476,8 +500,9 @@
 
 
   // Initial setup.
-  $('#year').textContent = String(new Date().getFullYear());
-  updateSavedCount(); renderSaved(); syncSaveButtons(); renderChecklist();
+  const year = $('#year');
+  if (year) year.textContent = String(new Date().getFullYear());
+  updateSavedCount(); renderSaved(); syncSaveButtons();
   // Keep VELORA as a responsive website while Amazon affiliate links are being reviewed.
 
 

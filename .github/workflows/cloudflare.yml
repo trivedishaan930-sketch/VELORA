@@ -47,10 +47,13 @@ jobs:
         run: |
           set -euo pipefail
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/" -o "$RUNNER_TEMP/velora-home.html"
-          grep -Fq '<title>VELORA — Make Room for Romance</title>' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq '<title>VELORA — Romance, Travel & Thoughtful Experiences</title>' "$RUNNER_TEMP/velora-home.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
-          grep -Fq 'id="planOccasion"' "$RUNNER_TEMP/velora-home.html"
-          grep -Fq 'id="planBudgetCurrency"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'href="/experiences/"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'href="/travel/"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'href="/style/"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'href="/journal/"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'href="/about/"' "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'couple-sunset-walk.webp' "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'maldives.webp' "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'amalfi-coast.webp' "$RUNNER_TEMP/velora-home.html"
@@ -76,6 +79,28 @@ jobs:
             echo "Rejected hero asset is still referenced by the public homepage."
             exit 1
           fi
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/experiences/" -o "$RUNNER_TEMP/velora-experiences.html"
+          grep -Fq '<title>Getaway & Experience Planner | VELORA</title>' "$RUNNER_TEMP/velora-experiences.html"
+          grep -Fq "href=\"$SITE_ORIGIN/experiences/\"" "$RUNNER_TEMP/velora-experiences.html"
+          grep -Fq 'id="plannerForm"' "$RUNNER_TEMP/velora-experiences.html"
+          grep -Fq 'id="planBudgetCurrency"' "$RUNNER_TEMP/velora-experiences.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/style/" -o "$RUNNER_TEMP/velora-style.html"
+          grep -Fq '<title>Personal Style & Travel Outfits | VELORA</title>' "$RUNNER_TEMP/velora-style.html"
+          grep -Fq 'id="styleStudio"' "$RUNNER_TEMP/velora-style.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/journal/" -o "$RUNNER_TEMP/velora-journal.html"
+          grep -Fq '<title>The VELORA Journal — Stories & Date Ideas</title>' "$RUNNER_TEMP/velora-journal.html"
+          grep -Fq 'href="/journal/postcards-from-blue-hour/"' "$RUNNER_TEMP/velora-journal.html"
+          grep -Fq 'href="/journal/small-gestures/"' "$RUNNER_TEMP/velora-journal.html"
+          grep -Fq 'href="/journal/a-night-with-no-itinerary/"' "$RUNNER_TEMP/velora-journal.html"
+
+          for route in journal/postcards-from-blue-hour journal/small-gestures journal/a-night-with-no-itinerary about; do
+            curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$route/" -o "$RUNNER_TEMP/velora-route.html"
+            grep -Fq '<h1' "$RUNNER_TEMP/velora-route.html"
+            grep -Fq 'rel="canonical"' "$RUNNER_TEMP/velora-route.html"
+          done
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/" -o "$RUNNER_TEMP/velora-travel.html"
           grep -Fq '<title>Travel Planning, With Confidence — VELORA Travel Guides</title>' "$RUNNER_TEMP/velora-travel.html"
@@ -113,8 +138,12 @@ jobs:
           grep -Fq "<loc>$SITE_ORIGIN/travel/india-arrival-ready/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/first-international-trip/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/budget-planner/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/experiences/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/style/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/journal/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/about/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
 
-          echo "Production smoke checks passed: homepage, four travel pages, canonical URLs, robots, sitemap and API health."
+          echo "Production smoke checks passed: homepage, planner, style, journal articles, travel, policies, canonical URLs, robots, sitemap and API health."

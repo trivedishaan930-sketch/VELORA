@@ -1,11 +1,13 @@
-/* VELORA offline shell cache: install core routes first, then cache each image independently. */
-const CACHE_NAME = 'velora-shell-v10';
+/* VELORA multi-page offline shell. Cache pages first, photos independently. */
+const CACHE_NAME = 'velora-shell-v11';
 const CORE_ASSETS = [
-  './', './index.html', './offline.html', './styles.css', './app.js', './manifest.webmanifest',
+  './', './index.html', './offline.html', './styles.css', './site-pages.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
   './guide.css', './travel-tools.js', './travel/',
-  './travel/india-arrival-ready/', './travel/first-international-trip/', './privacy/', './terms/', './safety/',
-  './budget-planner.js', './travel/budget-planner/'
+  './experiences/', './style/', './journal/', './journal/postcards-from-blue-hour/',
+  './journal/small-gestures/', './journal/a-night-with-no-itinerary/', './about/',
+  './travel/india-arrival-ready/', './travel/first-international-trip/',
+  './privacy/', './terms/', './safety/', './budget-planner.js', './travel/budget-planner/'
 ];
 const OFFLINE_IMAGES = [
   './public/assets/experiences/couple-sunset-walk.webp',
