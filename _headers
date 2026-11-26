@@ -9,3 +9,7 @@
 
 /api/*
   Cache-Control: no-store
+
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /
