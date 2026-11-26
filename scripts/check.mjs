@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
-  'index.html', 'styles.css', 'app.js', 'package.json',
+  'index.html', 'offline.html', 'styles.css', 'app.js', 'package.json',
   'privacy/index.html', 'terms/index.html', 'safety/index.html',
   'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
@@ -64,9 +64,10 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Mobile readability or experience-journey design checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v7') || !serviceWorker.includes('velora-hero-editorial.svg') ||
-    serviceWorker.includes('velora-sunset-couple.jpg')) {
-  console.error('Service-worker cache was not refreshed for the approved hero.');
+if (!serviceWorker.includes('velora-shell-v8') || !serviceWorker.includes('velora-hero-editorial.svg') ||
+    serviceWorker.includes('velora-sunset-couple.jpg') || !serviceWorker.includes('./offline.html') ||
+    !serviceWorker.includes("caches.match('./offline.html')")) {
+  console.error('Service-worker cache / route-aware offline fallback is incomplete.');
   process.exit(1);
 }
 
@@ -160,7 +161,7 @@ if (build.status !== 0) {
 }
 const dist = path.join(root, 'dist');
 const publicFiles = [
-  'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
+  'index.html', 'offline.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
   'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
