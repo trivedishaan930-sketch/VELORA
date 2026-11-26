@@ -81,6 +81,18 @@ jobs:
           grep -Fq '<title>Trip Budget Planner — Estimate Your Travel Costs | VELORA</title>' "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/budget-planner/\">" "$RUNNER_TEMP/velora-budget-planner.html"
 
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/privacy/" -o "$RUNNER_TEMP/velora-privacy.html"
+          grep -Fq '<title>Privacy | VELORA</title>' "$RUNNER_TEMP/velora-privacy.html"
+          grep -Fq "<link rel=\\"canonical\\" href=\\"$SITE_ORIGIN/privacy/\\">" "$RUNNER_TEMP/velora-privacy.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/terms/" -o "$RUNNER_TEMP/velora-terms.html"
+          grep -Fq '<title>Terms of Use | VELORA</title>' "$RUNNER_TEMP/velora-terms.html"
+          grep -Fq "<link rel=\\"canonical\\" href=\\"$SITE_ORIGIN/terms/\\">" "$RUNNER_TEMP/velora-terms.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/safety/" -o "$RUNNER_TEMP/velora-safety.html"
+          grep -Fq '<title>Safety &amp; Respect | VELORA</title>' "$RUNNER_TEMP/velora-safety.html"
+          grep -Fq "<link rel=\\"canonical\\" href=\\"$SITE_ORIGIN/safety/\\">" "$RUNNER_TEMP/velora-safety.html"
+
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/robots.txt" -o "$RUNNER_TEMP/velora-robots.txt"
           grep -Fq "Sitemap: $SITE_ORIGIN/sitemap.xml" "$RUNNER_TEMP/velora-robots.txt"
 
@@ -90,6 +102,9 @@ jobs:
           grep -Fq "<loc>$SITE_ORIGIN/travel/india-arrival-ready/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/first-international-trip/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
           grep -Fq "<loc>$SITE_ORIGIN/travel/budget-planner/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/privacy/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/terms/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
+          grep -Fq "<loc>$SITE_ORIGIN/safety/</loc>" "$RUNNER_TEMP/velora-sitemap.xml"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
