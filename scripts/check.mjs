@@ -132,7 +132,7 @@ if (/AKIA[0-9A-Z]{16}|amzn\.mws\.[A-Za-z0-9/+=]{20,}/.test(amazonModule)) {
   console.error('Potential credential-like string found in Amazon integration source.');
   process.exit(1);
 }
-const localAssets = [...html.matchAll(/(?:src|href)="(public\/[^"]+|styles\.css|app\.js)"/g)].map(match => match[1]);
+const localAssets = [...html.matchAll(/(?:src|href)="(public\/[^"]+|styles\.css|velora-premium\.css|app\.js)"/g)].map(match => match[1]);
 const brokenAssets = localAssets.filter(asset => !fs.existsSync(path.join(root, asset)));
 if (brokenAssets.length) {
   console.error('Broken local assets:', brokenAssets.join(', '));
