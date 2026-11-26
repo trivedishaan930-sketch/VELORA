@@ -389,3 +389,36 @@ This is a priority order, not a promise to skip audit evidence or technical depe
 A world-class result requires deliberate product decisions, excellent visual execution, real user utility, trustworthy content, robust engineering and repeated verification.
 
 The founder wants the finished platform. Every push should move towards that outcome.
+
+## 9. Multi-AI audit synthesis received — 26 November 2026
+
+Three founder-supplied independent reports have now been reviewed: the complete 367-line Manus report, the full Grok audit, and Claude's summary/independent warning. The complete finding register and source-by-source reconciliation are in `docs/MULTI-AI-AUDIT-SYNTHESIS-2026-11-26.md`. Read that synthesis before the next implementation session; do not rely on an executive summary alone.
+
+### Agreed highest-priority blockers
+1. Retire the rejected shirtless/bikini-style hero across HTML, Open Graph, Twitter metadata and service-worker cache; use fully clothed premium editorial art.
+2. Fix the 390×844 / 360×800 floating Ask VELORA collision with hero category links and replace unreadably small mobile microtype/control labels with readable tokens.
+3. Rebuild the long homepage around the full VELORA identity and 3–4 concrete user intentions; merge repetitive manifesto/audience/experience messaging, reduce image repetition and show Live / Demo-editorial / Future states accurately.
+4. Fix false personalisation: destination and style must be compatible or the user must be shown a clear choice. Kyoto + Beach & coast must never silently output a generic coastal plan.
+5. Connect the strongest real browser-local journey across plan → budget → appropriate guide → checklist → save/print, with assumptions and local-storage limits clearly stated.
+6. Create true Privacy, Terms and Safety pages; the Manus live audit reported that the current paths returned the homepage body/title/canonical.
+7. Keep Shop inactive/secondary until D1 and Amazon Creators API are genuinely configured; keep the local Concierge honestly labelled as a demo.
+8. Keep the admin UI out of navigation/indexing; the current admin API checks a Bearer token and D1, but noindex is not access control. Review rate limiting and operational hardening before catalogue activation.
+
+### Additional findings that must not be lost
+- Hero quick-search and main planner collect overlapping context; the journey needs one clear start and context carry-forward.
+- Repeated imagery includes the hero, the couple-walk scene and destination assets; choose one purpose per image and vary architecture, culture, editorial details and people.
+- The current Style section uses `His style / Her style / Together`; move toward occasion, climate, fit, comfort and personal preference.
+- Story modals are not permanent crawlable pages; only create story routes once their editorial content is substantive.
+- Budget tool is a comparatively useful local feature, but it does not fetch prices or FX and needs a connected next step.
+- PWA fallback may return the homepage for an unrelated uncached offline route; make fallback route-aware and verify cache invalidation.
+- Audit found no homepage JSON-LD and no confirmed Search Console / field CWV / real-user analytics baseline. Do not claim these have passed.
+- Keep third-party network processing distinct from the statement that trip preferences are not sent to VELORA; privacy wording must remain precise.
+- Claude's admin finding was an uncertainty, not a confirmed vulnerability. Source review confirmed the HTML shell is public, while product admin functions require Bearer auth and D1. Treat this as hardening work, not evidence of a data leak.
+
+### New priority details from the live audit
+- The Manus report is based on the 25 Nov 2026 live snapshot and commit `73852b232fd9180869f7c71339de94df3dfa8c16`; later commits must be checked before repeating its live facts.
+- The same-SHA Cloudflare deployment and production smoke test reported by Manus succeeded. The newly added editorial SVG and audit-synthesis commits are later changes; they need their own quality/deployment verification.
+- Full synthesis and source references: `docs/MULTI-AI-AUDIT-SYNTHESIS-2026-11-26.md`.
+
+### Execution order override
+Complete P0 visual/release blockers before adding decorative departments or secondary features. Then complete one honest plan → budget → preparation flow. Department expansion, live AI, D1-backed commerce, public connection/matching and user-generated content stay gated by genuine demand, approvals, safety, privacy and operational readiness.
