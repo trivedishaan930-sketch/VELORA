@@ -866,3 +866,41 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
  .ecosystem-grid article{min-height:92px;grid-template-columns:22px 1fr}
  .ecosystem-grid article b{font-size:18px}
 }
+
+
+/* VELORA homepage simplification — primary path now starts with intention, not a search form */
+.hero{height:min(790px,calc(100svh - 30px));min-height:680px}
+.hero-content{top:27%;width:min(640px,52%)}
+.hero-copy{font-size:16px;max-width:460px}
+.hero-actions .button{font-size:10px;min-height:48px}
+.scroll-cue{display:flex}
+.audience-intro{max-width:600px;margin:15px 0 0;color:#626e67;font-size:15px;line-height:1.7}
+.safety-intro{max-width:420px;margin:18px 0 0;color:#b8c1bb;font-size:14px;line-height:1.7}
+.safety-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.safety-grid article{min-height:150px}
+@media(max-width:1100px){
+ .hero-content{width:56%}
+}
+@media(max-width:760px){
+ .hero{height:auto;min-height:660px;max-height:none}
+ .hero-photo{height:100%;object-position:68% center}
+ .hero-content{top:auto;bottom:52px;left:21px;right:21px;width:auto}
+ .hero-kicker{margin:12px 0 9px;font-size:10px;letter-spacing:.16em;line-height:1.45}
+ .eyebrow-light{font-size:10px;line-height:1.5;letter-spacing:.1em}
+ .hero h1{font-size:clamp(49px,12vw,64px);line-height:.97}
+ .hero-copy{max-width:340px;margin:15px 0 18px;font-size:15px;line-height:1.55}
+ .hero-actions{display:flex;flex-wrap:wrap;gap:9px}
+ .hero-actions .button{min-height:46px;padding:12px 14px;font-size:10px;gap:10px}
+ .hero-aside,.scroll-cue{display:none}
+ .audience-intro{font-size:14px;line-height:1.65}
+ .safety-intro{font-size:14px;line-height:1.65}
+ .safety-grid{grid-template-columns:1fr;gap:15px}
+ .safety-grid article{min-height:0;padding:14px 0}
+}
+@media(max-width:390px){
+ .hero{min-height:630px}
+ .hero-content{bottom:39px;left:18px;right:18px}
+ .hero h1{font-size:clamp(46px,12vw,56px)}
+ .hero-copy{font-size:14px}
+ .hero-actions .button{min-height:44px;padding:11px 12px;font-size:10px}
+}
