@@ -116,8 +116,9 @@
       localStorage.setItem(preparationHandoffKey, JSON.stringify(handoff));
       window.location.assign("/travel/" + path + "/");
     } catch {
-      $("budgetStatus").textContent = "Your browser could not carry the plan context forward. The preparation checklist can still be opened from this page.";
+      $("budgetStatus").textContent = "Your browser could not save the temporary plan context. Opening the checklist without the summary.";
     }
+    window.location.assign("/travel/" + path + "/");
   }
 
   function money(value) {
