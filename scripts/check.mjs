@@ -76,7 +76,7 @@ if (supportedCurrencies.some(code => !budgetCurrencyBlock.includes('value="' + c
     !budgetPageSource.includes('data-prep-route="first-international-trip"') ||
     !budgetScriptSource.includes('velora-preparation-handoff-v1') ||
     !budgetScriptSource.includes('function continueToPreparation') ||
-    (budgetScriptSource.match(/window\\.location\\.assign\\("\\/travel\\/" \\+ path \\+ "\\/"\\)/g) || []).length !== 1 ||
+    (budgetScriptSource.split('window.location.assign("/travel/" + path + "/")').length - 1) !== 1 ||
     !budgetScriptSource.includes('preparationStepReady') ||
     !travelToolsSource.includes('function attachPreparationContext') ||
     !travelToolsSource.includes('plan-context-note') ||
