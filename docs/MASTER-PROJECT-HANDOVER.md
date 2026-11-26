@@ -607,3 +607,13 @@ The founder explicitly approved the comprehensive improvement direction covering
 **Quality standard:** do not optimise for number of commits or pages. A release is complete only after applicable design, accessibility, responsive, functionality, privacy, SEO, build, CI and production smoke gates pass. A successful commit alone is not proof of a live release.
 
 **Plan file commit:** 2c32b5a9175f74fccc1b3d173f5bfa4e731bb2d8.
+
+## Three-AI audit received and synthesised — 26 November 2026
+
+Founder supplied the full Manus audit attachment, full Grok report and Claude summary. All were reviewed and reconciled with current source. Permanent synthesis: `docs/MULTI-AI-AUDIT-SYNTHESIS-2026-11-26.md`. The autonomous operating plan now links the resulting execution priorities.
+
+**Top execution priorities:** replace the rejected public hero in every reference/cache; fix the 390/360px floating CTA collision and tiny mobile controls; re-architect the long homepage around the full ecosystem and a small number of user intentions; remove duplicate imagery/repeated messages; prevent destination/style mismatch (Manus tested Kyoto + Beach & coast); connect planner → budget → guide → checklist → save/print; create genuine privacy/terms/safety routes; de-emphasise inactive Shop; keep Concierge truthfully labelled demo; harden the token-gated admin pathway before activating catalogue.
+
+**Important evidence nuance:** Claude raised an admin-page protection question but did not claim it had verified a vulnerability. Source review confirms the admin HTML is publicly addressable, while server-side admin functions require a Bearer token and D1. `noindex` alone is not security; review rate limiting/access-layer hardening before activation. Manus's 25 Nov live observations and same-SHA workflow pass refer to the inspected 73852... snapshot; do not project that status onto later commits without checking them.
+
+**User expectation:** do not ask the founder to restate the brief or approve routine reversible source changes. On each `VELORA PUSH`, read the operating plan and audit synthesis, inspect current main/live state, implement the highest-priority safe task, verify tests/deployment and keep these documents current.
