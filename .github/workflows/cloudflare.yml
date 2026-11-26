@@ -127,7 +127,7 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/sw.js" -o "$RUNNER_TEMP/velora-sw.js"
           grep -Fq 'velora-shell-v13' "$RUNNER_TEMP/velora-sw.js"
 
-          for policy in privacy terms safety do
+          for policy in privacy terms safety; do
             curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$policy/" -o "$RUNNER_TEMP/velora-$policy.html"
             grep -Fq '<title>' "$RUNNER_TEMP/velora-$policy.html"
             grep -Fq "href=\"$SITE_ORIGIN/$policy/\"" "$RUNNER_TEMP/velora-$policy.html"
