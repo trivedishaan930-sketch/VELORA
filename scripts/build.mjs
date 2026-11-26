@@ -14,6 +14,7 @@ await mkdir(output, { recursive: true });
 for (const file of publishFiles) await cp(path.join(root, file), path.join(output, file));
 await cp(path.join(root, "public"), path.join(output, "public"), { recursive: true });
 await cp(path.join(root, "travel"), path.join(output, "travel"), { recursive: true });
+for (const route of ["privacy", "terms", "safety"]) await cp(path.join(root, route), path.join(output, route), { recursive: true });
 
 const siteOrigin = String(
   process.env.SITE_ORIGIN || "https://velora-75y.pages.dev"
@@ -34,7 +35,10 @@ const sitemapPaths = [
   "/travel/",
   "/travel/india-arrival-ready/",
   "/travel/first-international-trip/",
-  "/travel/budget-planner/"
+  "/travel/budget-planner/",
+  "/privacy/",
+  "/terms/",
+  "/safety/"
 ];
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
