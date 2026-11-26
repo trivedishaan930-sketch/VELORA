@@ -52,6 +52,23 @@ if (!appSource.includes('function resolvePlannerStyle') || !appSource.includes('
   console.error('Destination/style compatibility guidance is missing.');
   process.exit(1);
 }
+if (!appSource.includes('resolveUseCulture') || !appSource.includes('resolveEditDestination') ||
+    appSource.includes("$('#chatForm')") || appSource.includes("$('#floatConcierge')") ||
+    appSource.includes('function localConciergeReply')) {
+  console.error('Planner conflict choices or removal of the demo Concierge workflow is incomplete.');
+  process.exit(1);
+}
+const homepageSections = [...html.matchAll(/<section\\b/g)].length;
+if (homepageSections > 9 || html.includes('hero-search-panel') || html.includes('id="concierge"') ||
+    html.includes('class="wellness-section"') || html.includes('class="closing-section"')) {
+  console.error('Homepage still contains redundant modules or the travel-first hero search.');
+  process.exit(1);
+}
+if (!html.includes('ROMANCE · CONNECTION · LIFESTYLE') || !html.includes('Start a plan') ||
+    !html.includes('id="discover"')) {
+  console.error('The homepage brand/navigation entry points are incomplete.');
+  process.exit(1);
+}
 if (!html.includes('velora-hero-editorial.svg') || html.includes('velora-sunset-couple.jpg') ||
     !html.includes('og:image') || !html.includes('twitter:image')) {
   console.error('Approved hero or social-preview metadata is missing, or rejected hero is still referenced.');
@@ -64,7 +81,7 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Mobile readability or experience-journey design checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v8') || !serviceWorker.includes('velora-hero-editorial.svg') ||
+if (!serviceWorker.includes('velora-shell-v9') || !serviceWorker.includes('velora-hero-editorial.svg') ||
     serviceWorker.includes('velora-sunset-couple.jpg') || !serviceWorker.includes('./offline.html') ||
     !serviceWorker.includes("caches.match('./offline.html')")) {
   console.error('Service-worker cache / route-aware offline fallback is incomplete.');
