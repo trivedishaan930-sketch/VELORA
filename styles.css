@@ -836,3 +836,33 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   .journey-steps{grid-template-columns:1fr}
   .journey-steps li:last-child{grid-column:auto}
 }
+
+
+.ecosystem-map{margin-top:42px;padding-top:30px;border-top:1px solid rgba(16,26,44,.15)}
+.ecosystem-map-heading{display:grid;grid-template-columns:1fr 1fr;align-items:end;column-gap:30px;row-gap:12px}
+.ecosystem-map-heading .eyebrow{grid-column:1/-1}
+.ecosystem-map-heading h3{margin:0;color:var(--navy);font:500 clamp(30px,3.5vw,44px)/1.04 var(--serif);letter-spacing:-.035em}
+.ecosystem-map-heading h3 em{color:#a7794e;font-weight:400}
+.ecosystem-map-heading p{max-width:390px;margin:0;color:#65716b;font-size:14px;line-height:1.65}
+.ecosystem-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:24px}
+.ecosystem-grid article{display:grid;grid-template-columns:23px 1fr;gap:8px 10px;min-height:118px;padding:15px;border:1px solid rgba(16,26,44,.12);background:rgba(255,253,248,.58)}
+.ecosystem-grid article>span{grid-row:1/3;color:#a27e4c;font-size:11px;letter-spacing:.12em}
+.ecosystem-grid article b{display:block;color:var(--navy);font:500 18px/1.17 var(--serif)}
+.ecosystem-grid article small{display:block;margin-top:5px;color:#65716b;font-size:12px;line-height:1.45}
+.ecosystem-grid article em{grid-column:2;color:#8b704a;font-size:10px;font-style:normal;font-weight:700;letter-spacing:.12em;align-self:end}
+@media(max-width:760px){
+ .ecosystem-map{margin-top:30px;padding-top:23px}
+ .ecosystem-map-heading{grid-template-columns:1fr;gap:11px}
+ .ecosystem-map-heading h3{font-size:32px}
+ .ecosystem-map-heading p{font-size:14px;max-width:none}
+ .ecosystem-grid{grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+ .ecosystem-grid article{min-height:120px;padding:12px 10px;grid-template-columns:18px 1fr;gap:7px}
+ .ecosystem-grid article b{font-size:16px}
+ .ecosystem-grid article small{font-size:12px}
+ .ecosystem-grid article em{font-size:9px;letter-spacing:.08em}
+}
+@media(max-width:390px){
+ .ecosystem-grid{grid-template-columns:1fr}
+ .ecosystem-grid article{min-height:92px;grid-template-columns:22px 1fr}
+ .ecosystem-grid article b{font-size:18px}
+}
