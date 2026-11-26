@@ -114,7 +114,6 @@
     try {
       // Only destination and trip size move to the chosen checklist; cost amounts are not carried.
       localStorage.setItem(preparationHandoffKey, JSON.stringify(handoff));
-      window.location.assign("/travel/" + path + "/");
     } catch {
       $("budgetStatus").textContent = "Your browser could not save the temporary plan context. Opening the checklist without the summary.";
     }
