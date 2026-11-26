@@ -1,5 +1,6 @@
 /* VELORA multi-page offline shell. Cache pages first, photos independently. */
-const CACHE_NAME = 'velora-shell-v11';
+// Bump this version whenever a precached HTML, CSS, JavaScript or offline asset changes.
+const CACHE_NAME = 'velora-shell-v12';
 const CORE_ASSETS = [
   './', './index.html', './offline.html', './styles.css', './site-pages.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
