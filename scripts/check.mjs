@@ -311,8 +311,9 @@ if (missingDist.length) {
 }
 const serviceWorkerDist = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
 if (!serviceWorkerDist.includes('velora-shell-v13') ||
-    !serviceWorkerDist.includes('velora-preparation-handoff-v1')) {
-  console.error('Cloudflare build output is missing the current service worker release.');
+    !serviceWorkerDist.includes("'./travel-tools.js'") ||
+    !serviceWorkerDist.includes("'./budget-planner.js'")) {
+  console.error('Cloudflare build output is missing the current service worker shell or planning assets.');
   process.exit(1);
 }
 const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html'];
