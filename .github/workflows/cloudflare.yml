@@ -57,6 +57,13 @@ jobs:
           grep -Fq 'VELORA editorial courtyard' "$RUNNER_TEMP/velora-hero.svg"
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/velora-premium.css" -o "$RUNNER_TEMP/velora-premium.css"
           grep -Fq '.ecosystem-grid' "$RUNNER_TEMP/velora-premium.css"
+          grep -Fq 'id="ecosystem"' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'velora-hero-editorial.svg' "$RUNNER_TEMP/velora-home.html"
+          ! grep -Fq 'velora-sunset-couple.jpg' "$RUNNER_TEMP/velora-home.html"
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/public/assets/hero/velora-hero-editorial.svg" -o "$RUNNER_TEMP/velora-hero.svg"
+          grep -Fq 'VELORA editorial courtyard' "$RUNNER_TEMP/velora-hero.svg"
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/velora-premium.css" -o "$RUNNER_TEMP/velora-premium.css"
+          grep -Fq '.ecosystem-grid' "$RUNNER_TEMP/velora-premium.css"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/" -o "$RUNNER_TEMP/velora-travel.html"
           grep -Fq '<title>Travel Planning, With Confidence — VELORA Travel Guides</title>' "$RUNNER_TEMP/velora-travel.html"
