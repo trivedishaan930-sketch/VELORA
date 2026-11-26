@@ -11,7 +11,7 @@ const required = [
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
   'migrations/0001_initial.sql', 'wrangler.toml', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg',
+  'public/assets/hero/velora-hero-editorial.svg',
   'public/assets/destinations/maldives.webp',
   'public/assets/destinations/amalfi-coast.webp',
   'public/assets/destinations/kyoto-garden.webp',
@@ -45,6 +45,27 @@ const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const requiredOccasions = ['romantic-escape', 'honeymoon', 'anniversary', 'proposal', 'first-trip', 'solo-reset', 'friends', 'family'];
 if (!html.includes('id="planOccasion"') || requiredOccasions.some(key => !appSource.includes('"'+key+'"'))) {
   console.error('Occasion-aware getaway planner is incomplete.');
+  process.exit(1);
+}
+if (!appSource.includes('function resolvePlannerStyle') || !appSource.includes('"kyoto"') || !appSource.includes('Culture & city')) {
+  console.error('Destination/style compatibility guidance is missing.');
+  process.exit(1);
+}
+if (!html.includes('velora-hero-editorial.svg') || html.includes('velora-sunset-couple.jpg') ||
+    !html.includes('og:image') || !html.includes('twitter:image')) {
+  console.error('Approved hero or social-preview metadata is missing, or rejected hero is still referenced.');
+  process.exit(1);
+}
+const siteCss = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes('font-size:16px') ||
+    !html.includes('id="experienceTitle"') || !html.includes('class="journey-steps"')) {
+  console.error('Mobile readability or experience-journey design checks are missing.');
+  process.exit(1);
+}
+if (!serviceWorker.includes('velora-shell-v7') || !serviceWorker.includes('velora-hero-editorial.svg') ||
+    serviceWorker.includes('velora-sunset-couple.jpg')) {
+  console.error('Service-worker cache was not refreshed for the approved hero.');
   process.exit(1);
 }
 
@@ -100,8 +121,8 @@ if (missingAnchors.length) {
   process.exit(1);
 }
 
-if (!html.includes('id="shop"') || !html.includes('id="productGrid"')) {
-  console.error('The VELORA Shop Edit or product grid is missing.');
+if (html.includes('id="shop"') || html.includes('id="productGrid"') || html.includes('href="#shop"')) {
+  console.error('Inactive Shop should not be presented as a live homepage destination.');
   process.exit(1);
 }
 const routeConfig = JSON.parse(fs.readFileSync(path.join(root, '_routes.json'), 'utf8'));
@@ -135,7 +156,7 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
+  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
