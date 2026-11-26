@@ -31,6 +31,55 @@
   function getCurrency() {
     return $("budgetCurrency").value || "INR";
   }
+
+  function applyPlannerHandoff() {
+    const handoffKey = "velora-planner-budget-handoff-v1";
+    let handoff;
+    try {
+      const raw = localStorage.getItem(handoffKey);
+      if (!raw) return;
+      handoff = JSON.parse(raw);
+    } catch {
+      return;
+    }
+
+    const now = Date.now();
+    const createdAt = Number(handoff?.createdAt);
+    const isRecent = Number.isFinite(createdAt) && createdAt <= now + 60000 && now - createdAt <= 30 * 60 * 1000;
+    if (!handoff || handoff.version !== 1 || !isRecent || typeof handoff.destination !== "string" ||
+        !handoff.destination.trim() || handoff.destination.length > 120) {
+      try { localStorage.removeItem(handoffKey); } catch { /* Storage may be unavailable. */ }
+      return;
+    }
+
+    const currency = String(handoff.currency || "");
+    const currencyIsSupported = [...$("budgetCurrency").options].some(option => option.value === currency);
+    if (currencyIsSupported) $("budgetCurrency").value = currency;
+
+    const days = Number(handoff.duration);
+    const travellers = Number(handoff.travellers);
+    if (Number.isInteger(days) && days >= 1 && days <= 365) $("budgetDays").value = String(days);
+    if (Number.isInteger(travellers) && travellers >= 1 && travellers <= 50) $("budgetTravellers").value = String(travellers);
+
+    const ceiling = handoff.budgetCeiling === null || handoff.budgetCeiling === "" ? null : Number(handoff.budgetCeiling);
+    if (Number.isFinite(ceiling) && ceiling > 0 && ceiling <= 1000000000) $("budgetLimit").value = String(ceiling);
+
+    const context = $("plannerContextNote");
+    const contextText = $("plannerContextText");
+    if (context && contextText) {
+      const parts = [
+        handoff.destination.trim(),
+        typeof handoff.occasion === "string" ? handoff.occasion.slice(0, 80) : "Experience plan",
+        (Number.isInteger(days) && days >= 1 && days <= 365 ? days : $("budgetDays").value) + " days",
+        (Number.isInteger(travellers) && travellers >= 1 && travellers <= 50 ? travellers : $("budgetTravellers").value) + " travellers"
+      ];
+      contextText.textContent = parts.join(" · ") + ". Review the currency and budget ceiling before adding costs.";
+      context.hidden = false;
+    }
+
+    // Consume the handoff once. The editable budget form now owns the values.
+    try { localStorage.removeItem(handoffKey); } catch { /* It remains local if storage cannot be cleared. */ }
+  }
   function money(value) {
     const currency = getCurrency();
     const locale = currency === "INR" ? "en-IN" : "en-US";
@@ -228,5 +277,6 @@
   } catch {
     $("budgetLoad").disabled = true;
   }
+  applyPlannerHandoff();
   calculate();
 })();
