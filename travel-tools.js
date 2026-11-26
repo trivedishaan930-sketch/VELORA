@@ -1,4 +1,4 @@
-/* VELORA travel checklists store only item IDs locally, never travel details. */
+/* VELORA checklists store item IDs locally and can display a brief, expiring plan handoff. */
 (() => {
   "use strict";
   const preparationHandoffKey = "velora-preparation-handoff-v1";
