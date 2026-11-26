@@ -126,7 +126,7 @@ while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
 const travelPages = [
   { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
   { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
-  { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'Your First International Trip: A Practical Checklist — VELORA' },
+  { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'First International Trip Checklist — VELORA' },
   { file: 'travel/budget-planner/index.html', route: '/travel/budget-planner/', title: 'Trip Budget Planner — Estimate Your Travel Costs | VELORA' }
 ];
 const policyPages = [
