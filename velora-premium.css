@@ -125,4 +125,8 @@ body{font-size:16px}
  .policy-section p,.policy-section li{font-size:15px;line-height:1.7}
  .policy-footer{width:calc(100% - 32px);display:block;line-height:1.8}
  .policy-footer span{display:block}
-}
+}/* Contrast refinements: champagne remains a decorative/action accent; text on light surfaces uses a darker ink. */
+:root{--muted:#596761;--color-accent-text:#71522b;--color-muted-text:#596761}
+.eyebrow:not(.eyebrow-light):not(.eyebrow-gold),.small-overline,.card-kicker,.section-index,.story-meta,.policy-kicker{color:#71522b}
+.welcome-copy>p:not(.lead),.section-heading>p,.heading-aside,.destination-card>p,.style-feature-text p,.form-bottom p,.data-note,.essentials-copy>p,.story-info p,.footer-column a,.footer-bottom{color:#596761}
+.policy-section p,.policy-section li{color:#34464a}
