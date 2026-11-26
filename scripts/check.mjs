@@ -12,7 +12,6 @@ const required = [
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
   'migrations/0001_initial.sql', 'wrangler.toml', '_routes.json',
-  'public/assets/hero/velora-hero-editorial.svg',
   'public/assets/destinations/maldives.webp',
   'public/assets/destinations/amalfi-coast.webp',
   'public/assets/destinations/kyoto-garden.webp',
@@ -102,9 +101,16 @@ if (!html.includes('ROMANCE · CONNECTION · LIFESTYLE') || !html.includes('Star
   console.error('The homepage brand/navigation entry points are incomplete.');
   process.exit(1);
 }
-if (!html.includes('velora-hero-editorial.svg') || html.includes('velora-sunset-couple.jpg') ||
-    !html.includes('og:image') || !html.includes('twitter:image')) {
-  console.error('Approved hero or social-preview metadata is missing, or rejected hero is still referenced.');
+if (!html.includes('public/assets/experiences/couple-sunset-walk.webp') ||
+    html.includes('velora-hero-editorial.svg') || html.includes('velora-sunset-couple.jpg') ||
+    !html.includes('public/assets/destinations/maldives.webp') ||
+    !html.includes('public/assets/destinations/amalfi-coast.webp') ||
+    !html.includes('public/assets/destinations/kyoto-garden.webp') ||
+    html.includes('MADE FOR ADULTS') ||
+    !html.includes('THOUGHTFUL EXPERIENCES. BEAUTIFULLY CONSIDERED.') ||
+    !html.includes('og:image') || !html.includes('twitter:image') ||
+    html.includes('Manrope:wght')) {
+  console.error('Premium photography, destination images, announcement copy or one-sans font setup is incomplete.');
   process.exit(1);
 }
 const siteCss = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
@@ -114,10 +120,16 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Mobile readability or experience-journey design checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v9') || !serviceWorker.includes('velora-hero-editorial.svg') ||
-    serviceWorker.includes('velora-sunset-couple.jpg') || !serviceWorker.includes('./offline.html') ||
+if (!serviceWorker.includes('velora-shell-v10') ||
+    !serviceWorker.includes('couple-sunset-walk.webp') ||
+    !serviceWorker.includes('maldives.webp') ||
+    !serviceWorker.includes('amalfi-coast.webp') ||
+    !serviceWorker.includes('kyoto-garden.webp') ||
+    !serviceWorker.includes('await cache.addAll(CORE_ASSETS)') ||
+    !serviceWorker.includes('await cache.add(asset)') ||
+    !serviceWorker.includes('./offline.html') ||
     !serviceWorker.includes("caches.match('./offline.html')")) {
-  console.error('Service-worker cache / route-aware offline fallback is incomplete.');
+  console.error('Offline image caching or route-aware fallback is incomplete.');
   process.exit(1);
 }
 
@@ -239,7 +251,7 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
+  'public/assets/experiences/couple-sunset-walk.webp', 'public/assets/destinations/maldives.webp', 'public/assets/destinations/amalfi-coast.webp', 'public/assets/destinations/kyoto-garden.webp', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {

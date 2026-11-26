@@ -51,7 +51,19 @@ jobs:
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/\">" "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'id="planOccasion"' "$RUNNER_TEMP/velora-home.html"
           grep -Fq 'id="planBudgetCurrency"' "$RUNNER_TEMP/velora-home.html"
-          grep -Fq 'velora-hero-editorial.svg' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'couple-sunset-walk.webp' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'maldives.webp' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'amalfi-coast.webp' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'kyoto-garden.webp' "$RUNNER_TEMP/velora-home.html"
+          grep -Fq 'THOUGHTFUL EXPERIENCES. BEAUTIFULLY CONSIDERED.' "$RUNNER_TEMP/velora-home.html"
+          if grep -Fq 'MADE FOR ADULTS' "$RUNNER_TEMP/velora-home.html"; then
+            echo "Unwanted adult-only announcement wording is still present."
+            exit 1
+          fi
+          if grep -Fq 'velora-hero-editorial.svg' "$RUNNER_TEMP/velora-home.html"; then
+            echo "Temporary illustration hero is still referenced by the public homepage."
+            exit 1
+          fi
           if grep -Fq 'velora-sunset-couple.jpg' "$RUNNER_TEMP/velora-home.html"; then
             echo "Rejected hero asset is still referenced by the public homepage."
             exit 1
