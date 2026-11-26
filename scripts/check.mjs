@@ -44,13 +44,27 @@ const premiumCss = fs.readFileSync(path.join(root, 'velora-premium.css'), 'utf8'
 const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const requiredOccasions = ['romantic-escape', 'honeymoon', 'anniversary', 'proposal', 'first-trip', 'solo-reset', 'friends', 'family'];
+function relativeLuminance(hex) {
+  const rgb = hex.replace('#', '').match(/.{2}/g).map(value => parseInt(value, 16) / 255);
+  const linear = rgb.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+function contrastRatio(foreground, background) {
+  const values = [relativeLuminance(foreground), relativeLuminance(background)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+if (contrastRatio('#71522B', '#F7F3E9') < 4.5 || contrastRatio('#596761', '#F7F3E9') < 4.5 ||
+    !premiumCss.includes('color:#71522b') || !premiumCss.includes('color:#596761')) {
+  console.error('Core light-surface text contrast tokens do not meet the AA normal-text threshold.');
+  process.exit(1);
+}
 const ecosystemCards = (html.match(/class="ecosystem-card"/g) || []).length;
 if (ecosystemCards !== 8 || !html.includes('velora-hero-editorial.svg') ||
     !html.includes('og:image" content="https://velora-75y.pages.dev/public/assets/hero/velora-hero-editorial.svg') ||
     !html.includes('twitter:image" content="https://velora-75y.pages.dev/public/assets/hero/velora-hero-editorial.svg') ||
     html.includes('velora-sunset-couple.jpg') || html.includes('id="shop"') ||
     !html.includes('href="velora-premium.css"') ||
-    !serviceWorker.includes('velora-shell-v8') || serviceWorker.includes('velora-sunset-couple.jpg') ||
+    !serviceWorker.includes('velora-shell-v9') || serviceWorker.includes('velora-sunset-couple.jpg') ||
     !serviceWorker.includes('velora-hero-editorial.svg') ||
     !premiumCss.includes('.floating-concierge{display:none!important}')) {
   console.error('Premium brand, ecosystem, image, cache or mobile acceptance check failed.');
