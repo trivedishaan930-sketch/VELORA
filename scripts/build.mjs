@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist");
 const publishFiles = [
   "index.html", "offline.html", "styles.css", "app.js", "admin-products.html",
-  "admin-products.js", "guide.css", "site-pages.css", "travel-tools.js", "budget-planner.js", "_headers", "_routes.json"
+  "admin-products.js", "guide.css", "site-pages.css", "travel-tools.js", "budget-planner.js", "sw.js", "_headers", "_routes.json"
 ];
 
 await rm(output, { recursive: true, force: true });
