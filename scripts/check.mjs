@@ -48,6 +48,31 @@ if (!html.includes('id="planOccasion"') || requiredOccasions.some(key => !appSou
   console.error('Occasion-aware getaway planner is incomplete.');
   process.exit(1);
 }
+
+const supportedCurrencies = ['INR', 'USD', 'EUR', 'GBP', 'AED', 'SGD', 'THB', 'JPY'];
+const plannerCurrencyBlock = html.slice(html.indexOf('id="planBudgetCurrency"'), html.indexOf('</select>', html.indexOf('id="planBudgetCurrency"')) + 9);
+const plannerTravellerField = html.includes('id="planTravellers" name="travellers" type="number"');
+if (!plannerCurrencyBlock || supportedCurrencies.some(code => !plannerCurrencyBlock.includes('value="' + code + '"')) ||
+    !plannerCurrencyBlock.includes('value="INR" selected') || !plannerTravellerField ||
+    !html.includes('id="planBudgetAmount"') || html.includes('id="planBudget"')) {
+  console.error('Local-currency budget and exact traveller-count inputs are incomplete.');
+  process.exit(1);
+}
+const budgetPageSource = fs.readFileSync(path.join(root, 'travel/budget-planner/index.html'), 'utf8');
+const budgetScriptSource = fs.readFileSync(path.join(root, 'budget-planner.js'), 'utf8');
+const budgetCurrencyStart = budgetPageSource.indexOf('id="budgetCurrency"');
+const budgetCurrencyBlock = budgetPageSource.slice(budgetCurrencyStart, budgetPageSource.indexOf('</select>', budgetCurrencyStart) + 9);
+if (supportedCurrencies.some(code => !budgetCurrencyBlock.includes('value="' + code + '"')) ||
+    !budgetPageSource.includes('id="plannerContextNote"') ||
+    !appSource.includes('velora-planner-budget-handoff-v1') ||
+    !appSource.includes('localStorage.setItem(plannerHandoffKey') ||
+    !appSource.includes("window.location.assign('/travel/budget-planner/')") ||
+    !budgetScriptSource.includes('function applyPlannerHandoff') ||
+    !budgetScriptSource.includes('localStorage.removeItem(handoffKey)') ||
+    !fs.readFileSync(path.join(root, 'privacy/index.html'), 'utf8').includes('one-time')) {
+  console.error('Planner-to-budget local handoff, receiving context or privacy notice is incomplete.');
+  process.exit(1);
+}
 if (!appSource.includes('function resolvePlannerStyle') || !appSource.includes('"kyoto"') || !appSource.includes('Culture & city')) {
   console.error('Destination/style compatibility guidance is missing.');
   process.exit(1);
