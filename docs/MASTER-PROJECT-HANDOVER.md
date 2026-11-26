@@ -712,3 +712,18 @@ This is the response to the founder's mobile screenshots and renewed direction f
 4. Correct the OpenSEO tracked hostname to `velora-75y.pages.dev` and connect the correct Google Search Console property.
 5. Continue only with safe UX/content improvements; D1, Amazon API, accounts, catalogue, payments and bookings remain gated and unconfigured.
 
+---
+
+# Current release update — budget-to-preparation flow (26 November 2026)
+
+The main branch now connects the browser-local Trip Budget Planner to the appropriate existing travel-preparation guide:
+
+- After the visitor calculates an estimate, the page offers separate next steps for visiting India or travelling abroad from India.
+- Only optional destination, trip length and traveller count are passed in a 30-minute, one-time local browser handoff. Costs, budget/currency figures and personal identity details are not passed.
+- The selected guide displays the summary as a planning reminder, not a verified travel requirement. Checklist ticks remain separate and local.
+- Privacy wording and responsive styling were updated.
+- Service worker is v13. A deployment defect was found and fixed: the build script had omitted `sw.js` from `dist`. The build now copies and verifies the worker, and Cloudflare Pages applies explicit revalidation headers to `/sw.js`.
+- Verified main commit: `9d4bb370957be95ef1f033b0ae82af6582201c64`.
+- Quality run `45760052581` and Cloudflare deployment/live smoke run `45760052539` both succeeded.
+
+Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibility, Google Search Console ownership and real browser/device end-to-end QA. Do not claim product inventory, live prices, bookings, accounts or synced user plans are operational.
