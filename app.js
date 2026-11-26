@@ -309,7 +309,7 @@
     "new york", "singapore", "istanbul", "florence", "agra"
   ];
   function resolvePlannerStyle(destination, requestedStyle) {
-    const normalized = destination.toLowerCase().replace(/\\s+/g, " ").trim();
+    const normalized = destination.toLowerCase().replace(/\s+/g, " ").trim();
     const knownCity = cultureFirstDestinations.find(place => normalized === place || normalized.includes(place));
     if (knownCity && requestedStyle === "Beach & coast") {
       return {
