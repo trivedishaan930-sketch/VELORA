@@ -50,7 +50,7 @@ if (ecosystemCards !== 8 || !html.includes('velora-hero-editorial.svg') ||
     !html.includes('twitter:image" content="https://velora-75y.pages.dev/public/assets/hero/velora-hero-editorial.svg') ||
     html.includes('velora-sunset-couple.jpg') || html.includes('id="shop"') ||
     !html.includes('href="velora-premium.css"') ||
-    !serviceWorker.includes('velora-shell-v7') || serviceWorker.includes('velora-sunset-couple.jpg') ||
+    !serviceWorker.includes('velora-shell-v8') || serviceWorker.includes('velora-sunset-couple.jpg') ||
     !serviceWorker.includes('velora-hero-editorial.svg') ||
     !premiumCss.includes('.floating-concierge{display:none!important}')) {
   console.error('Premium brand, ecosystem, image, cache or mobile acceptance check failed.');
