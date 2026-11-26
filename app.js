@@ -420,66 +420,10 @@
   }
 
 
-  async function loadProductEdit() {
-    const grid = $('#productGrid');
-    if (!grid) return;
-    try {
-      const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('Catalogue not connected');
-      const payload = await response.json();
-      const products = Array.isArray(payload.products) ? payload.products : [];
-      grid.replaceChildren();
-      if (!products.length) {
-        const empty = document.createElement('div');
-        empty.className = 'product-empty';
-        const mark = document.createElement('span'); mark.textContent = '✳';
-        const title = document.createElement('b'); title.textContent = 'The VELORA edit is being prepared.';
-        const note = document.createElement('small'); note.textContent = 'Our curated travel essentials will appear here when the approved product catalogue is ready.';
-        empty.append(mark, title, note); grid.append(empty); return;
-      }
-      products.forEach(product => {
-        const card = document.createElement('article'); card.className = 'product-card';
-        const imageLink = document.createElement('a'); imageLink.className = 'product-image-link';
-        imageLink.href = product.affiliateUrl; imageLink.target = '_blank'; imageLink.rel = 'sponsored nofollow noopener';
-        imageLink.setAttribute('aria-label', 'View ' + product.title + ' on Amazon');
-        const image = document.createElement('img'); image.src = product.imageUrl; image.alt = product.title; image.loading = 'lazy';
-        imageLink.append(image);
-        const info = document.createElement('div'); info.className = 'product-card-info';
-        const category = document.createElement('span'); category.className = 'product-category'; category.textContent = (product.category || 'travel essential').replaceAll('-', ' ');
-        const title = document.createElement('h4'); title.textContent = product.title;
-        const link = document.createElement('a'); link.className = 'product-visit-link'; link.href = product.affiliateUrl; link.target = '_blank'; link.rel = 'sponsored nofollow noopener'; link.textContent = 'View on Amazon ↗';
-        const disclosure = document.createElement('small'); disclosure.className = 'product-link-disclosure'; disclosure.textContent = '(paid link)';
-        info.append(category, title, link, disclosure); card.append(imageLink, info); grid.append(card);
-      });
-    } catch {
-      grid.replaceChildren();
-      const empty = document.createElement('div'); empty.className = 'product-empty';
-      const mark = document.createElement('span'); mark.textContent = '✳';
-      const title = document.createElement('b'); title.textContent = 'The VELORA shop is being connected.';
-      const note = document.createElement('small'); note.textContent = 'Please check back soon for curated travel essentials.';
-      empty.append(mark, title, note); grid.append(empty);
-    }
-  }
-
   // Initial setup.
   $('#year').textContent = String(new Date().getFullYear());
-  updateSavedCount(); renderSaved(); syncSaveButtons(); renderChecklist(); loadProductEdit();
+  updateSavedCount(); renderSaved(); syncSaveButtons(); renderChecklist();
   // Keep VELORA as a responsive website while Amazon affiliate links are being reviewed.
 
-  // Hero search routes visitors into the existing full getaway planner.
-  const heroSearchForm = $('#heroSearchForm');
-  if (heroSearchForm) {
-    heroSearchForm.addEventListener('submit', event => {
-      event.preventDefault();
-      const destination = $('#heroDestination').value.trim() || 'Surprise me';
-      $('#planDestination').value = destination;
-      const date = $('#heroDate').value;
-      if (date) $('#planDate').value = date;
-      $('#planTravellers').value = $('#heroTravellers').value;
-      $('#planner').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => $('#planDestination').focus({ preventScroll: true }), 450);
-      showToast('Your getaway starts with a few thoughtful details.');
-    });
-  }
 
 })();
