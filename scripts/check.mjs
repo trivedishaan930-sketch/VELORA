@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'index.html', 'styles.css', 'app.js', 'package.json',
+  'privacy/index.html', 'terms/index.html', 'safety/index.html',
   'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
@@ -77,8 +78,13 @@ const travelPages = [
   { file: 'travel/first-international-trip/index.html', route: '/travel/first-international-trip/', title: 'Your First International Trip: A Practical Checklist — VELORA' },
   { file: 'travel/budget-planner/index.html', route: '/travel/budget-planner/', title: 'Trip Budget Planner — Estimate Your Travel Costs | VELORA' }
 ];
+const policyPages = [
+  { file: 'privacy/index.html', route: '/privacy/', title: 'Privacy Information — VELORA' },
+  { file: 'terms/index.html', route: '/terms/', title: 'Terms of Use — VELORA' },
+  { file: 'safety/index.html', route: '/safety/', title: 'Safety & Respect — VELORA' }
+];
 const titlesSeen = new Set();
-for (const page of travelPages) {
+for (const page of [...travelPages, ...policyPages]) {
   const source = fs.readFileSync(path.join(root, page.file), 'utf8');
   const titleStart = source.indexOf('<title>');
   const titleEnd = source.indexOf('</title>');
@@ -95,7 +101,7 @@ for (const page of travelPages) {
     console.error('Travel page SEO structure failed:', page.file);
     process.exit(1);
   }
-  if (page.route !== '/travel/' && page.route !== '/travel/budget-planner/' && !source.includes('/travel-tools.js')) {
+  if (page.route.startsWith('/travel/') && page.route !== '/travel/' && page.route !== '/travel/budget-planner/' && !source.includes('/travel-tools.js')) {
     console.error('Interactive travel checklist script missing:', page.file);
     process.exit(1);
   }
@@ -156,7 +162,7 @@ const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
+  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
@@ -170,7 +176,7 @@ if (missingGuideDist.length) {
   process.exit(1);
 }
 const sitemapContent = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
-for (const page of travelPages) {
+for (const page of [...travelPages, ...policyPages]) {
   if (!sitemapContent.includes('<loc>' + siteOrigin + page.route + '</loc>')) {
     console.error('Travel page missing from sitemap:', page.route);
     process.exit(1);
@@ -183,4 +189,4 @@ if (forbiddenDist.length) {
   process.exit(1);
 }
 console.log('VELORA checks passed: ' + required.length + ' required files, ' + jsFiles.length +
-  ' JavaScript syntax checks, unique IDs, anchor targets, API routes, Amazon module, local assets and safe build output.');
+  ' JavaScript syntax checks, unique IDs, anchor targets, travel and policy page metadata, API routes, Amazon module, local assets and safe build output.');
