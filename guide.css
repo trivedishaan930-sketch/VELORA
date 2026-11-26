@@ -15,6 +15,8 @@
 .guide-visual-caption{position:absolute;z-index:1;left:24px;bottom:22px;color:#fff}.guide-visual-caption small{display:block;color:var(--gold-light);font-size:8px;letter-spacing:.18em}.guide-visual-caption b{display:block;margin-top:6px;font:500 30px/1.08 var(--serif)}
 .guide-meta{display:flex;gap:13px;flex-wrap:wrap;margin-top:18px;color:#929086;font-size:8px;letter-spacing:.1em;text-transform:uppercase}.guide-meta span+span:before{content:"•";margin-right:12px;color:var(--gold)}
 .guide-note{margin:0 0 30px;padding:15px 18px;border-left:3px solid var(--gold);background:#eee9dc;color:#626e66;font-size:11px;line-height:1.8}.guide-note strong{color:var(--navy)}
+.guide-note.plan-context-note{margin:-4px 0 18px}
+.guide-note.plan-context-note p{margin:7px 0 0}
 .guide-section{padding:50px 0;border-top:1px solid rgba(16,26,44,.12)}.guide-section.compact{padding:34px 0}
 .guide-section-heading{max-width:760px;margin-bottom:25px}.guide-section-heading h2{margin:9px 0;color:var(--navy);font:500 clamp(34px,4vw,51px)/1.05 var(--serif);letter-spacing:-.04em}.guide-section-heading p{max-width:680px;margin:0;color:#737d75;font-size:12px;line-height:1.9}
 .guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.guide-card{display:flex;flex-direction:column;min-height:220px;padding:22px;background:#fffdf8;border:1px solid rgba(16,26,44,.1);box-shadow:0 10px 30px rgba(16,26,44,.04)}
@@ -92,7 +94,15 @@
 .budget-bar-track span{display:block;height:100%;background:linear-gradient(90deg,#b18b55,#e1c38b)}
 .budget-result-actions{display:flex;gap:10px;margin-top:21px}
 .budget-result-actions .guide-button{border:0;cursor:pointer}
+.budget-next-step{display:grid;gap:14px;margin-top:20px;padding:18px;background:#f2eee5;border:1px solid rgba(16,26,44,.12)}
+.budget-next-step h3{margin:7px 0;color:var(--navy);font:500 25px/1.12 var(--serif)}
+.budget-next-step p{margin:0;color:#68756e;font-size:10px;line-height:1.7}
+.budget-next-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.budget-next-options button{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;padding:11px 12px;border:1px solid rgba(16,26,44,.2);background:#fffdf8;color:var(--navy);font-size:10px;font-weight:700;text-align:left}
+.budget-next-options button:hover,.budget-next-options button:focus-visible{background:var(--navy);color:#fff}
+.budget-next-options button span{color:#a17d4d}
+.budget-next-privacy{padding-top:11px;border-top:1px solid rgba(16,26,44,.12);font-size:9px!important}
 .budget-footnote{margin:15px 0 0;color:#929289;font-size:8px;line-height:1.8}
 @media(max-width:920px){.budget-shell{grid-template-columns:1fr}.budget-results{position:static}.budget-total-card strong{font-size:38px}}
-@media(max-width:620px){.budget-form,.budget-results{padding:17px}.budget-fields{grid-template-columns:1fr}.budget-section-heading{display:block}.budget-section-heading p{margin-top:5px}.budget-actions{display:grid;grid-template-columns:1fr 1fr}.budget-actions .guide-button{justify-content:center}.budget-reset{grid-column:1/-1;text-align:left}.budget-result-head h2{font-size:34px}.budget-stat-grid{grid-template-columns:1fr 1fr}}
-@media print{.guide-topbar,.guide-breadcrumbs,.guide-hero,.guide-note,.budget-form,.guide-footer,.guide-actions,.budget-result-actions{display:none!important}.budget-shell{display:block}.budget-results{position:static;box-shadow:none;border:0;padding:0}.budget-page{background:#fff}.guide-wrap{width:100%}.budget-footnote{font-size:10px}}
+@media(max-width:620px){.budget-form,.budget-results{padding:17px}.budget-fields{grid-template-columns:1fr}.budget-section-heading{display:block}.budget-section-heading p{margin-top:5px}.budget-actions{display:grid;grid-template-columns:1fr 1fr}.budget-actions .guide-button{justify-content:center}.budget-reset{grid-column:1/-1;text-align:left}.budget-result-head h2{font-size:34px}.budget-stat-grid{grid-template-columns:1fr 1fr}.budget-next-options{grid-template-columns:1fr}}
+@media print{.guide-topbar,.guide-breadcrumbs,.guide-hero,.guide-note,.budget-form,.guide-footer,.guide-actions,.budget-result-actions,.budget-next-step{display:none!important}.budget-shell{display:block}.budget-results{position:static;box-shadow:none;border:0;padding:0}.budget-page{background:#fff}.guide-wrap{width:100%}.budget-footnote{font-size:10px}}

@@ -109,15 +109,25 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/india-arrival-ready/" -o "$RUNNER_TEMP/velora-india-arrival.html"
           grep -Fq '<title>India Arrival Ready: Your First 72 Hours — VELORA</title>' "$RUNNER_TEMP/velora-india-arrival.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/india-arrival-ready/\">" "$RUNNER_TEMP/velora-india-arrival.html"
+          grep -Fq 'data-checklist="india-arrival-ready"' "$RUNNER_TEMP/velora-india-arrival.html"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/first-international-trip/" -o "$RUNNER_TEMP/velora-first-trip.html"
           grep -Fq '<title>First International Trip Checklist — VELORA</title>' "$RUNNER_TEMP/velora-first-trip.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/first-international-trip/\">" "$RUNNER_TEMP/velora-first-trip.html"
+          grep -Fq 'data-checklist="first-international-trip"' "$RUNNER_TEMP/velora-first-trip.html"
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel/budget-planner/" -o "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq '<title>Trip Budget Planner — Estimate Your Travel Costs | VELORA</title>' "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq "<link rel=\"canonical\" href=\"$SITE_ORIGIN/travel/budget-planner/\">" "$RUNNER_TEMP/velora-budget-planner.html"
           grep -Fq 'id="plannerContextNote"' "$RUNNER_TEMP/velora-budget-planner.html"
+          grep -Fq 'id="budgetNextStep"' "$RUNNER_TEMP/velora-budget-planner.html"
+
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/budget-planner.js" -o "$RUNNER_TEMP/velora-budget-planner.js"
+          grep -Fq 'velora-preparation-handoff-v1' "$RUNNER_TEMP/velora-budget-planner.js"
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/travel-tools.js" -o "$RUNNER_TEMP/velora-travel-tools.js"
+          grep -Fq 'plan-context-note' "$RUNNER_TEMP/velora-travel-tools.js"
+          curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/sw.js" -o "$RUNNER_TEMP/velora-sw.js"
+          grep -Fq 'velora-shell-v13' "$RUNNER_TEMP/velora-sw.js"
 
           for policy in privacy terms safety; do
             curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/$policy/" -o "$RUNNER_TEMP/velora-$policy.html"
@@ -146,4 +156,4 @@ jobs:
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
 
-          echo "Production smoke checks passed: homepage, planner, style, journal articles, travel, policies, canonical URLs, robots, sitemap and API health."
+          echo "Production smoke checks passed: homepage, planner, budget-to-preparation journeys, style, journal articles, travel, policies, canonical URLs, robots, sitemap and API health."

@@ -21,6 +21,9 @@
     other: "Other costs"
   };
   let lastBreakdown = [];
+  let plannerContext = null;
+  let preparationStepReady = false;
+  const preparationHandoffKey = "velora-preparation-handoff-v1";
 
   function readNumber(id, fallback = 0) {
     const el = $(id);
@@ -52,6 +55,11 @@
       return;
     }
 
+    plannerContext = {
+      destination: handoff.destination.trim().slice(0, 120),
+      occasion: typeof handoff.occasion === "string" ? handoff.occasion.slice(0, 80) : "Experience plan"
+    };
+
     const currency = String(handoff.currency || "");
     const currencyIsSupported = [...$("budgetCurrency").options].some(option => option.value === currency);
     if (currencyIsSupported) $("budgetCurrency").value = currency;
@@ -80,6 +88,38 @@
     // Consume the handoff once. The editable budget form now owns the values.
     try { localStorage.removeItem(handoffKey); } catch { /* It remains local if storage cannot be cleared. */ }
   }
+  function updatePreparationStep() {
+    const section = $("budgetNextStep");
+    const description = $("budgetNextDescription");
+    if (!section) return;
+    section.hidden = !preparationStepReady;
+    if (description) {
+      description.textContent = plannerContext?.destination
+        ? "Your current plan for " + plannerContext.destination + " is ready for the next step. Choose the checklist that matches your journey direction."
+        : "Choose the checklist that matches your journey direction. Your trip length and traveller count will be carried forward on this device.";
+    }
+  }
+
+  function continueToPreparation(path) {
+    const allowedPaths = new Set(["india-arrival-ready", "first-international-trip"]);
+    if (!allowedPaths.has(path) || !validate()) return;
+    const handoff = {
+      version: 1,
+      createdAt: Date.now(),
+      path,
+      destination: plannerContext?.destination || "",
+      days: readNumber("budgetDays", 5),
+      travellers: readNumber("budgetTravellers", 2)
+    };
+    try {
+      // Only destination and trip size move to the chosen checklist; cost amounts are not carried.
+      localStorage.setItem(preparationHandoffKey, JSON.stringify(handoff));
+    } catch {
+      $("budgetStatus").textContent = "Your browser could not save the temporary plan context. Opening the checklist without the summary.";
+    }
+    window.location.assign("/travel/" + path + "/");
+  }
+
   function money(value) {
     const currency = getCurrency();
     const locale = currency === "INR" ? "en-IN" : "en-US";
@@ -124,8 +164,10 @@
   function collectValues() {
     return Object.fromEntries(ids.map(id => [id, $(id).value]));
   }
-  function calculate() {
+  function calculate({ revealPreparation = false } = {}) {
     if (!validate()) return;
+    if (revealPreparation) preparationStepReady = true;
+    updatePreparationStep();
     const days = readNumber("budgetDays", 5);
     const travellers = readNumber("budgetTravellers", 2);
     const food = readNumber("costFood") * days * travellers;
@@ -229,7 +271,10 @@
   }
   form.addEventListener("submit", event => {
     event.preventDefault();
-    calculate();
+    calculate({ revealPreparation: true });
+  });
+  document.querySelectorAll("[data-prep-route]").forEach(button => {
+    button.addEventListener("click", () => continueToPreparation(button.dataset.prepRoute));
   });
   ids.forEach(id => {
     $(id).addEventListener("input", calculate);
@@ -260,6 +305,11 @@
   });
   $("budgetReset").addEventListener("click", () => {
     form.reset();
+    plannerContext = null;
+    preparationStepReady = false;
+    const contextNote = $("plannerContextNote");
+    if (contextNote) contextNote.hidden = true;
+    updatePreparationStep();
     ids.forEach(id => $(id).setCustomValidity(""));
     $("budgetComparison").hidden = true;
     $("contingencyValue").textContent = "10%";
