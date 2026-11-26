@@ -422,3 +422,41 @@ Three founder-supplied independent reports have now been reviewed: the complete 
 
 ### Execution order override
 Complete P0 visual/release blockers before adding decorative departments or secondary features. Then complete one honest plan → budget → preparation flow. Department expansion, live AI, D1-backed commerce, public connection/matching and user-generated content stay gated by genuine demand, approvals, safety, privacy and operational readiness.
+
+---
+
+## Execution status update — 26 November 2026
+
+This status is reconciled against main, the live site, GitHub Actions and the OpenSEO crawl. It supersedes any older “not started” statements for the listed work.
+
+### Completed and deployed
+
+- **P0 hero:** approved editorial SVG is the homepage/social-preview asset; rejected hero JPG is no longer referenced by homepage or the service-worker cache; cache version is `velora-shell-v9`.
+- **P0 homepage identity:** eight departments are represented with three clear entry intentions and honest capability states. Redundant hero search and inactive floating Concierge/chat shell have been removed.
+- **P0 mobile source fixes:** fixed Concierge CTA is hidden below the mobile breakpoint; form controls use 16px text. Exact 390×844 / 360×800 rendering still needs a real viewport screenshot/test.
+- **P1 planner compatibility:** Kyoto + Beach & coast now triggers a clear destination/style choice; live browser QA confirmed the Culture & city resolution.
+- **P1 journey handoff:** planner stores an explicit one-time browser-local handoff and the budget page reads and displays it. Browser automation did not conclusively exercise the actual Continue click and navigation; keep this as source/route-verified, not complete end-to-end QA.
+- **P1 policy pages:** distinct Privacy, Terms and Safety routes are deployed. Privacy/Terms now describe the AI Concierge as future/not available, consistent with the homepage.
+- **SEO metadata:** four overlong descriptions and one overlong title were shortened. Automated checks now enforce title ≤60 and description 70–160 characters on all homepage, travel and policy pages.
+
+### Release evidence
+
+- Commit `38c31ef5e34ef4bf180720675201de77905594cf`: quality run `45745007199` passed; Cloudflare deploy + production smoke `45745007245` passed.
+- Latest code/policy commit `54d541f212cfd388bce9e3f5c13e956b7ae03d07`: quality run `45745139602` passed; Cloudflare deploy + production smoke `45745139545` passed.
+- OpenSEO audit `c76b2f7f-e50b-433f-9d53-8642997c886a` crawled 8/8 sitemap routes, all HTTP 200 and indexable, all with one H1 and no missing image alt. Its five informational metadata warnings were the reason for the metadata patch.
+
+### Remaining constraints
+
+- OpenSEO project domain remains stale at `trivedishaan930-sketch.github.io`; production Pages host is `velora-75y.pages.dev`. Change the project target in OpenSEO settings before interpreting rank metrics.
+- Search Console is not connected. First-party search performance is unavailable until the correct property is authorised.
+- Browser automation could not resize to exact mobile viewports; no mobile-device pass is claimed.
+- API health is `ok=true`, but D1 and Amazon Creators API remain unconfigured. No account, catalogue, affiliate checkout, payments or bookings are active.
+
+### Next priority order
+
+1. Re-crawl the final deployment and confirm the metadata warnings are gone.
+2. Run exact responsive visual checks at 390×844 and 360×800; exercise Continue to budget and the guide/checklist transition end-to-end.
+3. Correct the OpenSEO project hostname and connect Search Console.
+4. Improve route-aware offline behaviour and destination-relevant preparation.
+5. Resume D1 read-only inventory only after the founder supplies the separate D1 Read token. Keep all gated commercial and connection features disabled until their release gates are met.
+

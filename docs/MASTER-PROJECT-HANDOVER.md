@@ -617,3 +617,51 @@ Founder supplied the full Manus audit attachment, full Grok report and Claude su
 **Important evidence nuance:** Claude raised an admin-page protection question but did not claim it had verified a vulnerability. Source review confirms the admin HTML is publicly addressable, while server-side admin functions require a Bearer token and D1. `noindex` alone is not security; review rate limiting/access-layer hardening before activation. Manus's 25 Nov live observations and same-SHA workflow pass refer to the inspected 73852... snapshot; do not project that status onto later commits without checking them.
 
 **User expectation:** do not ask the founder to restate the brief or approve routine reversible source changes. On each `VELORA PUSH`, read the operating plan and audit synthesis, inspect current main/live state, implement the highest-priority safe task, verify tests/deployment and keep these documents current.
+
+---
+
+## Verified execution continuity update — 26 November 2026
+
+The 26 November Manus/Grok/Claude findings were checked against the latest source and live Cloudflare release. This update supersedes the pre-implementation status above where facts conflict.
+
+### Current verified release
+
+- Latest product/policy source commit: `54d541f212cfd388bce9e3f5c13e956b7ae03d07`.
+- Quality workflow `45745139602`: passed on that exact commit.
+- Cloudflare Pages deployment and production smoke workflow `45745139545`: passed on that exact commit.
+- Active production host remains `https://velora-75y.pages.dev`; Pages project name remains `velora`.
+- The earlier successful same-SHA metadata release is commit `38c31ef5e34ef4bf180720675201de77905594cf`, quality run `45745007199`, deployment run `45745007245`.
+
+### Work completed and source-verified
+
+1. Replaced the rejected hero reference with the approved editorial SVG in the homepage and social preview; the old rejected JPG is not referenced by the homepage or service-worker core cache. The service-worker cache is versioned `velora-shell-v9`.
+2. Simplified homepage navigation and content around the complete eight-department VELORA ecosystem, three user-intent paths and honest Live / Demo / Editorial / Preview / Future states. The redundant hero quick-search and inactive Concierge/chat shell are removed.
+3. The floating Concierge CTA is hidden at mobile breakpoints; mobile form inputs use a readable 16px minimum. A live browser check at exact 390×844 and 360×800 was not possible in this run, so do not mark exact-device visual QA as passed.
+4. Added conservative destination/style conflict guidance. A live browser test with Kyoto + Beach & coast displayed a clear choice; choosing Culture & city resolved the mismatch.
+5. Implemented the user-triggered, browser-local planner-to-budget handoff with destination, occasion, duration, traveller count, currency and optional ceiling. The budget page contains the context notice and makes clear that entered amounts are not live quotes. The browser automation did not conclusively perform the Continue-button navigation end-to-end; the implementation is source-checked and the production smoke test checks the receiving route/context.
+6. Added distinct crawlable Privacy, Terms and Safety pages. Corrected the policy wording so AI Concierge is consistently described as a future capability, not an available browser demo or connected AI.
+7. Shortened the homepage, budget-planner, first-international-trip and India-arrival meta descriptions to 133–137 characters; shortened the first-trip page title from 61 to 43 characters. Added automated title (maximum 60 characters) and description (70–160 characters) checks for homepage, travel and policy routes.
+
+### Live foundation audit on 26 November
+
+OpenSEO crawl `c76b2f7f-e50b-433f-9d53-8642997c886a` completed all 8 sitemap URLs. Every crawled page returned HTTP 200 and was marked indexable; every page had one H1 and zero images missing alt text. The baseline crawl reported only five informational metadata-length warnings (four descriptions and one title), which have since been corrected in source and deployed. No broken-page, missing-title, missing-H1 or missing-alt issue was returned.
+
+The production `/api/health` endpoint still reports `ok=true`, `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. Do not claim database-backed accounts, catalogue, Amazon API, payments or bookings are active.
+
+### Reporting limitations and founder-side dependencies
+
+- OpenSEO project VELORA still targets `trivedishaan930-sketch.github.io`, not the verified production host `velora-75y.pages.dev`. No project-domain edit action was available in this session; correct the OpenSEO project target in its settings before interpreting rankings.
+- Google Search Console is not connected to this OpenSEO project. No first-party click, impression, CTR or average-position claims can be made until the owner connects the correct property: `https://app.openseo.so/p/18e3573d-194a-4456-ad0e-0ca4f7dac95d/search-performance`.
+- Exact mobile screenshots at 390×844 and 360×800 and the complete Continue-to-budget interactive transition remain unverified by browser automation. Do not overstate those tests.
+- D1 inventory remains blocked until the founder creates the separate least-privilege D1 Read token and stores it as `CLOUDFLARE_D1_READ_TOKEN`, as described above. Do not modify the Pages deployment token or create a database without approval.
+
+### Next execution priorities
+
+1. Re-run the OpenSEO crawl after the latest policy/metadata release and confirm zero metadata-length issues.
+2. Complete exact mobile viewport visual QA and one genuinely end-to-end planner → budget → guide/checklist test.
+3. Correct the OpenSEO tracked hostname and connect Search Console.
+4. Continue the route-aware offline experience and improve destination-specific preparation while retaining truthful live-data boundaries.
+5. Inspect D1 read-only only after the founder-side token is available; keep catalogue, affiliate API, payments and accounts disabled until independently verified.
+
+Continue autonomously on safe, reversible source, UX, content and test work. Never invent the missing live/mobile/GSC/D1 evidence.
+
