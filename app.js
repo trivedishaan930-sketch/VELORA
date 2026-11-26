@@ -316,6 +316,26 @@
     const date = $('#planDate').value;
     const budget = $('#planBudget').value;
     const stay = $('#planStay').value;
+    const normalisedDestination = destination.toLowerCase().replace(/[^a-z\\s-]/g, ' ').replace(/\\s+/g, ' ').trim();
+    const likelyInlandCity = /\\b(kyoto|tokyo|jaipur|agra|delhi|paris|london|rome|florence|prague|vienna|zurich|madrid|munich|berlin)\\b/.test(normalisedDestination);
+    const mismatchKey = normalisedDestination + '|' + style;
+    const confirmedMismatch = plannerForm.dataset.confirmedStyleMismatch === mismatchKey;
+    const result = $('#plannerResult');
+    if (style === 'Beach & coast' && likelyInlandCity && !confirmedMismatch) {
+      result.hidden = false;
+      result.innerHTML = '<div class="planner-mismatch"><span class="card-kicker">QUICK DESTINATION CHECK</span><h3>One detail to confirm.</h3><p>You selected a beach/coast style for a destination commonly associated with city or cultural travel. This demo does not verify coastal access for your exact stay area. You can use a flexible outline or continue if you have already chosen a coastal base.</p><div class="result-actions"><button type="button" id="useFlexibleStyle">Use a flexible outline</button><button type="button" id="keepCoastalStyle">Continue with beach style</button></div></div>';
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      $('#useFlexibleStyle').addEventListener('click', () => {
+        $('#planStyle').value = 'A little of everything';
+        plannerForm.dataset.confirmedStyleMismatch = '';
+        createItinerary({ preventDefault() {} });
+      });
+      $('#keepCoastalStyle').addEventListener('click', () => {
+        plannerForm.dataset.confirmedStyleMismatch = mismatchKey;
+        createItinerary({ preventDefault() {} });
+      });
+      return;
+    }
     const template = itineraryTemplates[style] || itineraryTemplates['A little of everything'];
     const dayPlans = Array.from({ length: duration }, (_, index) => {
       const item = template[index % template.length];
@@ -323,7 +343,6 @@
       return `<li><strong>Day ${index + 1} · ${escapeHtml(moment[0])}</strong><p>${escapeHtml(moment[1])}</p><p><strong>Travel-style idea:</strong> ${escapeHtml(item[1])}</p></li>`;
     }).join('');
     const travellerLabel = { solo: 'Solo journey', couple: 'Couple getaway', friends: 'Friends / small group', family: 'Family trip' }[traveller] || 'Getaway';
-    const result = $('#plannerResult');
     result.hidden = false;
     result.innerHTML = `<h3>Your ${duration}-day ${escapeHtml(travellerLabel.toLowerCase())}</h3><p><strong>${escapeHtml(destination)}</strong> · ${escapeHtml(blueprint.label)} · ${escapeHtml(style)} · ${escapeHtml(stay)}<br>Departure: ${date ? escapeHtml(date) : 'To be decided'} · Budget guide: ${escapeHtml(budget)}</p><p><strong>Experience intention:</strong> ${escapeHtml(blueprint.focus)}</p><ol>${dayPlans}</ol><p><strong>A thoughtful check:</strong> ${escapeHtml(blueprint.comfort)}</p><p><strong>Next steps:</strong> <a href="/travel/budget-planner/">shape your budget</a> · <a href="/travel/">review travel readiness</a>.</p><p><strong>Before booking:</strong> confirm current weather, entry requirements, travel advisories, transport, provider details and full costs. This is an illustrative outline, not a live itinerary, quote or reservation.</p><div class="result-actions"><button type="button" id="saveItinerary">Save this plan</button><button type="button" id="printItinerary">Print / save as PDF</button><button type="button" id="sendToConcierge">Discuss with concierge</button></div>`;
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
