@@ -5,13 +5,13 @@ import { spawnSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
-  'index.html', 'styles.css', 'app.js', 'package.json',
+  'index.html', 'styles.css', 'velora-premium.css', 'app.js', 'package.json',
   'admin-products.html', 'admin-products.js', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js',
   'migrations/0001_initial.sql', 'wrangler.toml', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg',
+  'public/assets/hero/velora-hero-editorial.svg',
   'public/assets/destinations/maldives.webp',
   'public/assets/destinations/amalfi-coast.webp',
   'public/assets/destinations/kyoto-garden.webp',
@@ -41,8 +41,22 @@ for (const file of jsFiles) {
 }
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const premiumCss = fs.readFileSync(path.join(root, 'velora-premium.css'), 'utf8');
+const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const requiredOccasions = ['romantic-escape', 'honeymoon', 'anniversary', 'proposal', 'first-trip', 'solo-reset', 'friends', 'family'];
+const ecosystemCards = (html.match(/class="ecosystem-card"/g) || []).length;
+if (ecosystemCards !== 8 || !html.includes('velora-hero-editorial.svg') ||
+    !html.includes('og:image" content="https://velora-75y.pages.dev/public/assets/hero/velora-hero-editorial.svg') ||
+    !html.includes('twitter:image" content="https://velora-75y.pages.dev/public/assets/hero/velora-hero-editorial.svg') ||
+    html.includes('velora-sunset-couple.jpg') || html.includes('id="shop"') ||
+    !html.includes('href="velora-premium.css"') ||
+    !serviceWorker.includes('velora-shell-v7') || serviceWorker.includes('velora-sunset-couple.jpg') ||
+    !serviceWorker.includes('velora-hero-editorial.svg') ||
+    !premiumCss.includes('.floating-concierge{display:none!important}')) {
+  console.error('Premium brand, ecosystem, image, cache or mobile acceptance check failed.');
+  process.exit(1);
+}
 if (!html.includes('id="planOccasion"') || requiredOccasions.some(key => !appSource.includes('"'+key+'"'))) {
   console.error('Occasion-aware getaway planner is incomplete.');
   process.exit(1);
@@ -100,8 +114,8 @@ if (missingAnchors.length) {
   process.exit(1);
 }
 
-if (!html.includes('id="shop"') || !html.includes('id="productGrid"')) {
-  console.error('The VELORA Shop Edit or product grid is missing.');
+if (html.includes('id="shop"') || html.includes('id="productGrid"') || html.includes('As an Amazon Associate')) {
+  console.error('Inactive Shop UI or affiliate claim must stay out of the active homepage until the catalogue is operational.');
   process.exit(1);
 }
 const routeConfig = JSON.parse(fs.readFileSync(path.join(root, '_routes.json'), 'utf8'));
@@ -133,9 +147,9 @@ if (build.status !== 0) {
 }
 const dist = path.join(root, 'dist');
 const publicFiles = [
-  'index.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
+  'index.html', 'styles.css', 'velora-premium.css', 'app.js', 'admin-products.html', 'admin-products.js',
   'robots.txt', 'sitemap.xml', '_headers', '_routes.json',
-  'public/assets/hero/velora-sunset-couple.jpg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
+  'public/assets/hero/velora-hero-editorial.svg', 'public/icons/velora-mark.svg', 'guide.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
 const missingDist = publicFiles.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingDist.length) {
