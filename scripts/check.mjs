@@ -64,10 +64,23 @@ if (!plannerCurrencyBlock || supportedCurrencies.some(code => !plannerCurrencyBl
 }
 const budgetPageSource = fs.readFileSync(path.join(root, 'travel/budget-planner/index.html'), 'utf8');
 const budgetScriptSource = fs.readFileSync(path.join(root, 'budget-planner.js'), 'utf8');
+const travelToolsSource = fs.readFileSync(path.join(root, 'travel-tools.js'), 'utf8');
+const arrivalGuideSource = fs.readFileSync(path.join(root, 'travel/india-arrival-ready/index.html'), 'utf8');
+const outboundGuideSource = fs.readFileSync(path.join(root, 'travel/first-international-trip/index.html'), 'utf8');
 const budgetCurrencyStart = budgetPageSource.indexOf('id="budgetCurrency"');
 const budgetCurrencyBlock = budgetPageSource.slice(budgetCurrencyStart, budgetPageSource.indexOf('</select>', budgetCurrencyStart) + 9);
 if (supportedCurrencies.some(code => !budgetCurrencyBlock.includes('value="' + code + '"')) ||
     !budgetPageSource.includes('id="plannerContextNote"') ||
+    !budgetPageSource.includes('id="budgetNextStep"') ||
+    !budgetPageSource.includes('data-prep-route="india-arrival-ready"') ||
+    !budgetPageSource.includes('data-prep-route="first-international-trip"') ||
+    !budgetScriptSource.includes('velora-preparation-handoff-v1') ||
+    !budgetScriptSource.includes('function continueToPreparation') ||
+    !budgetScriptSource.includes('preparationStepReady') ||
+    !travelToolsSource.includes('function attachPreparationContext') ||
+    !travelToolsSource.includes('plan-context-note') ||
+    !arrivalGuideSource.includes('data-checklist="india-arrival-ready"') ||
+    !outboundGuideSource.includes('data-checklist="first-international-trip"') ||
     !appSource.includes('velora-planner-budget-handoff-v1') ||
     !appSource.includes('localStorage.setItem(plannerHandoffKey') ||
     !appSource.includes("window.location.assign('/travel/budget-planner/')") ||
@@ -202,6 +215,7 @@ if (!appSource.includes('View full plan') || !appSource.includes('item.details')
     !appSource.includes('VELORA — MY SAVED MOMENTS & PLANS') ||
     !experiencesHtml.includes('Saving stores the full plan only in this browser on this device.') ||
     !privacyPolicySource.includes('complete experience plans you explicitly save') ||
+    !privacyPolicySource.includes('estimated costs, currency, cost breakdown and budget ceiling are not passed') ||
     !html.includes('Make room<br>for <em>what matters.</em>') ||
     !html.includes('Make Room for Romance is where VELORA begins')) {
   console.error('Full-plan local saving/export, privacy disclosure or broad VELORA homepage positioning is incomplete.');
