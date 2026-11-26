@@ -2,7 +2,8 @@
 
 | Asset | Source / status | Use |
 |---|---|---|
-| `public/assets/hero/velora-sunset-couple.jpg` | Earlier supplied by the project owner; retained in source for audit/transition only. On 25 Nov 2026 the founder rejected its shirtless / bikini-style swimwear look. It is no longer an approved hero asset and must be replaced before the next visual release. | Superseded / do not use in public hero |
+| `public/assets/hero/velora-sunset-couple.jpg` | Supplied earlier by the project owner; rejected on 25 Nov 2026 for shirtless / bikini-style swimwear presentation and removed from published assets on 26 Nov 2026. Historical copy remains in Git history only. | Retired; not in public build |
+| `public/assets/hero/velora-hero-editorial.svg` | Original VELORA editorial illustration created for the redesign transition; fully clothed adult silhouettes in an architectural courtyard, composed with left-side negative space and the approved navy / champagne palette. | Current homepage hero / share preview transition asset; replace with an approved high-resolution editorial photograph when final campaign imagery is ready |
 | `public/assets/destinations/maldives.webp`, `amalfi-coast.webp`, `kyoto-garden.webp` | Original AI-generated scenic travel image sheet created for this project; 766 × 510 panels cropped and saved as optimized WebP | Destination discovery cards |
 | `public/assets/experiences/couple-sunset-walk.webp` | Original AI-generated scenic travel image sheet created for this project; couple panel cropped and saved as optimized WebP | Editorial couple-experience feature |
 | `public/icons/velora-mark.svg` | Original simple vector mark created for this project | Site favicon and PWA identity |
