@@ -727,3 +727,17 @@ The main branch now connects the browser-local Trip Budget Planner to the approp
 - Quality run `45760052581` and Cloudflare deployment/live smoke run `45760052539` both succeeded.
 
 Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibility, Google Search Console ownership and real browser/device end-to-end QA. Do not claim product inventory, live prices, bookings, accounts or synced user plans are operational.
+
+---
+
+# PWA/offline shell release — 28 November 2026
+
+- Added a real root-scoped service-worker registration helper, injected into all 15 public entry routes by the Cloudflare build.
+- Fixed the missing `manifest.webmanifest` deployment asset and added a manifest link to each public entry route at build time.
+- Updated the cache from v13 to v14 and included the registration helper in the required precache set.
+- CI now checks that every required `CORE_ASSETS` entry exists in `dist`; this prevents an incomplete `cache.addAll` from breaking worker installation.
+- Privacy page now describes the registration and browser-local static cache accurately.
+- Main commit: `a15683ba4c973ca6ce347f5c6ee0f441295b1697`; quality `46165602113` and Cloudflare production smoke `46165602068` both passed.
+- OpenSEO final crawl `e7d27014-9852-4876-befa-a76885cb1aec`: 15/15 pages HTTP 200, one H1 each, zero missing alt, zero crawl issues. OpenSEO domain setting is now correct.
+- Browser navigation was blocked in the automation environment, so the actual first-time installation and offline click-through remain unverified. Founder needs to open/refresh once online and test a cached route in airplane mode.
+- Still not operational: D1 database binding, Amazon Creators API, Google Search Console property (connected account shows zero properties), live inventory, bookings, payments or synced accounts.
