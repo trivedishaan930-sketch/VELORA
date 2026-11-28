@@ -1,5 +1,5 @@
 import { jsonResponse } from "../_lib/http.js";
-import { getAmazonProducts, normalizeAmazonItem } from "../_lib/amazon.js";
+import { hasAmazonCreatorCredentials, getAmazonProducts, normalizeAmazonItem } from "../_lib/amazon.js";
 
 const CACHE_TTL_MS = 23 * 60 * 60 * 1000;
 
@@ -30,6 +30,10 @@ export async function onRequestGet({ env }) {
     } else {
       refresh.push(row);
     }
+  }
+
+  if (refresh.length && !hasAmazonCreatorCredentials(env)) {
+    return jsonResponse({ error: "Amazon Creators API is not configured yet.", setupRequired: true }, 503);
   }
 
   for (let offset = 0; offset < refresh.length; offset += 10) {
