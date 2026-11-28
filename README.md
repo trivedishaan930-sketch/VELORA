@@ -14,9 +14,9 @@ Marketing and growth execution: [`docs/GO-TO-MARKET-AND-GROWTH-PLAYBOOK.md`](doc
 
 Before making changes, read [`docs/MASTER-PROJECT-HANDOVER.md`](docs/MASTER-PROJECT-HANDOVER.md). It records VELORA's full product vision, eight departments, operating principles, audit requirements, safety rules and cross-chat continuity process. Treat it as the project guide, then verify the current code and deployment state rather than assuming the status written there is still current.
 
-Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION-AUDIT-2026-11-25.md).
+Latest foundation audit: [`docs/FOUNDATION-AUDIT-2026-11-25.md`](docs/FOUNDATION-AUDIT-2026-11-25.md). It records the verified baseline and prioritized roadmap as of 25 Nov 2026; treat it as dated and re-check current state.
 
-Current execution references: [`docs/VISITOR-JOURNEY-QA-AND-ACTIVATION.md`](docs/VISITOR-JOURNEY-QA-AND-ACTIVATION.md) and [`docs/INDIA-TO-INDIA-EXPERIENCE-STRATEGY.md`](docs/INDIA-TO-INDIA-EXPERIENCE-STRATEGY.md). These are dated QA/strategy records, not claims that pending device or backend tasks are complete. It records the verified baseline and prioritized roadmap as of 25 Nov 2026; treat it as dated and re-check current state.
+Current execution references: [`docs/VISITOR-JOURNEY-QA-AND-ACTIVATION.md`](docs/VISITOR-JOURNEY-QA-AND-ACTIVATION.md) and [`docs/INDIA-TO-INDIA-EXPERIENCE-STRATEGY.md`](docs/INDIA-TO-INDIA-EXPERIENCE-STRATEGY.md). These are dated QA/strategy records, not claims that pending device or backend tasks are complete.
 
 ## What's included
 
