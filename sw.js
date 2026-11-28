@@ -45,7 +45,7 @@ self.addEventListener('fetch', event => {
     return fetch(request).then(response => {
       const cacheControl = response?.headers?.get('Cache-Control') || '';
       const vary = response?.headers?.get('Vary') || '';
-      const doNotCache = /(?:^|,)\\s*(?:no-store|private)\\b/i.test(cacheControl) ||
+      const doNotCache = /(?:^|,)\s*(?:no-store|private)\b/i.test(cacheControl) ||
         vary.split(',').some(value => value.trim() === '*');
       if (response && response.ok && !doNotCache) {
         const copy = response.clone();
