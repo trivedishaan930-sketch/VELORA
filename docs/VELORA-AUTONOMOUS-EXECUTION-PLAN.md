@@ -572,3 +572,22 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 - When D1 is absent, the expected setup response must identify the missing database. When D1 exists but Amazon credentials do not, the response must identify the missing Creators API credentials.
 - The repository quality check protects this production assertion against accidental removal.
 - This validates the deployment contract, not live catalogue availability. Product inventory remains gated by D1 and Amazon setup.
+
+## PWA API cache isolation — 28 November 2026
+
+### Finding
+- The v14 Service Worker intercepted every same-origin GET request, including /api/health, /api/products and the authenticated admin catalogue GET endpoint.
+- Cache Storage writes do not automatically follow the HTTP browser cache policy. The previous handler manually cached every successful same-origin GET response, even when the response was private or marked no-store.
+- This created a browser-local privacy and stale-data risk. It was not evidence of a server-side data leak, but the offline cache boundary was too broad.
+
+### Fix and regression coverage
+- Service Worker v15 bypasses /api and /api/*, every request carrying an Authorization header, and requests explicitly marked cache: no-store.
+- Runtime response caching now refuses Cache-Control: no-store, Cache-Control: private, and Vary: *.
+- Public same-origin assets and public pages retain the existing offline cache behavior.
+- Activating v15 removes the old v14 cache through the existing version cleanup.
+- Repository tests execute the actual Service Worker fetch handler in an isolated Node VM. They assert API/admin bypass, Authorization/no-store request bypass, public static asset caching, and refusal to store private/no-store/Vary-star responses.
+- Production smoke checks verify v15 and the API/auth bypass guards are present in the deployed worker.
+
+### Release scope
+- This is a cache-boundary/privacy hardening change, not user account authentication or server-side access control.
+- Browser installation and airplane-mode navigation still require device-level verification.
