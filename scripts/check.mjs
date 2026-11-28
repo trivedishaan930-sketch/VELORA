@@ -5,6 +5,8 @@ import { spawnSync } from 'node:child_process';
 import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
+while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
 const required = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'service-worker-register.js', 'package.json',
   'privacy/index.html', 'terms/index.html', 'safety/index.html',
@@ -391,8 +393,7 @@ if (!privacyPolicySource.includes('planned future capability') ||
   process.exit(1);
 }
 
-let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
-while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
+
 
 const metadataPageSources = new Map();
 const metadataPages = [
