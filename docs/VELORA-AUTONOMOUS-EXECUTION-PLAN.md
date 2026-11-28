@@ -555,3 +555,11 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 - Founder should open/refresh the live site once while online, then test a cached travel page in airplane mode.
 - The connected Google account still exposes zero Search Console properties.
 - `/api/health` remains reachable with `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. D1 and Amazon catalogue integration remain unconfigured.
+
+
+## Public catalogue API setup guard — 28 November 2026
+
+- Code review found that once D1 was attached and curated products existed, an unset Amazon Creators API credential set could make the public catalogue endpoint reject with an unhandled server error.
+- Added an explicit 503 setup response only when one or more featured products need an Amazon refresh and credentials are absent. Fresh cached Amazon catalogue content remains available within its existing cache lifetime.
+- Added automated handler-level regression checks for the missing-D1 state, the missing-Amazon-credentials state, and the valid-cache/no-refresh state. These checks use a mocked D1 interface and do not call Amazon or require production secrets.
+- This is a readiness/robustness improvement only. D1, Amazon credentials, live products and affiliate commerce remain unconfigured; no live catalogue feature is being claimed.
