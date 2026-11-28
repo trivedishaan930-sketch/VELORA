@@ -563,3 +563,12 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 - Added an explicit 503 setup response only when one or more featured products need an Amazon refresh and credentials are absent. Fresh cached Amazon catalogue content remains available within its existing cache lifetime.
 - Added automated handler-level regression checks for the missing-D1 state, the missing-Amazon-credentials state, and the valid-cache/no-refresh state. These checks use a mocked D1 interface and do not call Amazon or require production secrets.
 - This is a readiness/robustness improvement only. D1, Amazon credentials, live products and affiliate commerce remain unconfigured; no live catalogue feature is being claimed.
+
+
+## Product API production smoke contract — 28 November 2026
+
+- The Cloudflare production smoke test now checks `/api/products` after reading `/api/health`.
+- It accepts either a valid HTTP 200 response with a products array, or an explicit HTTP 503 setup response with `setupRequired: true`.
+- When D1 is absent, the expected setup response must identify the missing database. When D1 exists but Amazon credentials do not, the response must identify the missing Creators API credentials.
+- The repository quality check protects this production assertion against accidental removal.
+- This validates the deployment contract, not live catalogue availability. Product inventory remains gated by D1 and Amazon setup.
