@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.7  
+**Version:** 1.8  
 **Last updated:** 28 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -767,3 +767,12 @@ Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibili
 - Automated handler tests exercise API/admin bypass, authenticated and no-store request bypass, public asset caching, and private response exclusion.
 - Production smoke checks verify the deployed v15 worker contains the API and Authorization exclusions.
 - This is browser cache isolation, not server-side auth or access control. Actual device-level PWA/offline behavior remains a separate test.
+
+# PWA v15 release closeout — 28 November 2026
+
+- PR #11 merged the Service Worker API/private-cache isolation as commit 59c799425f9d53fc5251fddf0cb98cb1e952bbc3.
+- The first production smoke run uploaded v15 but failed because the new worker assertions ran before /sw.js had been downloaded. PR #12 corrected the assertion order and added a regression check; the workflow now enforces download-before-inspection.
+- Latest main commit: f7b2f03a2125b76e6aca99f913c547469b9b3aa2.
+- Quality run 46171814518 passed. Final Cloudflare deploy and full production smoke run 46171814555 passed.
+- Live log confirms Service Worker v15 and its API/auth exclusions. API health is ok; D1 and Amazon Creators API remain unconfigured. The public product API reports its expected explicit missing-D1 setup response.
+- Do not treat CI's static/deployment smoke as proof that a visitor's browser has installed the worker or can navigate offline. Founder-device PWA/offline verification is still required.
