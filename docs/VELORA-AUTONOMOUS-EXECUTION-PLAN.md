@@ -527,3 +527,31 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 - There is still no verified Google Search Console property; search performance and indexing outcomes cannot yet be measured.
 - A true external-browser/device QA of the complete planner → budget → selected checklist click-through is still needed. CI verifies deployed routes/assets and local handoff source/contract; it does not simulate a real visitor's browser storage/session.
 - Do not claim the feature fetches live travel requirements, prices, weather, exchange rates, routes or bookings. It is a planning handoff to existing source-linked checklists.
+
+---
+
+## PWA and offline-shell activation release — 28 November 2026
+
+### Implemented and deployed
+
+- The root service worker existed but was never registered by any public route. A shared `service-worker-register.js` helper is now injected by the production build into all 15 sitemap entry pages.
+- The existing `manifest.webmanifest` was referenced by the service worker but omitted from `dist`. The build now publishes it and the registration helper.
+- All public entry pages receive the web app manifest link and root-scoped service-worker registration after load. Unsupported browsers continue normally.
+- The offline cache is now `velora-shell-v14`; the registration helper is part of the required cache shell.
+- Repository quality checks parse the worker's `CORE_ASSETS` list and fail if any required file or route is missing from the public build.
+- Production smoke tests verify the manifest, registration helper, v14 worker, scope/cache headers, and existing travel/planning routes.
+
+### Release evidence
+
+- Main release commit: `a15683ba4c973ca6ce347f5c6ee0f441295b1697`.
+- Quality run `46165602113`: success.
+- Cloudflare deployment and production smoke run `46165602068`: success.
+- Final OpenSEO crawl `e7d27014-9852-4876-befa-a76885cb1aec`: all 15/15 sitemap pages returned HTTP 200; each had one H1; zero missing image alt text; zero crawl issues.
+- OpenSEO project hostname is now corrected to `velora-75y.pages.dev`.
+
+### Remaining verification and blockers
+
+- A real Chromium test could not run in the automation environment because browser navigation was blocked. The production smoke test confirms deployed registration code, manifest and worker, but does not prove a visitor's browser has installed the worker or can navigate offline.
+- Founder should open/refresh the live site once while online, then test a cached travel page in airplane mode.
+- The connected Google account still exposes zero Search Console properties.
+- `/api/health` remains reachable with `databaseConfigured=false` and `amazonCreatorsApiConfigured=false`. D1 and Amazon catalogue integration remain unconfigured.
