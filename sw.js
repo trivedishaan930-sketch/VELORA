@@ -1,6 +1,6 @@
 /* VELORA multi-page offline shell. Cache pages first, photos independently. */
 // Bump this version whenever a precached HTML, CSS, JavaScript or offline asset changes.
-const CACHE_NAME = 'velora-shell-v14';
+const CACHE_NAME = 'velora-shell-v15';
 const CORE_ASSETS = [
   './', './index.html', './offline.html', './styles.css', './site-pages.css', './app.js', './manifest.webmanifest',
   './public/icons/velora-mark.svg', './public/icons/velora-192.png', './public/icons/velora-512.png',
@@ -34,11 +34,20 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', event => {
   const request = event.request;
-  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+  const url = new URL(request.url);
+  // API responses and authenticated requests are network-only. Never put private,
+  // user-specific or potentially stale server data in the offline shell cache.
+  if (request.method !== 'GET' || url.origin !== self.location.origin ||
+      url.pathname === '/api' || url.pathname.startsWith('/api/') ||
+      request.headers.has('Authorization') || request.cache === 'no-store') return;
   event.respondWith(caches.match(request).then(cached => {
     if (cached) return cached;
     return fetch(request).then(response => {
-      if (response && response.ok) {
+      const cacheControl = response?.headers?.get('Cache-Control') || '';
+      const vary = response?.headers?.get('Vary') || '';
+      const doNotCache = /(?:^|,)\\s*(?:no-store|private)\\b/i.test(cacheControl) ||
+        vary.split(',').some(value => value.trim() === '*');
+      if (response && response.ok && !doNotCache) {
         const copy = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
       }
