@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
-  'index.html', 'offline.html', 'styles.css', 'app.js', 'package.json',
+  'index.html', 'offline.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'service-worker-register.js', 'package.json',
   'privacy/index.html', 'terms/index.html', 'safety/index.html',
   'admin-products.html', 'admin-products.js', 'guide.css', 'site-pages.css', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js', 'scripts/build.mjs',
   'experiences/index.html', 'style/index.html', 'journal/index.html', 'journal/postcards-from-blue-hour/index.html', 'journal/small-gestures/index.html', 'journal/a-night-with-no-itinerary/index.html', 'about/index.html',
@@ -27,7 +27,7 @@ if (missing.length) {
 }
 
 const jsFiles = [
-  'app.js', 'admin-products.js', 'travel-tools.js', 'budget-planner.js', 'scripts/build.mjs',
+  'app.js', 'admin-products.js', 'travel-tools.js', 'budget-planner.js', 'service-worker-register.js', 'scripts/build.mjs',
   'functions/_lib/amazon.js', 'functions/_lib/http.js',
   'functions/api/health.js', 'functions/api/products.js',
   'functions/api/admin/amazon-search.js', 'functions/api/admin/products.js'
@@ -144,7 +144,9 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Responsive multi-page design system checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v13') ||
+if (!serviceWorker.includes('velora-shell-v14') ||
+    !serviceWorker.includes('service-worker-register.js') ||
+    !serviceWorker.includes('manifest.webmanifest') ||
     !serviceWorker.includes('couple-sunset-walk.webp') ||
     !serviceWorker.includes('maldives.webp') ||
     !serviceWorker.includes('amalfi-coast.webp') ||
@@ -300,7 +302,7 @@ if (build.status !== 0) {
 const dist = path.join(root, 'dist');
 const publicFiles = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'admin-products.html', 'admin-products.js',
-  'robots.txt', 'sitemap.xml', '_headers', '_routes.json', 'site-pages.css', 'sw.js',
+  'robots.txt', 'sitemap.xml', '_headers', '_routes.json', 'site-pages.css', 'sw.js', 'manifest.webmanifest', 'service-worker-register.js',
   'experiences/index.html', 'style/index.html', 'journal/index.html', 'journal/postcards-from-blue-hour/index.html', 'journal/small-gestures/index.html', 'journal/a-night-with-no-itinerary/index.html', 'about/index.html',
   'public/assets/experiences/couple-sunset-walk.webp', 'public/assets/destinations/maldives.webp', 'public/assets/destinations/amalfi-coast.webp', 'public/assets/destinations/kyoto-garden.webp', 'public/icons/velora-mark.svg', 'guide.css', 'privacy/index.html', 'terms/index.html', 'safety/index.html', 'travel-tools.js', 'travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html', 'budget-planner.js'
 ];
@@ -311,18 +313,46 @@ if (missingDist.length) {
 }
 const serviceWorkerDist = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
 const headersSource = fs.readFileSync(path.join(root, '_headers'), 'utf8');
-if (!serviceWorkerDist.includes('velora-shell-v13') ||
+if (!serviceWorkerDist.includes('velora-shell-v14') ||
     !serviceWorkerDist.includes("'./travel-tools.js'") ||
     !serviceWorkerDist.includes("'./budget-planner.js'") ||
+    !serviceWorkerDist.includes("'./service-worker-register.js'") ||
     !headersSource.includes('Cache-Control: no-cache, no-store, must-revalidate') ||
     !headersSource.includes('Service-Worker-Allowed: /')) {
-  console.error('Cloudflare build output is missing the current service worker, precached planning assets or update headers.');
+  console.error('Cloudflare build output is missing the current service worker, registration helper, precached planning assets or update headers.');
+  process.exit(1);
+}
+const coreAssetsMatch = serviceWorkerDist.match(/const CORE_ASSETS = \[([\s\S]*?)\];/);
+const coreAssets = coreAssetsMatch ? [...coreAssetsMatch[1].matchAll(/'([^']+)'/g)].map(match => match[1]) : [];
+const missingCoreAssets = coreAssets.filter(asset => {
+  const relative = asset.replace(/^\.\//, '');
+  const target = path.join(dist, relative);
+  return asset.endsWith('/')
+    ? !fs.existsSync(path.join(target, 'index.html'))
+    : !fs.existsSync(asset === './' ? path.join(dist, 'index.html') : target);
+});
+if (!coreAssetsMatch || missingCoreAssets.length) {
+  console.error('Service-worker install would fail because required cache assets are missing:', missingCoreAssets.join(', '));
   process.exit(1);
 }
 const requiredGuideDist = ['travel/index.html', 'travel/india-arrival-ready/index.html', 'travel/first-international-trip/index.html', 'travel/budget-planner/index.html'];
 const missingGuideDist = requiredGuideDist.filter(file => !fs.existsSync(path.join(dist, file)));
 if (missingGuideDist.length) {
   console.error('Build output is missing travel pages:', missingGuideDist.join(', '));
+  process.exit(1);
+}
+for (const page of metadataPages) {
+  const outputPath = path.join(dist, page.file);
+  const html = fs.readFileSync(outputPath, 'utf8');
+  if (!html.includes('<link rel="manifest" href="/manifest.webmanifest">') ||
+      !html.includes('<script defer src="/service-worker-register.js"></script>')) {
+    console.error('Built page is missing PWA metadata or service-worker registration:', page.file);
+    process.exit(1);
+  }
+}
+if (!fs.existsSync(path.join(dist, 'manifest.webmanifest')) ||
+    !fs.existsSync(path.join(dist, 'service-worker-register.js'))) {
+  console.error('PWA manifest or service-worker registration helper missing from build.');
   process.exit(1);
 }
 const sitemapContent = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');

@@ -1,4 +1,4 @@
-import { cp, mkdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist");
 const publishFiles = [
   "index.html", "offline.html", "styles.css", "app.js", "admin-products.html",
-  "admin-products.js", "guide.css", "site-pages.css", "travel-tools.js", "budget-planner.js", "sw.js", "_headers", "_routes.json"
+  "admin-products.js", "guide.css", "site-pages.css", "travel-tools.js", "budget-planner.js", "service-worker-register.js", "manifest.webmanifest", "sw.js", "_headers", "_routes.json"
 ];
 
 await rm(output, { recursive: true, force: true });
@@ -52,6 +52,27 @@ const sitemapPaths = [
   "/terms/",
   "/safety/"
 ];
+// Inject the shared PWA manifest and root-scoped service-worker registration into
+// every public, indexable entry route. Source pages stay readable and route-specific.
+for (const route of sitemapPaths) {
+  const relativePage = route === "/" ? "index.html" : path.join(route.slice(1), "index.html");
+  const outputPath = path.join(output, relativePage);
+  let html = await readFile(outputPath, "utf8");
+  const closingHead = html.indexOf("</head>");
+  if (closingHead < 0) throw new Error("Public page is missing </head>: " + relativePage);
+  const additions = [];
+  if (!html.includes('<link rel="manifest" href="/manifest.webmanifest">')) {
+    additions.push('<link rel="manifest" href="/manifest.webmanifest">');
+  }
+  if (!html.includes('<script defer src="/service-worker-register.js"></script>')) {
+    additions.push('<script defer src="/service-worker-register.js"></script>');
+  }
+  if (additions.length) {
+    html = html.slice(0, closingHead) + additions.join("") + html.slice(closingHead);
+    await writeFile(outputPath, html, "utf8");
+  }
+}
+
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
