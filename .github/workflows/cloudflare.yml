@@ -164,5 +164,31 @@ jobs:
 
           curl --retry 8 --retry-all-errors --retry-delay 3 -fsS "$SITE_ORIGIN/api/health" -o "$RUNNER_TEMP/velora-health.json"
           node -e 'const fs = require("node:fs"); const h = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); if (h.ok !== true) process.exit(1); console.log("API reachable; databaseConfigured=" + h.databaseConfigured + "; amazonCreatorsApiConfigured=" + h.amazonCreatorsApiConfigured);' "$RUNNER_TEMP/velora-health.json"
+          PRODUCT_STATUS=$(curl --retry 8 --retry-all-errors --retry-delay 3 -sS -o "$RUNNER_TEMP/velora-products.json" -w "%{http_code}" "$SITE_ORIGIN/api/products")
+          node -e '
+            const fs = require("node:fs");
+            const health = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+            const status = Number(process.argv[2]);
+            const payload = JSON.parse(fs.readFileSync(process.argv[3], "utf8"));
+            if (status === 200 && Array.isArray(payload.products)) {
+              console.log("Product API returned a valid catalogue response (" + payload.products.length + " products).");
+              process.exit(0);
+            }
+            if (status === 503 && payload.setupRequired === true && typeof payload.error === "string") {
+              if (health.databaseConfigured !== true && payload.error !== "Product database is not connected yet.") {
+                console.error("Product API setup response does not match the missing D1 state.");
+                process.exit(1);
+              }
+              if (health.databaseConfigured === true && health.amazonCreatorsApiConfigured !== true &&
+                  payload.error !== "Amazon Creators API is not configured yet.") {
+                console.error("Product API setup response does not match the missing Amazon credentials state.");
+                process.exit(1);
+              }
+              console.log("Product API reports an explicit setup requirement: " + payload.error);
+              process.exit(0);
+            }
+            console.error("Unexpected product API response. HTTP " + status + ": " + JSON.stringify(payload));
+            process.exit(1);
+          ' "$RUNNER_TEMP/velora-health.json" "$PRODUCT_STATUS" "$RUNNER_TEMP/velora-products.json"
 
           echo "Production smoke checks passed: homepage, planner, budget-to-preparation journeys, style, journal articles, travel, policies, canonical URLs, robots, sitemap and API health."
