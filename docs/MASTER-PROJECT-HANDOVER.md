@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.6  
+**Version:** 1.7  
 **Last updated:** 28 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -757,3 +757,13 @@ Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibili
 - The expected setup message is cross-checked against API health so missing D1 and missing Amazon credentials are not confused.
 - Repository checks ensure the production assertion remains present.
 - This does not configure D1, Amazon Creators API or live product inventory.
+
+# PWA API cache isolation — 28 November 2026
+
+- Review found the v14 Service Worker intercepted all same-origin GET requests, including API requests and the authenticated admin catalogue GET route. The previous manual Cache Storage write did not enforce HTTP no-store or private directives.
+- Updated the worker to v15. It bypasses /api and /api/*, requests carrying Authorization, and requests marked cache: no-store.
+- Responses marked Cache-Control: no-store, Cache-Control: private, or Vary: * are not stored. Public pages and static assets remain cacheable for offline use.
+- Activating v15 clears the previous v14 cache using the existing cache cleanup logic.
+- Automated handler tests exercise API/admin bypass, authenticated and no-store request bypass, public asset caching, and private response exclusion.
+- Production smoke checks verify the deployed v15 worker contains the API and Authorization exclusions.
+- This is browser cache isolation, not server-side auth or access control. Actual device-level PWA/offline behavior remains a separate test.
