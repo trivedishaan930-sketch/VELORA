@@ -87,6 +87,14 @@ if (cachedProductResponse.status !== 200 || cachedProductBody.products?.[0]?.tit
   process.exit(1);
 }
 
+const cloudflareWorkflow = fs.readFileSync(path.join(root, '.github/workflows/cloudflare.yml'), 'utf8');
+if (!cloudflareWorkflow.includes('"$SITE_ORIGIN/api/products"') ||
+    !cloudflareWorkflow.includes('payload.setupRequired === true') ||
+    !cloudflareWorkflow.includes('Array.isArray(payload.products)')) {
+  console.error('Production smoke test must validate both the catalogue and explicit API setup responses.');
+  process.exit(1);
+}
+
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const experiencesHtml = fs.readFileSync(path.join(root, 'experiences/index.html'), 'utf8');
 const styleHtml = fs.readFileSync(path.join(root, 'style/index.html'), 'utf8');
