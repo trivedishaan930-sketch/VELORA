@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.8  
+**Version:** 1.9  
 **Last updated:** 28 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -776,3 +776,14 @@ Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibili
 - Quality run 46171814518 passed. Final Cloudflare deploy and full production smoke run 46171814555 passed.
 - Live log confirms Service Worker v15 and its API/auth exclusions. API health is ok; D1 and Amazon Creators API remain unconfigured. The public product API reports its expected explicit missing-D1 setup response.
 - Do not treat CI's static/deployment smoke as proof that a visitor's browser has installed the worker or can navigate offline. Founder-device PWA/offline verification is still required.
+
+
+# Visitor journey QA and India domestic strategy — 28 November 2026
+
+- Read `docs/VISITOR-JOURNEY-QA-AND-ACTIVATION.md` for the evidence boundary, route QA matrix, current device-level acceptance checklist, Search Console activation gate and backend activation gates.
+- The real interactive browser agent did not start in the 28 Nov pass because the connected browser-testing wallet was negative USD 0.072. No top-up was made. Do not claim real Android, desktop screenshot, console or airplane-mode QA is complete.
+- The code/source review found five stale links to the retired `/#planner` section in Travel, Budget Planner, Privacy, Terms and Safety. A corrective PR updates those calls-to-action to `/experiences/#plannerForm` and adds a cross-page fragment regression check.
+- Read `docs/INDIA-TO-INDIA-EXPERIENCE-STRATEGY.md` for the proposed VELORA India Edit: a domestic travel journey inside VELORA Travel, not a separate brand/site. It connects destination choice, reasons to visit, verified stay/review evidence, budget assumptions, local culture/shopping, style and all eight departments.
+- The domestic travel idea is a research hypothesis, not a live feature or booking service. Start with 3–5 rigorously sourced pilot routes only after evidence and user validation. Wedding Season Edit is an editorial use case, not supplier inventory.
+- Market evidence reviewed includes Ministry of Tourism's 2025 domestic visit data (noting Kumbh Mela effect), the 27 Sep 2026 Dekho Apna Desh 2.0 / National Digital Tourism Stack announcement, competitor product pages and June 2026 wedding travel coverage. Strategy source URLs and limitations are in the India strategy document.
+- Search Console still has no verified property in the connected account. D1 and Amazon Creators API remain unconfigured. Follow activation steps only after the founder completes required account-level approval and setup.
