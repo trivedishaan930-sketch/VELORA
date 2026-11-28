@@ -293,7 +293,7 @@ if (!siteCss.includes('.floating-concierge{display:none}') || !siteCss.includes(
   console.error('Responsive multi-page design system checks are missing.');
   process.exit(1);
 }
-if (!serviceWorker.includes('velora-shell-v14') ||
+if (!serviceWorker.includes('velora-shell-v15') ||
     !serviceWorker.includes('service-worker-register.js') ||
     !serviceWorker.includes('manifest.webmanifest') ||
     !serviceWorker.includes('couple-sunset-walk.webp') ||
