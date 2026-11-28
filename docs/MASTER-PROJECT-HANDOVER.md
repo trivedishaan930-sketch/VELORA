@@ -1,6 +1,6 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.5  
+**Version:** 1.6  
 **Last updated:** 28 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
@@ -749,3 +749,11 @@ Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibili
 - Valid, unexpired cached catalogue records can still be returned without a live Amazon refresh.
 - Regression checks cover missing D1, missing Amazon credentials, and the valid-cache path using a mocked database.
 - This does not activate D1, Amazon Creators API, product inventory, or affiliate commerce. Those remain approval/configuration gates.
+
+
+## Product API production smoke contract — 28 November 2026
+
+- Cloudflare deployment smoke tests now call `/api/products` and validate either a valid catalogue response or the explicit 503 setup state.
+- The expected setup message is cross-checked against API health so missing D1 and missing Amazon credentials are not confused.
+- Repository checks ensure the production assertion remains present.
+- This does not configure D1, Amazon Creators API or live product inventory.
