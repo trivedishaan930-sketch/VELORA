@@ -591,3 +591,12 @@ The founder's screenshots showed the interim hero illustration, oversized gradie
 ### Release scope
 - This is a cache-boundary/privacy hardening change, not user account authentication or server-side access control.
 - Browser installation and airplane-mode navigation still require device-level verification.
+
+## PWA v15 cache-isolation release closeout — 28 November 2026
+
+- PR #11 merged the v15 Service Worker cache-isolation change as commit 59c799425f9d53fc5251fddf0cb98cb1e952bbc3.
+- The first deployment run uploaded v15 but the smoke step failed because two new worker assertions were placed before the workflow downloaded /sw.js. The deployed worker itself was not the cause.
+- PR #12 moved those assertions immediately after the live worker download and added a repository test that enforces this ordering. It merged as commit f7b2f03a2125b76e6aca99f913c547469b9b3aa2.
+- Quality run 46171814518 passed. Cloudflare deployment and full production smoke run 46171814555 passed.
+- The live smoke log confirmed the deployed v15 cache name, API/auth bypass guards, API health ok=true, databaseConfigured=false, amazonCreatorsApiConfigured=false, and the expected /api/products HTTP 503 setup response: Product database is not connected yet.
+- Remaining gates are unchanged: founder-device PWA installation/offline navigation test, Google Search Console property verification, D1 binding and Amazon Creators API configuration.
