@@ -5,6 +5,8 @@ import { spawnSync } from 'node:child_process';
 import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
+while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
 const required = [
   'index.html', 'offline.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'service-worker-register.js', 'package.json',
   'privacy/index.html', 'terms/index.html', 'safety/index.html',
@@ -320,8 +322,7 @@ if (!serviceWorker.includes('velora-shell-v15') ||
   process.exit(1);
 }
 
-let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
-while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
+
 const travelPages = [
   { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
   { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
@@ -392,14 +393,18 @@ if (!privacyPolicySource.includes('planned future capability') ||
   process.exit(1);
 }
 
+
+
+const metadataPageSources = new Map();
 const metadataPages = [
-  { file: 'index.html', label: 'homepage' },
+  { file: 'index.html', route: '/', label: 'homepage' },
   ...contentPages,
   ...travelPages,
   ...policyPages
 ];
 for (const page of metadataPages) {
   const source = page.file === 'index.html' ? html : fs.readFileSync(path.join(root, page.file), 'utf8');
+  metadataPageSources.set(page.route, { file: page.file, source });
   const titleMatch = source.match(/<title>([^<]+)<\/title>/i);
   const descriptionMatch = source.match(/<meta[^>]*name="description"[^>]*content="([^"]*)"/i);
   const titleLength = titleMatch ? titleMatch[1].trim().length : 0;
@@ -408,6 +413,34 @@ for (const page of metadataPages) {
     console.error('Search metadata length check failed:', page.file, { titleLength, descriptionLength });
     process.exit(1);
   }
+}
+
+
+// Validate same-site fragment links across all published routes. This catches
+// stale cross-page CTAs when a planner or feature moves to its own URL.
+const brokenPageFragments = [];
+for (const page of metadataPages) {
+  const source = metadataPageSources.get(page.route)?.source || '';
+  for (const match of source.matchAll(/\bhref=["']([^"']*#[^"']+)["']/g)) {
+    let target;
+    try {
+      target = new URL(match[1], siteOrigin + page.route);
+    } catch {
+      continue;
+    }
+    if (target.origin !== siteOrigin || !target.hash) continue;
+    const targetPage = metadataPageSources.get(target.pathname);
+    if (!targetPage) continue;
+    const fragment = decodeURIComponent(target.hash.slice(1));
+    if (!targetPage.source.includes('id="' + fragment + '"') &&
+        !targetPage.source.includes("id='" + fragment + "'")) {
+      brokenPageFragments.push(page.file + ' -> ' + match[1]);
+    }
+  }
+}
+if (brokenPageFragments.length) {
+  console.error('Broken internal page fragments:', brokenPageFragments.join(', '));
+  process.exit(1);
 }
 
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
