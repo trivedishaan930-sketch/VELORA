@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
@@ -93,6 +94,100 @@ if (!cloudflareWorkflow.includes('"$SITE_ORIGIN/api/products"') ||
     !cloudflareWorkflow.includes('Array.isArray(payload.products)')) {
   console.error('Production smoke test must validate both the catalogue and explicit API setup responses.');
   process.exit(1);
+}
+
+// Exercise the service-worker fetch policy in an isolated Node VM.
+const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+const serviceWorkerListeners = new Map();
+let serviceWorkerCacheMatches = 0;
+let serviceWorkerCachePuts = 0;
+let serviceWorkerNetworkResponse = async () => new Response('network resource', {
+  headers: { 'Cache-Control': 'public, max-age=3600' }
+});
+const serviceWorkerCache = {
+  async put() { serviceWorkerCachePuts += 1; },
+  async addAll() {}
+};
+const serviceWorkerCaches = {
+  async match() { serviceWorkerCacheMatches += 1; return null; },
+  async open() { return serviceWorkerCache; },
+  async keys() { return ['velora-shell-v15']; },
+  async delete() { return true; }
+};
+const serviceWorkerSelf = {
+  location: { origin: 'https://velora-75y.pages.dev' },
+  clients: { async claim() {} },
+  async skipWaiting() {},
+  addEventListener(type, listener) { serviceWorkerListeners.set(type, listener); }
+};
+runInNewContext(serviceWorkerSource, {
+  self: serviceWorkerSelf,
+  caches: serviceWorkerCaches,
+  URL,
+  Response,
+  fetch: (...args) => serviceWorkerNetworkResponse(...args)
+});
+async function dispatchServiceWorkerFetch(request) {
+  let responsePromise = null;
+  const listener = serviceWorkerListeners.get('fetch');
+  if (!listener) throw new Error('Service worker fetch handler was not registered.');
+  listener({ request, respondWith(value) { responsePromise = Promise.resolve(value); } });
+  const response = responsePromise ? await responsePromise : null;
+  await new Promise(resolve => setImmediate(resolve));
+  return { handled: responsePromise !== null, response };
+}
+const serviceWorkerOrigin = 'https://velora-75y.pages.dev';
+if (!serviceWorkerSource.includes('velora-shell-v15')) {
+  console.error('Service worker cache version is not v15.');
+  process.exit(1);
+}
+for (const url of [
+  serviceWorkerOrigin + '/api',
+  serviceWorkerOrigin + '/api/health',
+  serviceWorkerOrigin + '/api/products',
+  serviceWorkerOrigin + '/api/admin/products'
+]) {
+  const beforeMatches = serviceWorkerCacheMatches;
+  const result = await dispatchServiceWorkerFetch(new Request(url));
+  if (result.handled || serviceWorkerCacheMatches !== beforeMatches) {
+    console.error('Service worker must leave API requests network-only:', url);
+    process.exit(1);
+  }
+}
+const privateRequest = new Request(serviceWorkerOrigin + '/private/data', {
+  headers: { Authorization: 'Bearer test-token' }
+});
+const beforePrivateMatches = serviceWorkerCacheMatches;
+if ((await dispatchServiceWorkerFetch(privateRequest)).handled ||
+    serviceWorkerCacheMatches !== beforePrivateMatches) {
+  console.error('Service worker must not intercept requests carrying Authorization.');
+  process.exit(1);
+}
+const noStoreRequest = new Request(serviceWorkerOrigin + '/private/data', { cache: 'no-store' });
+if ((await dispatchServiceWorkerFetch(noStoreRequest)).handled) {
+  console.error('Service worker must leave no-store requests network-only.');
+  process.exit(1);
+}
+serviceWorkerNetworkResponse = async () => new Response('static resource');
+const publicAssetResponse = await dispatchServiceWorkerFetch(
+  new Request(serviceWorkerOrigin + '/styles.css')
+);
+if (!publicAssetResponse.handled || publicAssetResponse.response.status !== 200 ||
+    serviceWorkerCachePuts !== 1) {
+  console.error('Service worker must continue caching public static assets.');
+  process.exit(1);
+}
+for (const headers of [
+  { 'Cache-Control': 'no-store' },
+  { 'Cache-Control': 'private, max-age=60' },
+  { Vary: '*' }
+]) {
+  serviceWorkerNetworkResponse = async () => new Response('non-cacheable resource', { headers });
+  await dispatchServiceWorkerFetch(new Request(serviceWorkerOrigin + '/public/response'));
+  if (serviceWorkerCachePuts !== 1) {
+    console.error('Service worker cached a response marked private, no-store or Vary: *.');
+    process.exit(1);
+  }
 }
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
@@ -367,7 +462,9 @@ if (missingDist.length) {
 }
 const serviceWorkerDist = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
 const headersSource = fs.readFileSync(path.join(root, '_headers'), 'utf8');
-if (!serviceWorkerDist.includes('velora-shell-v14') ||
+if (!serviceWorkerDist.includes('velora-shell-v15') ||
+    !serviceWorkerDist.includes("url.pathname.startsWith('/api/')") ||
+    !serviceWorkerDist.includes("request.headers.has('Authorization')") ||
     !serviceWorkerDist.includes("'./travel-tools.js'") ||
     !serviceWorkerDist.includes("'./budget-planner.js'") ||
     !serviceWorkerDist.includes("'./service-worker-register.js'") ||
