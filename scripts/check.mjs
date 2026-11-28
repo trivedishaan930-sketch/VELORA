@@ -320,8 +320,7 @@ if (!serviceWorker.includes('velora-shell-v15') ||
   process.exit(1);
 }
 
-let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
-while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
+
 const travelPages = [
   { file: 'travel/index.html', route: '/travel/', title: 'Travel Planning, With Confidence — VELORA Travel Guides' },
   { file: 'travel/india-arrival-ready/index.html', route: '/travel/india-arrival-ready/', title: 'India Arrival Ready: Your First 72 Hours — VELORA' },
@@ -392,6 +391,9 @@ if (!privacyPolicySource.includes('planned future capability') ||
   process.exit(1);
 }
 
+let siteOrigin = String(process.env.SITE_ORIGIN || 'https://velora-75y.pages.dev').trim();
+while (siteOrigin.endsWith('/')) siteOrigin = siteOrigin.slice(0, -1);
+
 const metadataPageSources = new Map();
 const metadataPages = [
   { file: 'index.html', route: '/', label: 'homepage' },
@@ -418,7 +420,7 @@ for (const page of metadataPages) {
 const brokenPageFragments = [];
 for (const page of metadataPages) {
   const source = metadataPageSources.get(page.route)?.source || '';
-  for (const match of source.matchAll(/\\bhref=["']([^"']*#[^"']+)["']/g)) {
+  for (const match of source.matchAll(/\bhref=["']([^"']*#[^"']+)["']/g)) {
     let target;
     try {
       target = new URL(match[1], siteOrigin + page.route);
