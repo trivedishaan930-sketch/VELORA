@@ -96,6 +96,16 @@ if (!cloudflareWorkflow.includes('"$SITE_ORIGIN/api/products"') ||
   process.exit(1);
 }
 
+const serviceWorkerDownloadIndex = cloudflareWorkflow.indexOf('"$SITE_ORIGIN/sw.js" -o "$RUNNER_TEMP/velora-sw.js"');
+const serviceWorkerApiAssertionIndex = cloudflareWorkflow.indexOf('url.pathname.startsWith');
+const serviceWorkerAuthAssertionIndex = cloudflareWorkflow.indexOf('request.headers.has');
+if (serviceWorkerDownloadIndex < 0 ||
+    serviceWorkerApiAssertionIndex <= serviceWorkerDownloadIndex ||
+    serviceWorkerAuthAssertionIndex <= serviceWorkerDownloadIndex) {
+  console.error('Production smoke test must download sw.js before checking its API/auth guards.');
+  process.exit(1);
+}
+
 // Exercise the service-worker fetch policy in an isolated Node VM.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const serviceWorkerListeners = new Map();
