@@ -1,7 +1,7 @@
 # VELORA — MASTER PROJECT HANDOVER SYSTEM
 
-**Version:** 1.4  
-**Last updated:** 25 November 2026  
+**Version:** 1.5  
+**Last updated:** 28 November 2026  
 **Project:** VELORA  
 **Purpose:** Permanent continuity document for every new ChatGPT conversation
 
@@ -741,3 +741,11 @@ Still not configured: D1 binding `DB`, Amazon Creators API credentials/eligibili
 - OpenSEO final crawl `e7d27014-9852-4876-befa-a76885cb1aec`: 15/15 pages HTTP 200, one H1 each, zero missing alt, zero crawl issues. OpenSEO domain setting is now correct.
 - Browser navigation was blocked in the automation environment, so the actual first-time installation and offline click-through remain unverified. Founder needs to open/refresh once online and test a cached route in airplane mode.
 - Still not operational: D1 database binding, Amazon Creators API, Google Search Console property (connected account shows zero properties), live inventory, bookings, payments or synced accounts.
+
+
+# Public catalogue API readiness guard — 28 November 2026
+
+- The public /api/products handler now returns an explicit HTTP 503 setup response when curated products need refreshing but Amazon Creators API credentials are not configured.
+- Valid, unexpired cached catalogue records can still be returned without a live Amazon refresh.
+- Regression checks cover missing D1, missing Amazon credentials, and the valid-cache path using a mocked database.
+- This does not activate D1, Amazon Creators API, product inventory, or affiliate commerce. Those remain approval/configuration gates.

@@ -41,6 +41,52 @@ for (const file of jsFiles) {
   }
 }
 
+// Exercise the public product endpoint's setup states without live services.
+const { onRequestGet: getPublicProducts } = await import('../functions/api/products.js');
+const missingDatabaseResponse = await getPublicProducts({ env: {} });
+if (missingDatabaseResponse.status !== 503) {
+  console.error('Product API must return 503 when D1 is not configured.');
+  process.exit(1);
+}
+function mockProductDatabase(cachedProduct = null) {
+  return {
+    prepare() {
+      return {
+        bind() { return this; },
+        async run() { return { success: true }; },
+        async all() { return { results: [{ asin: 'B000000001', category: 'luggage' }] }; },
+        async first() { return cachedProduct; }
+      };
+    }
+  };
+}
+const missingAmazonResponse = await getPublicProducts({ env: { DB: mockProductDatabase() } });
+const missingAmazonPayload = await missingAmazonResponse.json();
+if (missingAmazonResponse.status !== 503 || missingAmazonPayload.setupRequired !== true ||
+    missingAmazonPayload.error !== 'Amazon Creators API is not configured yet.') {
+  console.error('Product API must return a clear setup response when uncached products need Amazon credentials.');
+  process.exit(1);
+}
+const cachedAmazonPayload = {
+  asin: 'B000000001',
+  title: 'Cached luggage',
+  imageUrl: 'https://m.media-amazon.com/images/I/example.jpg',
+  affiliateUrl: 'https://www.amazon.in/dp/B000000001'
+};
+const cachedProductResponse = await getPublicProducts({
+  env: {
+    DB: mockProductDatabase({
+      payload_json: JSON.stringify(cachedAmazonPayload),
+      expires_at: Date.now() + 60000
+    })
+  }
+});
+const cachedProductBody = await cachedProductResponse.json();
+if (cachedProductResponse.status !== 200 || cachedProductBody.products?.[0]?.title !== 'Cached luggage') {
+  console.error('Product API must continue serving valid cached catalogue items without refreshing Amazon credentials.');
+  process.exit(1);
+}
+
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const experiencesHtml = fs.readFileSync(path.join(root, 'experiences/index.html'), 'utf8');
 const styleHtml = fs.readFileSync(path.join(root, 'style/index.html'), 'utf8');
